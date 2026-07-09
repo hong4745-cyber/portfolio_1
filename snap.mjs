@@ -1,0 +1,11 @@
+import { chromium } from '/c/Users/Administrator/AppData/Roaming/npm/node_modules/playwright/index.mjs';
+const b = await chromium.launch({ headless: true });
+const p = await b.newPage();
+await p.setViewportSize({ width: 1280, height: 800 });
+await p.goto('http://localhost:5173');
+await p.waitForTimeout(2000);
+await p.evaluate(() => window.scrollTo(0, document.getElementById('skills')?.offsetTop || 3000));
+await p.waitForTimeout(1500);
+await p.screenshot({ path: 'C:/Users/Administrator/skills_view.png' });
+await b.close();
+console.log('done');

@@ -1,0 +1,29 @@
+.blur-text-word {
+  display: inline-block;
+  opacity: 0;
+  filter: blur(10px);
+  transform: translateY(var(--blur-direction, -20px));
+  white-space: pre;
+}
+
+.blur-text-word--visible {
+  animation: blurTextIn forwards;
+}
+
+@keyframes blurTextIn {
+  0% {
+    opacity: 0;
+    filter: blur(10px);
+    transform: translateY(var(--blur-direction, -20px));
+  }
+  50% {
+    opacity: 0.6;
+    filter: blur(4px);
+    transform: translateY(2px);
+  }
+  100% {
+    opacity: 1;
+    filter: blur(0px);
+    transform: translateY(0);
+  }
+}
