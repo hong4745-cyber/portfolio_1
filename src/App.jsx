@@ -405,8 +405,8 @@ const splineRef          = useRef(null)
       window.scrollTo({ top: targetScroll, behavior: 'smooth' })
     }
 
-    // Skills — 진입 scale 애니메이션
-    gsap.fromTo('#skills',
+    // Skills — 진입 scale 애니메이션 (마퀴만)
+    gsap.fromTo('.skills-velocity-wrap',
       { scale: 0.2, opacity: 0, filter: 'blur(20px)' },
       {
         scale: 1, opacity: 1, filter: 'blur(0px)',
