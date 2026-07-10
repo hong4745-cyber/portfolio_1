@@ -2,7 +2,6 @@
 import { Icon } from '@iconify/react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import { Cursor } from '@/components/ui/cursor'
 import { HeroParticles } from '@/components/ui/hero-particles'
 import { ScrollIndicator } from '@/components/ui/scroll-indicator'
 import { TiltCard } from '@/components/ui/tilt-card'
@@ -437,7 +436,6 @@ const splineRef          = useRef(null)
 
   return (
     <>
-      <Cursor />
       <div className="grain-overlay" aria-hidden="true" />
 
       {/* Hero */}
