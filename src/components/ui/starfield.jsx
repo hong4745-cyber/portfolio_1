@@ -1,11 +1,31 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 export function Starfield({ count = 140, className = '', sizeScale = 1 }) {
   const canvasRef = useRef(null)
+  const [isActive, setIsActive] = useState(false)
 
   useEffect(() => {
     const canvas = canvasRef.current
     if (!canvas) return
+
+    if (!('IntersectionObserver' in window)) {
+      setIsActive(true)
+      return
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => setIsActive(entry.isIntersecting),
+      { rootMargin: '350px 0px' },
+    )
+
+    observer.observe(canvas)
+    return () => observer.disconnect()
+  }, [])
+
+  useEffect(() => {
+    const canvas = canvasRef.current
+    if (!canvas || !isActive) return
+
     const ctx = canvas.getContext('2d')
     let rafId
 
@@ -44,7 +64,7 @@ export function Starfield({ count = 140, className = '', sizeScale = 1 }) {
       cancelAnimationFrame(rafId)
       window.removeEventListener('resize', resize)
     }
-  }, [count])
+  }, [count, isActive])
 
   return (
     <canvas

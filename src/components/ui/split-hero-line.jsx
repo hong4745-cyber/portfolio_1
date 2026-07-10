@@ -32,18 +32,19 @@ export const SplitHeroLine = forwardRef(function SplitHeroLine({ lines, state = 
       if (!chars.length) return
       const prev = prevStateRef.current
       if (prev === state) return
+      gsap.killTweensOf(chars)
 
       if (state === 'enter') {
         gsap.fromTo(
           chars,
           { opacity: 0, x: side === 'left' ? -36 : 36, y: 0 },
-          { opacity: 1, x: 0, y: 0, duration: 1.6, ease: 'power2.out', stagger: 0.045, overwrite: 'auto' }
+          { opacity: 1, x: 0, y: 0, duration: 1.9, ease: 'power2.out', stagger: 0.055, overwrite: 'auto' }
         )
       } else if (state === 'exit') {
-        gsap.to(chars, { opacity: 0, y: -46, duration: 0.5, ease: 'power2.in', stagger: 0.012, overwrite: 'auto' })
+        gsap.to(chars, { opacity: 0, y: -36, duration: 0.72, ease: 'power2.inOut', stagger: 0.01, overwrite: 'auto' })
       } else {
         // 역스크롤로 등장 임계값 아래로 되돌아갈 때 — 빠르게 제자리로
-        gsap.to(chars, { opacity: 0, x: side === 'left' ? -36 : 36, y: 0, duration: 0.22, ease: 'power2.in', stagger: 0.006, overwrite: 'auto' })
+        gsap.to(chars, { opacity: 0, x: side === 'left' ? -36 : 36, y: 0, duration: 0.34, ease: 'power2.inOut', stagger: 0.004, overwrite: 'auto' })
       }
       prevStateRef.current = state
     },

@@ -190,8 +190,7 @@ class Media {
           vec4 color = texture2D(tMap, uv);
 
           // 흑백 → 컬러 (hover)
-          float gray = dot(color.rgb, vec3(0.299, 0.587, 0.114)) * 0.55;
-          vec3 finalColor = mix(vec3(gray), color.rgb, uHighlight);
+          vec3 finalColor = color.rgb;
 
           float d = roundedBoxSDF(vUv - 0.5, vec2(0.5 - uBorderRadius), uBorderRadius);
           float edgeSmooth = 0.002;
