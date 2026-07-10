@@ -19,6 +19,7 @@ export const SplitHeroLine = forwardRef(function SplitHeroLine({ lines, state = 
 
       const split = new SplitText(rows, { type: 'chars', charsClass: 'split-char' })
       charsRef.current = split.chars
+      gsap.set(containerRef.current, { autoAlpha: 0 })
       gsap.set(split.chars, { opacity: 0, x: side === 'left' ? -36 : 36 })
 
       return () => split.revert()
@@ -33,18 +34,21 @@ export const SplitHeroLine = forwardRef(function SplitHeroLine({ lines, state = 
       const prev = prevStateRef.current
       if (prev === state) return
       gsap.killTweensOf(chars)
+      gsap.killTweensOf(containerRef.current)
 
       if (state === 'enter') {
+        gsap.set(containerRef.current, { autoAlpha: 1 })
         gsap.fromTo(
           chars,
           { opacity: 0, x: side === 'left' ? -36 : 36, y: 0 },
-          { opacity: 1, x: 0, y: 0, duration: 1.9, ease: 'power2.out', stagger: 0.055, overwrite: 'auto' }
+          { opacity: 1, x: 0, y: 0, duration: 2.25, ease: 'power2.out', stagger: 0.065, overwrite: 'auto' }
         )
       } else if (state === 'exit') {
         gsap.to(chars, { opacity: 0, y: -36, duration: 0.72, ease: 'power2.inOut', stagger: 0.01, overwrite: 'auto' })
       } else {
         // 역스크롤로 등장 임계값 아래로 되돌아갈 때 — 빠르게 제자리로
-        gsap.to(chars, { opacity: 0, x: side === 'left' ? -36 : 36, y: 0, duration: 0.34, ease: 'power2.inOut', stagger: 0.004, overwrite: 'auto' })
+        gsap.set(containerRef.current, { autoAlpha: 0 })
+        gsap.set(chars, { opacity: 0, x: side === 'left' ? -36 : 36, y: 0 })
       }
       prevStateRef.current = state
     },
@@ -58,6 +62,8 @@ export const SplitHeroLine = forwardRef(function SplitHeroLine({ lines, state = 
       const chars = charsRef.current
       if (!chars.length) return
       gsap.killTweensOf(chars)
+      gsap.killTweensOf(containerRef.current)
+      gsap.set(containerRef.current, { autoAlpha: 0 })
       gsap.set(chars, { opacity: 0, x: side === 'left' ? -36 : 36, y: 0 })
       prevStateRef.current = 'idle'
     },

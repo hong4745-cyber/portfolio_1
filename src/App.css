@@ -201,12 +201,13 @@ spline-viewer {
   align-items: center;
   gap: 3.2rem;
   text-align: center;
-  transform: translate3d(0, 24px, 0) scale(0.985);
+  transform: translate3d(0, 24px, 0) scale(2.45);
   opacity: 0;
   transition:
-    opacity 0.85s ease,
-    transform 0.95s cubic-bezier(0.22, 1, 0.36, 1);
+    opacity 1.35s ease,
+    transform 1.85s cubic-bezier(0.16, 1, 0.3, 1);
   will-change: transform, opacity;
+  transform-origin: center center;
 }
 
 .about-visible .about-text {
@@ -241,11 +242,11 @@ spline-viewer {
 }
 
 .about-visible .about-tagline-row {
-  animation: about-tagline-in 1.05s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  animation: about-tagline-in 1.55s cubic-bezier(0.22, 1, 0.36, 1) forwards;
 }
 
 .about-visible .about-tagline-row--two {
-  animation-delay: 0.16s;
+  animation-delay: 0.32s;
 }
 
 .about-tagline-float:hover .about-tagline-row {
@@ -276,8 +277,8 @@ spline-viewer {
   opacity: 0;
   transform: translate3d(0, 22px, 0);
   transition:
-    opacity 1.05s ease,
-    transform 1.05s cubic-bezier(0.22, 1, 0.36, 1);
+    opacity 1.45s ease,
+    transform 1.45s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .about-bio + .about-bio {
@@ -290,11 +291,11 @@ spline-viewer {
 }
 
 .about-visible .about-bio:nth-of-type(1) {
-  transition-delay: 0.32s;
+  transition-delay: 0.58s;
 }
 
 .about-visible .about-bio:nth-of-type(2) {
-  transition-delay: 0.46s;
+  transition-delay: 0.78s;
 }
 
 .section--about-1 {
@@ -1701,8 +1702,9 @@ spline-viewer {
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   justify-content: center;
+  padding: 0 1rem clamp(4rem, 11vh, 8rem);
   animation: backdrop-in 0.25s ease both;
   cursor: pointer;
 }
@@ -1994,6 +1996,8 @@ spline-viewer {
 .hero-line {
   position: absolute;
   bottom: 12vh;
+  visibility: hidden;
+  opacity: 0;
   font-size: clamp(1.5rem, 2.8vw, 2.6rem);
   font-weight: 600;
   color: #fff;

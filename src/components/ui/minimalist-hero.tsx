@@ -47,10 +47,11 @@ const JourneyTitle = ({ part1, part2 }: { part1: string; part2: string }) => {
           key={`${text}-${letter}-${index}`}
           className="inline-block"
           initial={{ opacity: 0, y: 28, rotateX: -35 }}
-          animate={{ opacity: 1, y: 0, rotateX: 0 }}
+          whileInView={{ opacity: 1, y: 0, rotateX: 0 }}
+          viewport={{ once: false, amount: 0.45 }}
           transition={{
             duration: 0.55,
-            delay: 1.2 + lineIndex * 0.14 + index * 0.045,
+            delay: lineIndex * 0.08 + index * 0.03,
             ease: [0.22, 1, 0.36, 1],
           }}
           whileHover={{
@@ -131,12 +132,13 @@ export const MinimalistHero = ({
 
       <div className="relative grid w-full max-w-7xl flex-grow grid-cols-1 items-center md:grid-cols-3">
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 1 }}
+          initial={{ opacity: 0, x: -72 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: false, amount: 0.45 }}
+          transition={{ duration: 0.95, ease: [0.16, 1, 0.3, 1] }}
           className="z-20 order-2 text-center md:order-1 md:text-left"
         >
-          <p className="mx-auto max-w-xs text-sm leading-relaxed text-foreground/80 md:mx-0">
+          <p className="mx-auto max-w-xs text-sm leading-relaxed tracking-[0.02em] text-foreground/80 md:mx-0">
             {mainText}
           </p>
         </motion.div>
@@ -167,9 +169,10 @@ export const MinimalistHero = ({
         </div>
 
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 1.2 }}
+          initial={{ opacity: 0, x: 84 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: false, amount: 0.45 }}
+          transition={{ duration: 1.05, ease: [0.16, 1, 0.3, 1], delay: 0.1 }}
           className="z-20 order-3 flex items-center justify-center text-center md:justify-start"
         >
           <JourneyTitle part1={overlayText.part1} part2={overlayText.part2} />

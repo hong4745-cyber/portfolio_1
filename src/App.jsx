@@ -51,8 +51,8 @@ const heroLines = [
 ]
 
 // 각 줄의 등장/퇴장 진행도 임계값 — 겹치지 않는 순차 구간
-const HERO_APPEARS = [0.10, 0.48, 0.84]
-const HERO_EXITS   = [0.30, 0.66, 0.98]
+const HERO_APPEARS = [0.04, 0.26, 0.56]
+const HERO_EXITS   = [0.22, 0.44, 0.96]
 
 const projectsData = [
   {
@@ -241,7 +241,7 @@ const splineRef          = useRef(null)
       scrollIndicatorRef.current?.classList.toggle('scroll-indicator--hidden', window.scrollY > 40)
       const progress = Math.min(window.scrollY / heroEnd(), 1)
       if (splineRef.current) splineRef.current.style.transform = `scale(${1 + progress * 0.18})`
-      const FADE_START = 0.78
+      const FADE_START = 0.88
       const sticky = splineStickyRef.current
       if (progress >= FADE_START) {
         const t = Math.min((progress - FADE_START) / (1 - FADE_START), 1)
@@ -249,30 +249,16 @@ const splineRef          = useRef(null)
       } else {
         if (sticky) { sticky.style.opacity = '1'; sticky.style.filter = 'none'; sticky.style.transform = 'none' }
       }
-      const nextStates = HERO_APPEARS.map((appear, i) => {
-        if (progress >= HERO_EXITS[i]) return 'exit'
-        if (progress >= appear) return 'enter'
-        return 'idle'
-      })
+      const activeLineIndex = HERO_APPEARS.findIndex((appear, i) =>
+        progress >= appear && progress < HERO_EXITS[i]
+      )
+      const nextStates = HERO_APPEARS.map((_, i) =>
+        i === activeLineIndex ? 'enter' : 'idle'
+      )
       if (nextStates.some((s, i) => s !== lineStatesRef.current[i])) {
-        const prevLineStates = lineStatesRef.current
-
-        // 새 라인이 enter될 때 → 나머지 모든 라인 즉시 숨김 (겹침 방지)
-        nextStates.forEach((s, i) => {
-          if (s === 'enter' && prevLineStates[i] !== 'enter') {
-            heroLineRefs.current.forEach((ref, ri) => {
-              if (ri !== i && prevLineStates[ri] !== 'idle') ref?.hardHide()
-            })
-          }
+        heroLineRefs.current.forEach((ref, i) => {
+          if (i !== activeLineIndex) ref?.hardHide()
         })
-
-        // 빠른 역스크롤: 여러 라인이 동시에 idle → 전부 즉시 숨김
-        const goingIdle = nextStates.filter((s, i) => s === 'idle' && prevLineStates[i] !== 'idle')
-        if (goingIdle.length > 1) {
-          nextStates.forEach((s, i) => {
-            if (s === 'idle' && prevLineStates[i] !== 'idle') heroLineRefs.current[i]?.hardHide()
-          })
-        }
 
         lineStatesRef.current = nextStates
         setLineStates(nextStates)
@@ -491,8 +477,8 @@ const splineRef          = useRef(null)
         <div ref={aboutInnerRef} className="about-inner">
           <div className="about-text">
             <div className="about-tagline-float">
-              <p className="about-tagline-row about-tagline-row--one">Designing experiences,</p>
-              <p className="about-tagline-row about-tagline-row--two">not just interfaces.</p>
+              <p className="about-tagline-row about-tagline-row--one">DESIGNING EXPERIENCES,</p>
+              <p className="about-tagline-row about-tagline-row--two">NOT JUST INTERFACES.</p>
             </div>
 
             <p className="about-bio">
