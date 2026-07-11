@@ -130,7 +130,9 @@ class Title {
     })
     this.mesh = new Mesh(this.gl, { geometry, program })
     const aspect = width / height
-    const textHeight = this.plane.scale.y * 0.15
+    const screenWidth = this.renderer.gl.canvas?.clientWidth || window.innerWidth
+    const textScale = screenWidth < 768 ? 0.09 : screenWidth < 1025 ? 0.115 : 0.15
+    const textHeight = this.plane.scale.y * textScale
     const textWidth = textHeight * aspect
     this.mesh.scale.set(textWidth, textHeight, 1)
     this.mesh.position.y = -this.plane.scale.y * 0.5 - textHeight * 0.5 - 0.05
@@ -229,15 +231,16 @@ class Media {
 
     const x = this.plane.position.x
     const H = this.viewport.width / 2
+    const effectiveBend = this.screen.width < 768 ? 0.35 : this.screen.width < 1025 ? 1.1 : this.bend
 
-    if (this.bend === 0) {
+    if (effectiveBend === 0) {
       this.plane.position.y = 0; this.plane.rotation.z = 0
     } else {
-      const B_abs = Math.abs(this.bend)
+      const B_abs = Math.abs(effectiveBend)
       const R = (H * H + B_abs * B_abs) / (2 * B_abs)
       const effectiveX = Math.min(Math.abs(x), H)
       const arc = R - Math.sqrt(R * R - effectiveX * effectiveX)
-      if (this.bend > 0) {
+      if (effectiveBend > 0) {
         this.plane.position.y = -arc
         this.plane.rotation.z = -Math.sign(x) * Math.asin(effectiveX / R)
       } else {
@@ -269,11 +272,15 @@ class Media {
   onResize({ screen, viewport } = {}) {
     if (screen) this.screen = screen
     if (viewport) { this.viewport = viewport; if (this.plane.program.uniforms.uViewportSizes) this.plane.program.uniforms.uViewportSizes.value = [this.viewport.width, this.viewport.height] }
+    const isMobile = this.screen.width < 768
+    const isTablet = this.screen.width < 1025
+    const planeBaseWidth = isMobile ? 300 : isTablet ? 380 : 560
+    const planeBaseHeight = isMobile ? 390 : isTablet ? 500 : 720
     this.scale = this.screen.height / 1500
-    this.plane.scale.y = (this.viewport.height * (900 * this.scale)) / this.screen.height
-    this.plane.scale.x = (this.viewport.width * (700 * this.scale)) / this.screen.width
+    this.plane.scale.y = (this.viewport.height * (planeBaseHeight * this.scale)) / this.screen.height
+    this.plane.scale.x = (this.viewport.width * (planeBaseWidth * this.scale)) / this.screen.width
     this.plane.program.uniforms.uPlaneSizes.value = [this.plane.scale.x, this.plane.scale.y]
-    this.padding = 2
+    this.padding = isMobile ? 0.75 : isTablet ? 1 : 1.6
     this.width = this.plane.scale.x + this.padding
     this.widthTotal = this.width * this.length
     this.x = this.width * this.index

@@ -41,7 +41,7 @@ export const SplitHeroLine = forwardRef(function SplitHeroLine({ lines, state = 
         gsap.fromTo(
           chars,
           { opacity: 0, x: side === 'left' ? -36 : 36, y: 0 },
-          { opacity: 1, x: 0, y: 0, duration: 2.25, ease: 'power2.out', stagger: 0.065, overwrite: 'auto' }
+          { opacity: 1, x: 0, y: 0, duration: 3.1, ease: 'power2.out', stagger: 0.085, overwrite: 'auto' }
         )
       } else if (state === 'exit') {
         gsap.to(chars, { opacity: 0, y: -36, duration: 0.72, ease: 'power2.inOut', stagger: 0.01, overwrite: 'auto' })

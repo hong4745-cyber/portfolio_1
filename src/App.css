@@ -7,7 +7,7 @@
 }
 
 .hero-wrapper {
-  height: 400vh;
+  height: 700vh;
   background: #0c1634;
   position: relative;
   z-index: 1;
@@ -336,6 +336,52 @@ spline-viewer {
   top: 0;
   height: 100vh;
   overflow: hidden;
+}
+
+@media (min-width: 768px) and (max-width: 1024px) {
+  .zoom-parallax-card {
+    width: 44vw !important;
+    height: 24vh !important;
+  }
+
+  .zoom-parallax-card--2,
+  .zoom-parallax-card--4 {
+    width: 34vw !important;
+    height: 24vh !important;
+  }
+
+  .zoom-parallax-card--6 {
+    width: 28vw !important;
+    height: 18vh !important;
+  }
+}
+
+@media (max-width: 767px) {
+  .zoom-parallax-card {
+    width: 68vw !important;
+    height: 24vh !important;
+  }
+
+  .zoom-parallax-card--1 {
+    width: 72vw !important;
+    height: 22vh !important;
+  }
+
+  .zoom-parallax-card--2,
+  .zoom-parallax-card--4 {
+    width: 54vw !important;
+    height: 23vh !important;
+  }
+
+  .zoom-parallax-card--5 {
+    width: 62vw !important;
+    height: 22vh !important;
+  }
+
+  .zoom-parallax-card--6 {
+    width: 44vw !important;
+    height: 18vh !important;
+  }
 }
 
 .resume-schedule {
@@ -2132,4 +2178,349 @@ spline-viewer {
   100% { transform: translate(0, 0); }
 }
 
+/* Responsive safety layer */
+html,
+body {
+  max-width: 100%;
+  overflow-x: clip;
+}
+
+img,
+canvas,
+svg,
+iframe,
+spline-viewer {
+  max-width: 100%;
+}
+
+.section,
+.spline-sticky,
+.zoom-parallax-sticky {
+  min-height: 100svh;
+}
+
+@media (max-width: 1024px) {
+  .hero-wrapper {
+    height: 700svh;
+  }
+
+  .spline-sticky {
+    width: 100%;
+    height: 100svh;
+  }
+
+  .hero-line {
+    max-width: 76vw;
+    font-size: clamp(1.35rem, 4.2vw, 2.15rem);
+    line-height: 1.35;
+    word-break: keep-all;
+  }
+
+  .hero-line--first {
+    bottom: 68svh;
+  }
+
+  .section--about {
+    height: auto;
+    min-height: 100svh;
+    padding: clamp(5rem, 10svh, 7rem) 0;
+  }
+
+  .about-inner {
+    max-width: min(92vw, 760px);
+    padding-inline: clamp(1.25rem, 5vw, 3rem);
+  }
+
+  .about-text {
+    gap: clamp(1.8rem, 5vw, 3rem);
+  }
+
+  .about-tagline-row {
+    font-size: clamp(1.18rem, 4.4vw, 2.2rem);
+    white-space: normal;
+  }
+
+  .about-bio {
+    font-size: clamp(0.92rem, 2.4vw, 1.05rem);
+  }
+
+  .resume-schedule-inner {
+    padding-inline: clamp(1rem, 4vw, 2rem);
+  }
+
+  .skills-velocity-wrap {
+    margin-top: clamp(2rem, 10svh, 5rem);
+  }
+
+  .skills-velocity-wrap .logo-marquee:first-child {
+    transform: translateY(2.5rem);
+  }
+
+  .skills-velocity-wrap .logo-marquee:nth-child(2) {
+    transform: translateY(-1.1rem);
+  }
+
+  .skills-logo-item {
+    gap: 0.65rem;
+    padding-inline: clamp(1rem, 3vw, 1.65rem);
+    font-size: clamp(1.25rem, 4vw, 2rem);
+  }
+
+  .skills-logo-item svg {
+    width: clamp(36px, 6vw, 50px);
+    height: clamp(36px, 6vw, 50px);
+  }
+
+  .skills-logo-item--firebase svg {
+    width: clamp(96px, 18vw, 160px);
+    height: clamp(96px, 18vw, 160px);
+  }
+
+  .projects-0-work-title,
+  .projects-heading {
+    max-width: 92vw;
+    white-space: nowrap;
+    overflow-wrap: anywhere;
+  }
+
+  .project-modal {
+    width: min(640px, 92vw);
+  }
+
+  .epilogue-footer {
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 1.25rem 2rem;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1024px) {
+  .skills-velocity-wrap {
+    gap: clamp(2.8rem, 6vw, 4.5rem);
+  }
+}
+
+@media (max-width: 767px) {
+  .section {
+    height: auto;
+    min-height: 100svh;
+  }
+
+  .scroll-indicator {
+    bottom: 3svh;
+  }
+
+  .hero-line {
+    left: 1.25rem !important;
+    right: 1.25rem !important;
+    bottom: 14svh;
+    max-width: none;
+    text-align: left !important;
+    font-size: clamp(1.25rem, 6vw, 1.95rem);
+  }
+
+  .hero-line--first {
+    bottom: 70svh;
+  }
+
+  .about-spline,
+  .about-color-tint,
+  .about-starfield,
+  .about-petals,
+  .section-bg-stars,
+  .section-bg-petals {
+    transform: scale(1.06);
+  }
+
+  .about-bio br,
+  .epilogue-desc br {
+    display: none;
+  }
+
+  .zoom-parallax-root {
+    height: 220svh;
+  }
+
+  .zoom-parallax-sticky {
+    height: 100svh;
+  }
+
+  .resume-schedule-row {
+    padding-inline: 0;
+  }
+
+  .resume-schedule-category {
+    align-self: flex-start;
+    white-space: normal;
+  }
+
+  .resume-schedule-panel ul {
+    padding-left: 0;
+  }
+
+  .section--skills {
+    min-height: 82svh;
+    padding-top: 3rem;
+    overflow: hidden;
+  }
+
+  .skills-velocity-wrap {
+    gap: 1.6rem;
+    margin-top: 18svh;
+  }
+
+  .skills-velocity-wrap .logo-marquee:first-child,
+  .skills-velocity-wrap .logo-marquee:nth-child(2) {
+    transform: none;
+  }
+
+  .skills-logo-tooltip {
+    display: none;
+  }
+
+  .section--projects_0 .h-\[350vh\] {
+    height: 240svh;
+  }
+
+  .section--projects_0 .p-4 {
+    padding: 0.75rem;
+  }
+
+  .projects-0-work-title {
+    font-size: clamp(3.5rem, 18vw, 6.5rem);
+  }
+
+  .section--projects {
+    height: 78svh;
+    min-height: 78svh;
+  }
+
+  .projects-heading {
+    top: clamp(7rem, 18svh, 10rem);
+    font-size: clamp(2.35rem, 11.6vw, 4.55rem);
+  }
+
+  .projects-gallery-scale {
+    min-height: 78svh;
+  }
+
+  .project-modal-backdrop {
+    align-items: center;
+    padding: 1rem;
+  }
+
+  .project-modal {
+    width: min(100%, 420px);
+    max-height: min(86svh, 760px);
+    border-radius: 16px;
+  }
+
+  .project-modal-img {
+    border-radius: 16px 16px 0 0;
+    aspect-ratio: 4 / 3;
+  }
+
+  .project-modal-body {
+    padding: 1.25rem;
+  }
+
+  .project-modal-actions {
+    gap: 0.7rem;
+  }
+
+  .project-modal-link {
+    min-height: 34px;
+  }
+
+  .section--epilogue {
+    height: 100svh;
+    min-height: 100svh;
+  }
+
+  .epilogue-copy {
+    justify-content: flex-start;
+    padding: clamp(2.8rem, 7.5svh, 4.6rem) 1.25rem 0;
+  }
+
+  .epilogue-title {
+    font-size: clamp(1.75rem, 8vw, 3rem);
+  }
+
+  .epilogue-desc {
+    max-width: 28rem;
+    font-size: 0.96rem;
+    line-height: 1.75;
+  }
+
+  .epilogue-footer {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.9rem;
+    padding: 5rem 1.25rem 1.25rem;
+  }
+
+  .epilogue-footer-stack ul {
+    display: none;
+  }
+
+  .epilogue-footer-name {
+    font-size: 1.15rem;
+  }
+
+  .epilogue-footer-name span {
+    display: block;
+    margin: 0.15rem 0 0;
+  }
+}
+
+@media (max-width: 520px) {
+  .hero-wrapper {
+    height: 700svh;
+  }
+
+  .about-inner {
+    padding-inline: 1rem;
+  }
+
+  .about-tagline-float {
+    gap: 0.4rem;
+  }
+
+  .about-tagline-row {
+    font-size: clamp(1rem, 6vw, 1.55rem);
+    letter-spacing: 0.04em;
+  }
+
+  .resume-schedule-title {
+    font-size: clamp(2.4rem, 17vw, 4rem);
+  }
+
+  .resume-schedule-name {
+    font-size: clamp(1.1rem, 6vw, 1.55rem);
+    word-break: keep-all;
+  }
+
+  .skills-logo-item {
+    padding-inline: 0.85rem;
+    font-size: 1.15rem;
+  }
+
+  .skills-logo-name {
+    max-width: 9rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .project-modal-desc {
+    white-space: normal !important;
+    word-break: keep-all;
+  }
+}
+
+@media (max-width: 390px) {
+  .projects-heading {
+    top: clamp(6.4rem, 16svh, 8.5rem);
+    font-size: clamp(2.05rem, 10.5vw, 3.55rem);
+  }
+}
 

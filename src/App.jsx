@@ -41,7 +41,7 @@ import projectOnepageSquare from '@/assets/images/onepage_2.png'
 import './App.css'
 
 const SECTIONS = ['about', 'about_1', 'skills', 'projects_0', 'projects', 'epilogue']
-const HERO_VH = 520
+const HERO_VH = 700
 
 const heroLines = [
   ['계속 배우고,', '계속 만들어왔습니다.'],
@@ -50,8 +50,8 @@ const heroLines = [
 ]
 
 // 각 줄의 등장/퇴장 진행도 임계값 — 겹치지 않는 순차 구간
-const HERO_APPEARS = [0.04, 0.26, 0.56]
-const HERO_EXITS   = [0.22, 0.44, 0.96]
+const HERO_APPEARS = [0.08, 0.37, 0.66]
+const HERO_EXITS   = [0.30, 0.59, 0.94]
 
 const projectsData = [
   {
@@ -343,12 +343,18 @@ const splineRef          = useRef(null)
       }
     )
 
-    ScrollTrigger.create({
-      trigger: '#projects',
-      start: 'top top',
-      end: '+=150%',
-      pin: true,
-      anticipatePin: 1,
+    const mm = gsap.matchMedia()
+
+    mm.add('(min-width: 768px)', () => {
+      const projectsPin = ScrollTrigger.create({
+        trigger: '#projects',
+        start: 'top top',
+        end: '+=150%',
+        pin: true,
+        anticipatePin: 1,
+      })
+
+      return () => projectsPin.kill()
     })
 
     // Epilogue
@@ -382,6 +388,7 @@ const splineRef          = useRef(null)
       aboutObserver?.disconnect()
       splineRef.current?.removeEventListener('load', onSplineLoad)
       aboutSplineRef.current?.removeEventListener('load', onSplineLoad)
+      mm.revert()
       ScrollTrigger.getAll().forEach(t => t.kill())
     }
   }, [])

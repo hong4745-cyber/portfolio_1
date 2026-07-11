@@ -392,3 +392,30 @@
   .pc-status { font-size: 10px; }
   .pc-contact-btn { padding: 6px 12px; font-size: 11px; }
 }
+
+@media (max-width: 420px) {
+  .pc-card-wrapper {
+    width: min(100%, 320px);
+  }
+
+  .pc-card {
+    width: 100%;
+    height: auto;
+    max-height: none;
+  }
+
+  .pc-user-info {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 0.7rem;
+  }
+
+  .pc-contact-btn {
+    width: 100%;
+  }
+
+  .pc-details p {
+    max-width: 78%;
+    white-space: normal;
+  }
+}

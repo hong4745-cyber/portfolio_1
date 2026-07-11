@@ -131,3 +131,56 @@
   color: var(--accent, #06b6d4);
   opacity: 0.7;
 }
+@media (max-width: 900px) {
+  .eoh-wrapper {
+    height: auto;
+    min-height: 100svh;
+    padding: 4rem 1.25rem;
+  }
+
+  .eoh-track {
+    max-width: 680px;
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .eoh-panel,
+  .eoh-panel--expanded {
+    width: 100%;
+    height: auto;
+    min-height: 86px;
+  }
+
+  .eoh-panel--expanded {
+    min-height: 260px;
+  }
+
+  .eoh-title-vertical {
+    writing-mode: horizontal-tb;
+    text-orientation: initial;
+  }
+
+  .eoh-collapsed {
+    flex-direction: row;
+  }
+
+  .eoh-expanded-content {
+    white-space: normal;
+    transform: translateY(8px);
+    padding: 1.5rem;
+  }
+}
+
+@media (max-width: 520px) {
+  .eoh-wrapper {
+    padding-inline: 1rem;
+  }
+
+  .eoh-title {
+    font-size: 1.35rem;
+  }
+
+  .eoh-tag {
+    font-size: 12px;
+  }
+}
