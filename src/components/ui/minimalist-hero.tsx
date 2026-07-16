@@ -33,7 +33,7 @@ const SocialIcon = ({ href, icon: Icon }: { href: string; icon: LucideIcon }) =>
     href={href}
     target="_blank"
     rel="noopener noreferrer"
-    className="text-foreground/60 transition-colors hover:text-foreground"
+    className="text-foreground/60 transition-all duration-200 hover:text-foreground hover:scale-125"
   >
     <Icon className="h-5 w-5" />
   </a>
@@ -68,7 +68,7 @@ const JourneyTitle = ({ part1, part2 }: { part1: string; part2: string }) => {
   );
 
   return (
-    <h1 className="text-7xl font-extrabold leading-none text-foreground md:text-8xl lg:text-9xl">
+    <h1 className="text-[74px] font-extrabold leading-none text-foreground md:text-[98px] lg:text-[130px]">
       {renderLine(part1, 0)}
       {renderLine(part2, 1)}
     </h1>
@@ -94,15 +94,7 @@ export const MinimalistHero = ({
         className
       )}
     >
-      <header className="z-30 flex w-full max-w-7xl items-center justify-between">
-        <motion.div
-          initial={{ opacity: 0, x: -20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.5 }}
-          className="text-xl font-bold tracking-wider"
-        >
-          {logoText}
-        </motion.div>
+      <header className="z-30 flex w-full max-w-7xl items-center justify-end">
         {navLinks.length > 0 && (
           <div className="hidden items-center space-x-8 md:flex">
             {navLinks.map((link) => (
@@ -112,22 +104,6 @@ export const MinimalistHero = ({
             ))}
           </div>
         )}
-        {navLinks.length === 0 && navText && (
-          <div className="hidden text-sm font-medium tracking-widest text-foreground/60 md:block">
-            {navText}
-          </div>
-        )}
-        <motion.button
-          initial={{ opacity: 0, x: 20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.5 }}
-          className="flex flex-col space-y-1.5 md:hidden"
-          aria-label="Open menu"
-        >
-          <span className="block h-0.5 w-6 bg-foreground"></span>
-          <span className="block h-0.5 w-6 bg-foreground"></span>
-          <span className="block h-0.5 w-5 bg-foreground"></span>
-        </motion.button>
       </header>
 
       <div className="relative grid w-full max-w-7xl flex-grow grid-cols-1 items-center md:grid-cols-3">
@@ -136,19 +112,32 @@ export const MinimalistHero = ({
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: false, amount: 0.45 }}
           transition={{ duration: 0.95, ease: [0.16, 1, 0.3, 1] }}
-          className="z-20 order-2 text-center md:order-1 md:text-left"
+          className="z-20 order-2 flex flex-col text-center md:order-1 md:text-left"
         >
-          <p className="mx-auto max-w-xs text-sm leading-relaxed tracking-[0.02em] text-foreground/80 md:mx-0">
+          <div className="flex flex-col gap-4">
+            {navText && (
+              <span className="text-xs font-medium tracking-widest text-foreground/50">{navText}</span>
+            )}
+            <span className="text-3xl font-bold tracking-wider">{logoText}</span>
+            <span className="text-sm font-medium leading-loose text-foreground/60">{locationText}</span>
+          </div>
+          <p className="mt-10 text-lg font-light leading-relaxed tracking-[0.02em] text-foreground/80 md:text-xl whitespace-pre-line">
             {mainText}
           </p>
+          <div className="mt-4 flex items-center space-x-4 justify-center md:justify-start">
+            {socialLinks.map((link, index) => (
+              <SocialIcon key={index} href={link.href} icon={link.icon} />
+            ))}
+          </div>
         </motion.div>
 
-        <div className="relative order-1 flex h-full items-center justify-center md:order-2">
+        <div className="relative order-1 flex h-full items-center justify-center md:order-2 md:ml-8">
           <motion.div
             initial={{ scale: 0.8, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1], delay: 0.2 }}
-            className="relative z-0 h-[300px] w-[300px] overflow-hidden rounded-full bg-yellow-400/90 md:h-[400px] md:w-[400px] lg:h-[500px] lg:w-[500px]"
+            className="relative z-0 h-[300px] w-[300px] flex-shrink-0 overflow-hidden bg-yellow-400/90 md:h-[400px] md:w-[400px] lg:h-[500px] lg:w-[500px]"
+            style={{ borderRadius: '50%' }}
           >
             <div className="absolute left-0 top-1/2 z-10 flex w-full -translate-y-1/2 justify-center">
               <motion.img
@@ -173,32 +162,13 @@ export const MinimalistHero = ({
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: false, amount: 0.45 }}
           transition={{ duration: 1.05, ease: [0.16, 1, 0.3, 1], delay: 0.1 }}
-          className="z-20 order-3 flex items-center justify-center text-center md:justify-start"
+          className="z-20 order-3 flex items-center justify-center text-center md:justify-start md:-ml-4"
         >
           <JourneyTitle part1={overlayText.part1} part2={overlayText.part2} />
         </motion.div>
       </div>
 
-      <footer className="z-30 flex w-full max-w-7xl items-center justify-between">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 1.2 }}
-          className="flex items-center space-x-4"
-        >
-          {socialLinks.map((link, index) => (
-            <SocialIcon key={index} href={link.href} icon={link.icon} />
-          ))}
-        </motion.div>
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 1.3 }}
-          className="text-sm font-medium text-foreground/80"
-        >
-          {locationText}
-        </motion.div>
-      </footer>
+      <footer className="z-30 w-full max-w-7xl" />
     </div>
   );
 };

@@ -1,5 +1,5 @@
 import { Camera, Mesh, Plane, Program, Renderer, Texture, Transform } from 'ogl'
-import { useEffect, useRef } from 'react'
+import { useCallback, useEffect, useRef } from 'react'
 import './CircularGallery.css'
 
 function debounce(func, wait) {
@@ -21,8 +21,8 @@ function autoBind(instance) {
   })
 }
 
-const DEFAULT_FONT = 'bold 30px Figtree'
-const DEFAULT_FONT_URL = 'https://fonts.googleapis.com/css2?family=Figtree:wght@400;700&display=swap'
+const DEFAULT_FONT = '900 72px Figtree'
+const DEFAULT_FONT_URL = 'https://fonts.googleapis.com/css2?family=Figtree:wght@400;700;900&display=swap'
 
 function deriveFontFamilyFromUrl(url) {
   const fileName = (url.split('/').pop() || 'custom-font').split('?')[0]
@@ -92,15 +92,17 @@ function getFontSize(font) {
   return match ? parseInt(match[1], 10) : 30
 }
 
-function createTextTexture(gl, text, font = 'bold 30px monospace', color = 'black') {
+function createTextTexture(gl, text, font = '900 72px monospace', color = 'black') {
   const canvas = document.createElement('canvas')
   const context = canvas.getContext('2d')
+  if ('letterSpacing' in context) context.letterSpacing = '0px'
   context.font = font
   const metrics = context.measureText(text)
   const textWidth = Math.ceil(metrics.width)
   const textHeight = Math.ceil(getFontSize(font) * 1.2)
-  canvas.width = textWidth + 20
-  canvas.height = textHeight + 20
+  canvas.width = textWidth + 24
+  canvas.height = textHeight + 24
+  if ('letterSpacing' in context) context.letterSpacing = '0px'
   context.font = font
   context.fillStyle = color
   context.textBaseline = 'middle'
@@ -131,11 +133,14 @@ class Title {
     this.mesh = new Mesh(this.gl, { geometry, program })
     const aspect = width / height
     const screenWidth = this.renderer.gl.canvas?.clientWidth || window.innerWidth
-    const textScale = screenWidth < 768 ? 0.09 : screenWidth < 1025 ? 0.115 : 0.15
+    const textScale = screenWidth < 768 ? 0.065 : screenWidth < 1025 ? 0.08 : 0.1
     const textHeight = this.plane.scale.y * textScale
-    const textWidth = textHeight * aspect
-    this.mesh.scale.set(textWidth, textHeight, 1)
-    this.mesh.position.y = -this.plane.scale.y * 0.5 - textHeight * 0.5 - 0.05
+    const textWidthRaw = textHeight * aspect
+    const maxWidth = this.plane.scale.x * 0.85
+    const clamp = Math.min(1, maxWidth / textWidthRaw)
+    const textWidth = textWidthRaw * clamp
+    this.mesh.scale.set(textWidth, textHeight * clamp, 1)
+    this.mesh.position.y = -this.plane.scale.y * 0.5 - textHeight * clamp * 0.5 - 0.05
     this.mesh.setParent(this.plane)
   }
 }
@@ -149,7 +154,7 @@ class Media {
     this.viewport = viewport; this.bend = bend; this.textColor = textColor
     this.borderRadius = borderRadius; this.font = font
     this.app = app
-    this.createShader(); this.createMesh(); this.createTitle(); this.onResize()
+    this.createShader(); this.createMesh(); this.onResize()
   }
   createShader() {
     const texture = new Texture(this.gl, { generateMipmaps: true })
@@ -274,8 +279,8 @@ class Media {
     if (viewport) { this.viewport = viewport; if (this.plane.program.uniforms.uViewportSizes) this.plane.program.uniforms.uViewportSizes.value = [this.viewport.width, this.viewport.height] }
     const isMobile = this.screen.width < 768
     const isTablet = this.screen.width < 1025
-    const planeBaseWidth = isMobile ? 300 : isTablet ? 380 : 560
-    const planeBaseHeight = isMobile ? 390 : isTablet ? 500 : 720
+    const planeBaseWidth = isMobile ? 460 : isTablet ? 600 : 860
+    const planeBaseHeight = isMobile ? 300 : isTablet ? 390 : 570
     this.scale = this.screen.height / 1500
     this.plane.scale.y = (this.viewport.height * (planeBaseHeight * this.scale)) / this.screen.height
     this.plane.scale.x = (this.viewport.width * (planeBaseWidth * this.scale)) / this.screen.width
@@ -288,12 +293,13 @@ class Media {
 }
 
 class App {
-  constructor(container, { items, bend, textColor = '#ffffff', borderRadius = 0, font = 'bold 30px Figtree', scrollSpeed = 2, scrollEase = 0.05, onItemClick } = {}) {
+  constructor(container, { items, bend, textColor = '#ffffff', borderRadius = 0, font = 'bold 30px Figtree', scrollSpeed = 2, scrollEase = 0.05, onItemClick, onFrame } = {}) {
     this.container = container
     this.scrollSpeed = scrollSpeed
     this.scroll = { ease: scrollEase, current: 0, target: 0, last: 0 }
     this.mouse = { x: -9999, y: -9999 }
     this.onItemClick = onItemClick
+    this.onFrame = onFrame || null
     this.onCheckDebounce = debounce(this.onCheck.bind(this), 200)
     this.createRenderer(); this.createCamera(); this.createScene()
     this.onResize(); this.createGeometry()
@@ -349,14 +355,19 @@ class App {
   findAndClickItem(screenX) {
     if (!this.medias) return
     const screenScale = this.screen.width / this.viewport.width
-    let closest = null; let closestDist = Infinity
+    let closest = null; let closestDist = Infinity; let closestHalfW = 0
     for (let i = 0; i < this.medias.length; i++) {
       const m = this.medias[i]
       const itemScreenCx = m.plane.position.x * screenScale + this.screen.width / 2
       const dist = Math.abs(itemScreenCx - screenX)
-      if (dist < closestDist) { closestDist = dist; closest = i }
+      if (dist < closestDist) {
+        closestDist = dist
+        closest = i
+        closestHalfW = (m.plane.scale.x * screenScale) / 2
+      }
     }
-    if (closest !== null) {
+    // 실제 이미지 영역 안을 클릭했을 때만 팝업 — 빈 공간 클릭은 무시
+    if (closest !== null && closestDist < closestHalfW) {
       const originalIndex = closest % this.galleryLength
       this.onItemClick(originalIndex)
     }
@@ -395,6 +406,33 @@ class App {
     if (this.medias) this.medias.forEach(m => m.update(this.scroll, direction))
     this.renderer.render({ scene: this.scene, camera: this.camera })
     this.scroll.last = this.scroll.current
+
+    if (this.onFrame && this.medias) {
+      const sw = this.screen.width
+      const sh = this.screen.height
+      const scaleX = sw / this.viewport.width
+      const scaleY = sh / this.viewport.height
+      const labelOffsetPx = 26 // 이미지 하단 가장자리로부터 텍스트 중심까지의 거리(px, 가장자리와 평행 유지)
+      const labelOffset = labelOffsetPx / scaleY // 픽셀 → 월드 단위 환산
+      this.onFrame(this.medias.map(m => {
+        const hh = m.plane.scale.y / 2
+        const theta = m.plane.rotation.z
+        // 로컬 하단 중앙 지점 (0, -(hh + labelOffset))을 타일과 같은 각도로 회전시켜
+        // 텍스트가 항상 기울어진 하단 가장자리와 평행 + 등간격을 유지하도록 함
+        const dist = hh + labelOffset
+        const localX = dist * Math.sin(theta)
+        const localY = -dist * Math.cos(theta)
+        const worldX = m.plane.position.x + localX
+        const worldY = m.plane.position.y + localY
+        return {
+          x: worldX * scaleX + sw / 2,
+          y: sh / 2 - worldY * scaleY,
+          rotation: theta,
+          text: m.text,
+        }
+      }))
+    }
+
     this.raf = window.requestAnimationFrame(this.update.bind(this))
   }
   addEventListeners() {
@@ -440,23 +478,83 @@ class App {
 
 export default function CircularGallery({ items, bend = 3, textColor = '#ffffff', borderRadius = 0.05, font = DEFAULT_FONT, fontUrl, scrollSpeed = 2, scrollEase = 0.05, onItemClick }) {
   const containerRef = useRef(null)
+  const appRef = useRef(null)
+  const labelsRef = useRef(null)
+
+  const navigate = (dir) => {
+    const app = appRef.current
+    if (!app || !app.medias?.[0]) return
+    const width = app.medias[0].width
+    app.scroll.target += dir * width
+    app.onCheck()
+  }
+
+  const handleFrame = useCallback((positions) => {
+    if (!labelsRef.current) return
+    const children = labelsRef.current.children
+    positions.forEach((pos, i) => {
+      const el = children[i]
+      if (!el) return
+      const deg = -(pos.rotation * 180 / Math.PI)
+      el.style.left = `${pos.x}px`
+      el.style.top = `${pos.y}px`
+      el.style.transform = `translate(-50%, -50%) rotate(${deg}deg)`
+    })
+  }, [])
+
   useEffect(() => {
     if (!containerRef.current) return
-    let app; let isMounted = true
+    let isMounted = true
     resolveFont(font, fontUrl).then(resolvedFont => {
       if (!isMounted || !containerRef.current) return
-      app = new App(containerRef.current, { items, bend, textColor, borderRadius, font: resolvedFont, scrollSpeed, scrollEase, onItemClick })
+      appRef.current = new App(containerRef.current, { items, bend, textColor, borderRadius, font: resolvedFont, scrollSpeed, scrollEase, onItemClick, onFrame: handleFrame })
     })
-    return () => { isMounted = false; if (app) app.destroy() }
-  }, [items, bend, textColor, borderRadius, font, fontUrl, scrollSpeed, scrollEase])
+    return () => {
+      isMounted = false
+      if (appRef.current) { appRef.current.destroy(); appRef.current = null }
+    }
+  }, [items, bend, textColor, borderRadius, font, fontUrl, scrollSpeed, scrollEase, handleFrame])
+
+  const labelItems = items?.length ? [...items, ...items] : []
 
   return (
-    <div
-      className="circular-gallery"
-      ref={containerRef}
-      tabIndex={0}
-      role="region"
-      aria-label="Project gallery. Scroll or drag to navigate."
-    />
+    <div className="circular-gallery-wrapper">
+      <div
+        className="circular-gallery"
+        ref={containerRef}
+        tabIndex={0}
+        role="region"
+        aria-label="Project gallery. Scroll or drag to navigate."
+      />
+
+      {/* HTML 텍스트 오버레이 — 각 이미지 하단에 텍스트 표시 */}
+      <div ref={labelsRef} className="cg-labels" aria-hidden="true">
+        {labelItems.map((item, i) => (
+          <span key={i} className="cg-label">{item.text}</span>
+        ))}
+      </div>
+
+      {/* 하단 화살표 */}
+      <div className="circular-gallery-bottom-nav">
+        <button
+          className="circular-gallery-bottom-btn"
+          onClick={() => navigate(-1)}
+          aria-label="Previous"
+        >
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <polyline points="15 18 9 12 15 6" />
+          </svg>
+        </button>
+        <button
+          className="circular-gallery-bottom-btn"
+          onClick={() => navigate(1)}
+          aria-label="Next"
+        >
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <polyline points="9 18 15 12 9 6" />
+          </svg>
+        </button>
+      </div>
+    </div>
   )
 }

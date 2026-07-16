@@ -18,7 +18,7 @@ import { BlurIn } from '@/components/ui/blur-in'
 import BlurText from '@/components/ui/BlurText'
 import ExpandOnHover from '@/components/ui/ExpandOnHover'
 import { LogoMarquee } from '@/components/ui/LogoMarquee'
-import { Palette, Film, Code2, Server, Sparkles, Workflow as WorkflowIcon } from 'lucide-react'
+import { Palette, Film, Code2, Server, Sparkles, Workflow as WorkflowIcon, X } from 'lucide-react'
 import projImg1 from '@/assets/images/hemilygroup.png'
 import projImg2 from '@/assets/images/poster_1.jpg'
 import projImg3 from '@/assets/images/Mock-up/festival_night.png'
@@ -33,11 +33,13 @@ import mockup10 from '@/assets/images/Mock-up/Sericulture.png'
 import mockupRecital from '@/assets/images/Mock-up/조권행 리사이틀 포스터_1.png'
 import projectArchiveBook from '@/assets/images/Mock-up/2020.12_공주학아카이브 - 연구총서 제4집_1.png'
 import galleryYogaMain from '@/assets/images/kimyoga_1.JPG'
-import galleryYoga from '@/assets/images/kimyoga_2.JPG'
+import galleryYoga from '@/assets/images/kimyoga_3.JPG'
 import galleryOnepage from '@/assets/images/onepage_1.JPG'
 import galleryHemily from '@/assets/images/hemilygroup_1.JPG'
 import projectPoster from '@/assets/images/poster.png'
 import projectOnepageSquare from '@/assets/images/onepage_2.png'
+import mockupGongjuPoster from '@/assets/images/Mock-up/2019 공주문화재 2차야행포스터_3.png'
+import iconClaudeCode from '@/assets/images/claudecode-color.png'
 import './App.css'
 
 const SECTIONS = ['about', 'about_1', 'skills', 'projects_0', 'projects', 'epilogue']
@@ -50,8 +52,8 @@ const heroLines = [
 ]
 
 // 각 줄의 등장/퇴장 진행도 임계값 — 겹치지 않는 순차 구간
-const HERO_APPEARS = [0.08, 0.37, 0.66]
-const HERO_EXITS   = [0.30, 0.59, 0.94]
+const HERO_APPEARS = [0.08, 0.28, 0.54]
+const HERO_EXITS   = [0.24, 0.48, 0.80]
 
 const projectsData = [
   {
@@ -66,7 +68,7 @@ const projectsData = [
     num: '02',
     title: 'UI/UX Web Renewal',
     desc: '기존 요가·필라테스 홈페이지를\n사용자 중심의 반응형 웹으로 리뉴얼한 프로젝트입니다.',
-    tags: ['Figma', 'HTML', 'CSS', 'JavaScript', 'Firebase', 'NAVER API'],
+    tags: ['Figma', 'HTML', 'CSS', 'JavaScript', 'Firebase'],
     image: galleryYoga,
     url: 'https://hong4745-cyber.github.io/kimyoga/',
     planUrl: 'https://www.figma.com/design/EudRn9g7JHQEF84xqjTqEP/%ED%99%88%ED%8E%98%EC%9D%B4%EC%A7%80-%EB%A6%AC%EB%89%B4%EC%96%BC?node-id=553-77&t=EKgT5TVB6ojHSfvY-1',
@@ -76,7 +78,7 @@ const projectsData = [
     num: '03',
     title: 'UI/UX Web Design',
     desc: '프리미엄 오디오 브랜드를 모티브로 제작한\nReact 기반 커머스 웹사이트 프로젝트입니다.',
-    tags: ['React', 'Vite', 'Firebase', 'GSAP', 'Polar.sh'],
+    tags: ['React', 'Firebase', 'GSAP', 'Polar.sh'],
     image: galleryOnepage,
     url: 'https://onepage-khaki.vercel.app',
     planUrl: 'https://www.figma.com/design/6iPpbhdNdxPyyJlw12D01Q/%EC%9D%BC%EC%B2%B4%ED%98%95-%ED%8E%98%EC%9D%B4%EC%A7%80-%EB%B0%B1%EC%A7%80%EC%9D%80?node-id=206-1017&t=jqUWdvsvtDzZcWvW-1',
@@ -111,9 +113,9 @@ const projectsData = [
 
 const skillsData = [
   { num: '01', title: 'Design',      tags: ['Figma', 'Illustrator', 'Photoshop', 'InDesign'],              accent: '#7F29DA' },
-  { num: '02', title: 'Motion',      tags: ['Premiere', 'After Effects', 'GSAP', 'CSS Animation'],         accent: '#f472b6' },
+  { num: '02', title: 'Motion',      tags: ['Premiere', 'GSAP', 'CSS Animation'],                          accent: '#f472b6' },
   { num: '03', title: 'Frontend',    tags: ['HTML5', 'CSS3', 'JavaScript', 'React', 'TypeScript'],         accent: '#34d399' },
-  { num: '04', title: 'Backend',     tags: ['Firebase', 'REST API', 'GitHub', 'Vite'],                     accent: '#fb923c' },
+  { num: '04', title: 'Backend',     tags: ['Firebase', 'REST API', 'GitHub'],                            accent: '#fb923c' },
   { num: '05', title: 'AI Tools',    tags: ['ChatGPT', 'Claude', 'Claude Code', 'Gemini'],                 accent: '#818cf8' },
   { num: '06', title: 'Workflow',    tags: ['VS Code', 'Notion', 'Slack', 'Figma Dev Mode'],               accent: '#fbbf24' },
 ]
@@ -121,26 +123,25 @@ const skillsData = [
 const skillIcons = [Palette, Film, Code2, Server, Sparkles, WorkflowIcon]
 
 const skillLogos = [
-  { name: 'HTML5',         icon: 'logos:html-5',                    usedIn: ['01', '02', '03'] },
-  { name: 'CSS3',          icon: 'logos:css-3',                     usedIn: ['01', '02', '03'] },
-  { name: 'JavaScript',    icon: 'logos:javascript',                usedIn: ['01', '02', '03'] },
-  { name: 'React',         icon: 'logos:react',                     usedIn: ['03', 'portfolio'] },
-  { name: 'TypeScript',    icon: 'logos:typescript-icon',           usedIn: ['portfolio'] },
-  { name: 'GitHub',        icon: 'logos:github-icon',  invert: true, usedIn: ['01', '02', '03'] },
-  { name: 'Figma',         icon: 'logos:figma',                     usedIn: ['02', 'portfolio'] },
-  { name: 'Vite',          icon: 'logos:vitejs',                    usedIn: ['03', 'portfolio'] },
-  { name: 'Firebase',      icon: 'logos:firebase',                  usedIn: ['02', '03'] },
-  { name: 'REST API',      icon: 'lucide:globe',  color: '#7F29DA', usedIn: ['02'] },
-  { name: 'Photoshop',     icon: 'logos:adobe-photoshop',           usedIn: ['04', '05', '06'] },
-  { name: 'Illustrator',   icon: 'logos:adobe-illustrator',         usedIn: ['04', '05', '06'] },
-  { name: 'Premiere Pro',  icon: 'logos:adobe-premiere',            usedIn: ['edu-video'] },
-  { name: 'After Effects', icon: 'logos:adobe-after-effects',       usedIn: ['edu-video', 'edu-ai'] },
-  { name: 'InDesign',      icon: 'logos:adobe-indesign',            usedIn: ['04', '05', '06'] },
-  { name: 'ChatGPT',       icon: 'simple-icons:openai',  color: '#74AA9C', usedIn: ['portfolio'] },
-  { name: 'GPT Codex',     icon: 'simple-icons:openai',  color: '#ffffff', usedIn: ['portfolio'] },
-  { name: 'Claude',        icon: 'simple-icons:claude',  color: '#D97757', usedIn: ['portfolio'] },
-  { name: 'Claude Code',   icon: 'simple-icons:claude',  color: '#CC785C', usedIn: ['03', 'portfolio'] },
-  { name: 'Gemini',        icon: 'simple-icons:googlegemini', color: '#8E75B2', usedIn: ['edu-ai'] },
+  { name: 'HTML5',         icon: 'logos:html-5',                    usage: '웹 퍼블리싱, 시멘틱 마크업',                    usedIn: ['01', '02', '03'] },
+  { name: 'CSS3',          icon: 'logos:css-3',                     usage: '반응형 레이아웃, 커스텀 애니메이션',              usedIn: ['01', '02', '03'] },
+  { name: 'JavaScript',    icon: 'logos:javascript',                usage: 'DOM 제어, 인터랙션 구현, API 연동',             usedIn: ['01', '02', '03'] },
+  { name: 'React',         icon: 'logos:react',                     usage: 'SPA 컴포넌트 설계 및 개발',                    usedIn: ['03', 'portfolio'] },
+  { name: 'TypeScript',    icon: 'logos:typescript-icon',           usage: '컴포넌트 타입 정의 및 안전한 코드 작성',          usedIn: ['portfolio'] },
+  { name: 'GitHub',        icon: 'logos:github-icon',  invert: true, usage: '버전 관리 및 GitHub Pages 배포',             usedIn: ['01', '02', '03'] },
+  { name: 'Figma',         icon: 'logos:figma',                     usage: 'UI 기획, 와이어프레임, 프로토타입 제작',          usedIn: ['02', 'portfolio'] },
+  { name: 'Firebase',      icon: 'logos:firebase',                  usage: 'Realtime Database, 호스팅, 인증',              usedIn: ['02', '03'] },
+  { name: 'Photoshop',     icon: 'logos:adobe-photoshop',           usage: '이미지 보정·합성, 포스터·브로슈어 시각 작업',     usedIn: ['04', '05', '06'] },
+  { name: 'Illustrator',   icon: 'logos:adobe-illustrator',         usage: '벡터 그래픽, 포스터·홍보물 일러스트 제작',        usedIn: ['04', '05', '06'] },
+  { name: 'Premiere Pro',  icon: 'logos:adobe-premiere',            usage: '컷 편집, 자막, 색보정, 출력',                   usedIn: ['edu-video'] },
+  { name: 'InDesign',      icon: 'logos:adobe-indesign',            usage: '브로슈어·리플렛·포스터·도록 편집 레이아웃 제작',   usedIn: ['04', '05', '06'] },
+  { name: 'ChatGPT',       icon: 'simple-icons:openai',  color: '#74AA9C', usage: '코드 보조 및 콘텐츠 기획',              usedIn: ['portfolio-gpt'] },
+  { name: 'GPT Codex',     icon: 'simple-icons:openai',  color: '#ffffff', usage: '코드 자동 완성 및 생성 보조',            usedIn: ['portfolio-codex'] },
+  { name: 'Claude',        icon: 'simple-icons:claude',  color: '#D97757', usage: 'AI 페어 프로그래밍, 설계 검토',          usedIn: ['portfolio-claude'] },
+  { name: 'Claude Code',   imgSrc: iconClaudeCode,       color: '#CC785C', usage: '포트폴리오 전반 개발 협업',              usedIn: ['03', 'portfolio'] },
+  { name: 'Gemini',        icon: 'simple-icons:googlegemini', color: '#8E75B2', usage: 'AI 이미지 생성, 광고 콘텐츠 기획', usedIn: ['edu-ai'] },
+  { name: 'Canva',         icon: 'simple-icons:canva',        color: '#00C4CC', usage: '소셜 콘텐츠·발표자료·간편 그래픽 제작', usedIn: [] },
+  { name: 'Flow',          icon: 'mdi:movie-play-outline',    color: '#4285F4', usage: 'Google AI 영상 생성 및 편집',            usedIn: [] },
 ]
 
 const galleryItems = projectsData.map(p => ({ image: p.image, text: p.title }))
@@ -170,8 +171,8 @@ const projects0Images = [
 
 const zoomParallaxImages = [
   { src: galleryYogaMain, alt: 'Kim yoga homepage hero image' },
-  { src: mockup3, alt: 'Festival night street poster mockup' },
-  { src: mockup4, alt: 'Exhibition design mockup' },
+  { src: projImg1, alt: 'Hemilygroup web publishing' },
+  { src: mockupGongjuPoster, alt: '2019 공주문화재 야행 포스터' },
   { src: mockup5, alt: 'Exhibition catalog cover mockup' },
   { src: mockup9, alt: 'Seoktaek-ri exhibition poster mockup' },
   { src: mockup10, alt: 'Sericulture poster mockup' },
@@ -370,8 +371,8 @@ const splineRef          = useRef(null)
     })
       .fromTo('.epilogue-desc',
         { opacity: 0, y: 52, filter: 'blur(10px)' },
-        { opacity: 1, y: 0, filter: 'blur(0px)', duration: 0.85, ease: 'power2.out' },
-        0.64
+        { opacity: 1, y: 0, filter: 'blur(0px)', duration: 1.6, ease: 'power2.out' },
+        0.5
       )
 
     // Hero/About의 Spline 씬(외부 스크립트)이 초기 계산 이후 늦게 로드되면서 문서 높이가
@@ -394,9 +395,12 @@ const splineRef          = useRef(null)
   }, [])
 
   const specialProjects = {
-    portfolio: { title: 'Portfolio', desc: '이 포트폴리오 사이트 (React · Vite · GSAP)' },
-    'edu-video': { title: '영상편집 교육 실습', desc: 'Premiere Pro · After Effects 단편영상 제작' },
-    'edu-ai':    { title: 'AI 광고 제작 실습', desc: '생성형 AI 기반 15초 광고 영상 제작' },
+    portfolio:          { title: 'Portfolio', desc: 'React · GSAP 포트폴리오 개발' },
+    'portfolio-gpt':    { title: 'Portfolio', desc: '콘텐츠 기획 및 텍스트 초안 작성' },
+    'portfolio-codex':  { title: 'Portfolio', desc: '코드 자동 완성 및 생성 보조' },
+    'portfolio-claude': { title: 'Portfolio', desc: '구조 설계 · 코드 리뷰 AI 협업' },
+    'edu-video': { title: '영상편집 교육', desc: '숏폼 콘텐츠·여행 영상 편집 (Premiere)' },
+    'edu-ai':    { title: 'AI 광고 제작 실습', desc: '생성형 AI 활용 15초 화장품 광고 영상 제작' },
   }
 
   const getSkillUses = (skill) => (skill.usedIn || [])
@@ -408,6 +412,7 @@ const splineRef          = useRef(null)
       return null
     })
     .filter(Boolean)
+    .filter(item => item.title !== 'Portfolio')
 
   const skillsMarqueeRow = skillLogos.map(s => {
     const uses = getSkillUses(s)
@@ -419,23 +424,34 @@ const splineRef          = useRef(null)
         tabIndex={0}
         aria-label={`${s.name} 상세설명`}
       >
-        <Icon
-          icon={s.icon}
-          width={40}
-          height={40}
-          style={{ flexShrink: 0, color: s.color || 'inherit', filter: s.invert ? 'invert(1)' : undefined }}
-        />
+        {s.imgSrc ? (
+          <img
+            src={s.imgSrc}
+            alt={s.name}
+            width={40}
+            height={40}
+            style={{ flexShrink: 0, objectFit: 'contain' }}
+          />
+        ) : (
+          <Icon
+            icon={s.icon}
+            width={40}
+            height={40}
+            style={{ flexShrink: 0, color: s.color || 'inherit', filter: s.invert ? 'invert(1)' : undefined }}
+          />
+        )}
         <span className="skills-logo-name">{s.name}</span>
         <span className="skills-logo-tooltip" role="tooltip">
           <strong>{s.name}</strong>
-          <span className="skills-logo-tooltip-label">사용된 프로젝트</span>
-          {uses.map(item => (
-            <span className="skills-logo-tooltip-item" key={`${s.name}-${item.title}`}>
-              <span>{item.title}</span>
-              {item.detail && <small>{item.detail}</small>}
-              {item.desc && <small>{item.desc}</small>}
+          {s.usage && <span className="skills-logo-tooltip-usage">{s.usage}</span>}
+          {uses.length > 0 && (
+            <span className="skills-logo-tooltip-projects">
+              <span className="skills-logo-tooltip-label">사용된 프로젝트</span>
+              <span className="skills-logo-tooltip-list">
+                {[...new Set(uses.map(item => item.title))].join(', ')}
+              </span>
             </span>
-          ))}
+          )}
         </span>
       </span>
     )
@@ -487,8 +503,9 @@ const splineRef          = useRef(null)
             </div>
 
             <p className="about-bio">
-              편집디자인에서 시작해 웹디자인을 배우고,<br />
-              지금은 UI/UX와 프론트엔드를 함께 공부하고 있습니다.
+              편집디자인에서 시작해 웹으로 영역을 넓혔습니다.<br />
+              지금은 UI/UX와 프론트엔드를 배우며,<br />
+              더 나은 사용자 경험을 만들기 위해 노력하고 있습니다.
             </p>
             <p className="about-bio">
               새로운 기술을 배우는 것을 즐기며,<br />
@@ -585,15 +602,16 @@ const splineRef          = useRef(null)
           return (
             <div className="project-modal-backdrop" onClick={() => setSelectedProject(null)}>
               <div className="project-modal" onClick={e => e.stopPropagation()}>
-                <button className="project-modal-close" onClick={() => setSelectedProject(null)}>✕</button>
+                <button className="project-modal-close" onClick={() => setSelectedProject(null)} aria-label="닫기">
+                  <X size={18} strokeWidth={2.25} />
+                </button>
                 <img className="project-modal-img" src={p.image} alt={p.title} />
                 <div className="project-modal-body">
-                  <div className="project-modal-meta">
-                    <span className="project-modal-num">{p.num}</span>
-                    {p.tags.map(tag => <span key={tag} className="project-modal-tag">{tag}</span>)}
-                  </div>
                   <h2 className="project-modal-title">{p.title}</h2>
                   <p className="project-modal-desc" style={{ whiteSpace: 'pre-line' }}>{p.desc}</p>
+                  <div className="project-modal-meta">
+                    {p.tags.map(tag => <span key={tag} className="project-modal-tag">{tag}</span>)}
+                  </div>
                   {p.url && (
                     <div className="project-modal-actions">
                       <a href={p.url} target="_blank" rel="noopener" className="project-modal-link">
@@ -646,7 +664,7 @@ const splineRef          = useRef(null)
           <div className="epilogue-footer-stack">
             <p className="epilogue-footer-label">Built with</p>
             <ul>
-              <li>React · Vite</li>
+              <li>React</li>
               <li>GSAP · ScrollTrigger</li>
               <li>Three.js · Spline</li>
               <li>CSS3 · Canvas API</li>
@@ -656,10 +674,10 @@ const splineRef          = useRef(null)
             <p className="epilogue-footer-label">Contact</p>
             <a href="mailto:hong4745@gmail.com">hong4745@gmail.com</a>
             <a href="https://www.instagram.com/still___digging" target="_blank" rel="noopener noreferrer" className="epilogue-footer-insta">
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ position: 'relative', top: '1px' }}><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
               @still___digging
             </a>
-            <p className="epilogue-footer-copy">© 2025 Baek Jieun. All rights reserved.</p>
+            <p className="epilogue-footer-copy">© 2026 Baek Jieun. All rights reserved.</p>
           </div>
         </div>
       </section>
