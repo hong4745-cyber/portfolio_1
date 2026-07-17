@@ -347,27 +347,33 @@ class App {
         // Find item under mouse
         const rect = this.container.getBoundingClientRect()
         const clickX = (e.clientX || (e.changedTouches?.[0].clientX ?? 0)) - rect.left
-        this.findAndClickItem(clickX)
+        const clickY = (e.clientY || (e.changedTouches?.[0].clientY ?? 0)) - rect.top
+        this.findAndClickItem(clickX, clickY)
       }
     }
     this.onCheck()
   }
-  findAndClickItem(screenX) {
+  findAndClickItem(screenX, screenY) {
     if (!this.medias) return
-    const screenScale = this.screen.width / this.viewport.width
-    let closest = null; let closestDist = Infinity; let closestHalfW = 0
+    const screenScaleX = this.screen.width / this.viewport.width
+    const screenScaleY = this.screen.height / this.viewport.height
+    let closest = null; let closestDist = Infinity; let closestHalfW = 0; let closestHalfH = 0; let closestCy = 0
     for (let i = 0; i < this.medias.length; i++) {
       const m = this.medias[i]
-      const itemScreenCx = m.plane.position.x * screenScale + this.screen.width / 2
+      const itemScreenCx = m.plane.position.x * screenScaleX + this.screen.width / 2
       const dist = Math.abs(itemScreenCx - screenX)
       if (dist < closestDist) {
         closestDist = dist
         closest = i
-        closestHalfW = (m.plane.scale.x * screenScale) / 2
+        closestHalfW = (m.plane.scale.x * screenScaleX) / 2
+        closestHalfH = (m.plane.scale.y * screenScaleY) / 2
+        closestCy = this.screen.height / 2 - m.plane.position.y * screenScaleY
       }
     }
-    // 실제 이미지 영역 안을 클릭했을 때만 팝업 — 빈 공간 클릭은 무시
-    if (closest !== null && closestDist < closestHalfW) {
+    // 실제 이미지 영역(가로+세로) 안을 클릭했을 때만 팝업 — 빈 공간 클릭은 무시
+    const withinX = closest !== null && closestDist < closestHalfW
+    const withinY = closest !== null && Math.abs(closestCy - screenY) < closestHalfH
+    if (withinX && withinY) {
       const originalIndex = closest % this.galleryLength
       this.onItemClick(originalIndex)
     }

@@ -315,7 +315,7 @@ spline-viewer {
   color: var(--about-1-text);
 }
 
-.section--zoom-parallax {
+.section--scroll-stack {
   position: relative;
   display: block;
   background: #0B103D;
@@ -324,67 +324,112 @@ spline-viewer {
   isolation: isolate;
 }
 
-.zoom-parallax-root {
+.scroll-stack-root {
   position: relative;
-  height: 300vh;
-  background: #0B103D;
+  height: 260vh;
   z-index: 1;
 }
 
-.zoom-parallax-sticky {
+.scroll-stack-sticky {
   position: sticky;
   top: 0;
   height: 100vh;
   overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.zoom-parallax-card--0 img {
-  object-position: center 20%;
+.scroll-stack-card {
+  position: absolute;
+  width: min(84vw, 1080px);
+  height: min(66vh, 620px);
+  border-radius: 28px;
+  overflow: hidden;
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.45);
+  will-change: transform, filter, opacity;
+  transform-origin: center center;
+}
+
+.scroll-stack-card-media {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.scroll-stack-card-media img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.scroll-stack-card:nth-of-type(5) .scroll-stack-card-media img {
+  transform: scale(1.1) translateX(8%);
+  transform-origin: center center;
+}
+
+.scroll-stack-card-text {
+  position: absolute;
+  inset: 0 auto 0 0;
+  z-index: 1;
+  width: min(46%, 420px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.6rem;
+  padding: clamp(1.75rem, 3vw, 3rem);
+  background: linear-gradient(to right, rgba(244, 240, 231, 0.97) 0%, rgba(244, 240, 231, 0.9) 40%, rgba(244, 240, 231, 0.5) 70%, rgba(244, 240, 231, 0) 90%);
+  color: #1a1a1a;
+}
+
+.scroll-stack-card-num {
+  font-size: 0.85rem;
+  letter-spacing: 0.28em;
+  color: rgba(26, 26, 26, 0.5);
+}
+
+.scroll-stack-card-title {
+  margin: 0;
+  font-size: clamp(2.8rem, 5.6vw, 4.6rem);
+  line-height: 1.05;
+  font-weight: 700;
+  color: #0C1233;
+}
+
+.scroll-stack-card-sub {
+  margin: 0;
+  font-size: clamp(0.9rem, 1.2vw, 1.05rem);
+  line-height: 1.5;
+  color: rgba(26, 26, 26, 0.7);
 }
 
 @media (min-width: 768px) and (max-width: 1024px) {
-  .zoom-parallax-card {
-    width: 44vw !important;
-    height: 24vh !important;
+  .scroll-stack-card {
+    width: min(88vw, 820px);
+    height: min(58vh, 500px);
   }
 
-  .zoom-parallax-card--2,
-  .zoom-parallax-card--4 {
-    width: 34vw !important;
-    height: 24vh !important;
-  }
-
-  .zoom-parallax-card--6 {
-    width: 28vw !important;
-    height: 18vh !important;
+  .scroll-stack-card-text {
+    width: min(54%, 360px);
   }
 }
 
 @media (max-width: 767px) {
-  .zoom-parallax-card {
-    width: 68vw !important;
-    height: 24vh !important;
+  .scroll-stack-root {
+    height: 220vh;
   }
 
-  .zoom-parallax-card--1 {
-    width: 72vw !important;
-    height: 22vh !important;
+  .scroll-stack-card {
+    width: 86vw;
+    height: 72vh;
+    border-radius: 20px;
   }
 
-  .zoom-parallax-card--2,
-  .zoom-parallax-card--4 {
-    width: 54vw !important;
-    height: 23vh !important;
-  }
-
-  .zoom-parallax-card--5 {
-    width: 62vw !important;
-    height: 22vh !important;
-  }
-
-  .zoom-parallax-card--6 {
-    width: 44vw !important;
-    height: 18vh !important;
+  .scroll-stack-card-text {
+    width: min(72%, 320px);
+    padding: 1.25rem 1.5rem;
+    gap: 0.35rem;
   }
 }
 
@@ -1747,12 +1792,13 @@ spline-viewer {
   min-height: 0;
   display: flex;
   flex-direction: column;
+  padding-top: clamp(2rem, 6vh, 4rem);
   will-change: transform, opacity, filter;
 }
 
 .projects-heading {
   position: absolute;
-  top: clamp(2.5rem, 8vh, 5rem);
+  top: clamp(4.5rem, 12vh, 7.5rem);
   left: 50%;
   z-index: 2;
   transform: translateX(-50%);
@@ -1837,6 +1883,7 @@ spline-viewer {
   display: flex;
   flex-direction: column;
   gap: 0.9rem;
+  background: #0C122C;
 }
 
 .project-modal-meta {
@@ -1844,13 +1891,14 @@ spline-viewer {
   align-items: center;
   gap: 0.5rem;
   flex-wrap: wrap;
+  color: rgba(255, 255, 255, 0.45);
 }
 
 .project-modal-num {
   font-size: 0.68rem;
   font-weight: 700;
   letter-spacing: 0.15em;
-  color: rgba(127, 41, 218, 0.6);
+  color: rgba(255, 255, 255, 0.45);
 }
 
 .project-modal-tag {
@@ -1858,11 +1906,14 @@ spline-viewer {
   font-weight: 600;
   letter-spacing: 0.07em;
   text-transform: uppercase;
-  color: rgba(127, 41, 218, 0.7);
-  padding: 0.16rem 0.55rem;
-  border-radius: 999px;
-  border: 1px solid rgba(127, 41, 218, 0.2);
-  background: rgba(127, 41, 218, 0.04);
+  color: rgba(255, 255, 255, 0.45);
+}
+
+.project-modal-tag:not(:last-child)::after {
+  content: '|';
+  margin-left: 0.5rem;
+  color: rgba(255, 255, 255, 0.45);
+  opacity: 0.4;
 }
 
 .project-modal-title {
@@ -2223,7 +2274,7 @@ spline-viewer {
 
 .section,
 .spline-sticky,
-.zoom-parallax-sticky {
+.scroll-stack-sticky {
   min-height: 100svh;
 }
 
@@ -2365,11 +2416,11 @@ spline-viewer {
     display: none;
   }
 
-  .zoom-parallax-root {
-    height: 220svh;
+  .scroll-stack-root {
+    height: 190svh;
   }
 
-  .zoom-parallax-sticky {
+  .scroll-stack-sticky {
     height: 100svh;
   }
 

@@ -40,7 +40,7 @@
 /* 하단 화살표 */
 .circular-gallery-bottom-nav {
   position: absolute;
-  bottom: 56px;
+  bottom: 104px;
   left: 50%;
   transform: translateX(-50%);
   z-index: 30;

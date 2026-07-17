@@ -9,7 +9,7 @@ import { SplitHeroLine } from '@/components/ui/split-hero-line'
 import { Starfield } from '@/components/ui/starfield'
 import { FallingPetals } from '@/components/ui/falling-petals'
 import { DemoOne } from '@/components/ui/demo'
-import { ZoomParallax } from '@/components/ui/zoom-parallax'
+import ScrollStack, { ScrollStackItem } from '@/components/ui/scroll-stack'
 import { ResumeSchedule } from '@/components/ui/resume-schedule'
 import CircularGallery from '@/components/ui/CircularGallery'
 import { BentoCell, BentoGrid, ContainerScroll } from '@/components/ui/hero-gallery-scroll-animation'
@@ -26,20 +26,20 @@ import mockup1 from '@/assets/images/Mock-up/festival_night.png'
 import mockup2 from '@/assets/images/Mock-up/festival_night_1.png'
 import mockup3 from '@/assets/images/Mock-up/festival_night_2.png'
 import mockup4 from '@/assets/images/Mock-up/exhibition.png'
-import mockup5 from '@/assets/images/Mock-up/exhibition catalog_5.png'
 import mockup8 from '@/assets/images/Mock-up/exhibition catalog_8.png'
-import mockup9 from '@/assets/images/Mock-up/Seoktaek-ri.png'
-import mockup10 from '@/assets/images/Mock-up/Sericulture.png'
-import mockupRecital from '@/assets/images/Mock-up/조권행 리사이틀 포스터_1.png'
 import projectArchiveBook from '@/assets/images/Mock-up/2020.12_공주학아카이브 - 연구총서 제4집_1.png'
 import galleryYogaMain from '@/assets/images/kimyoga_1.JPG'
 import galleryYoga from '@/assets/images/kimyoga_3.JPG'
-import galleryOnepage from '@/assets/images/onepage_1.JPG'
+import galleryOnepage from '@/assets/images/onepage.png'
 import galleryHemily from '@/assets/images/hemilygroup_1.JPG'
 import projectPoster from '@/assets/images/poster.png'
 import projectOnepageSquare from '@/assets/images/onepage_2.png'
-import mockupGongjuPoster from '@/assets/images/Mock-up/2019 공주문화재 2차야행포스터_3.png'
 import iconClaudeCode from '@/assets/images/claudecode-color.png'
+import bloomingProcess1 from '@/assets/images/Blooming Process_1.png'
+import bloomingProcess2 from '@/assets/images/Blooming Process_2.png'
+import bloomingProcess3 from '@/assets/images/Blooming Process_3.png'
+import bloomingProcess4 from '@/assets/images/Blooming Process_4.png'
+import bloomingProcess5 from '@/assets/images/Blooming Process_6.png'
 import './App.css'
 
 const SECTIONS = ['about', 'about_1', 'skills', 'projects_0', 'projects', 'epilogue']
@@ -60,7 +60,7 @@ const projectsData = [
     num: '01',
     title: 'Web Publishing',
     desc: '실제 기업 홈페이지를 분석하여\n반응형 퍼블리싱과 인터랙션을 구현한 프로젝트입니다.',
-    tags: ['WEB', 'HTML/CSS', 'JAVASCRIPT'],
+    tags: ['WEB', 'HTML5', 'CSS3', 'JAVASCRIPT'],
     image: projImg1,
     url: 'https://hong4745-cyber.github.io/hemilygroup/',
   },
@@ -68,7 +68,7 @@ const projectsData = [
     num: '02',
     title: 'UI/UX Web Renewal',
     desc: '기존 요가·필라테스 홈페이지를\n사용자 중심의 반응형 웹으로 리뉴얼한 프로젝트입니다.',
-    tags: ['Figma', 'HTML', 'CSS', 'JavaScript', 'Firebase'],
+    tags: ['Figma', 'HTML5', 'CSS3', 'JavaScript', 'Firebase'],
     image: galleryYoga,
     url: 'https://hong4745-cyber.github.io/kimyoga/',
     planUrl: 'https://www.figma.com/design/EudRn9g7JHQEF84xqjTqEP/%ED%99%88%ED%8E%98%EC%9D%B4%EC%A7%80-%EB%A6%AC%EB%89%B4%EC%96%BC?node-id=553-77&t=EKgT5TVB6ojHSfvY-1',
@@ -169,14 +169,12 @@ const projects0Images = [
   },
 ]
 
-const zoomParallaxImages = [
-  { src: galleryYogaMain, alt: 'Kim yoga homepage hero image' },
-  { src: projImg1, alt: 'Hemilygroup web publishing' },
-  { src: mockupGongjuPoster, alt: '2019 공주문화재 야행 포스터' },
-  { src: mockup5, alt: 'Exhibition catalog cover mockup' },
-  { src: mockup9, alt: 'Seoktaek-ri exhibition poster mockup' },
-  { src: mockup10, alt: 'Sericulture poster mockup' },
-  { src: mockupRecital, alt: 'Recital poster mockup' },
+const bloomingProcessImages = [
+  { src: bloomingProcess1, alt: 'Blooming Process 1', num: '01', title: 'Root', subtitle: '디자인의 기본을 쌓다.' },
+  { src: bloomingProcess2, alt: 'Blooming Process 2', num: '02', title: 'Expand', subtitle: '사용자의 경험을 설계하다.' },
+  { src: bloomingProcess3, alt: 'Blooming Process 3', num: '03', title: 'Build', subtitle: '디자인을 직접 구현하다.' },
+  { src: bloomingProcess4, alt: 'Blooming Process 4', num: '04', title: 'Connect', subtitle: '디자인과 개발을 연결하다.' },
+  { src: bloomingProcess5, alt: 'Blooming Process 5', num: '05', title: 'Bloom', subtitle: '배움을 프로젝트로 완성하다.' },
 ]
 
 function LazyIframe({ src, title, style, className }) {
@@ -522,12 +520,25 @@ const splineRef          = useRef(null)
         <DemoOne />
       </section>
 
-      <section id="zoom-parallax" className="section--zoom-parallax">
+      <section id="scroll-stack" className="section--scroll-stack">
         <div className="section-bg-tint" aria-hidden="true" />
         <div className="section-bg-stars" aria-hidden="true"><Starfield count={80} sizeScale={1.6} /></div>
         <div className="section-bg-scrim" aria-hidden="true" />
         <div className="section-bg-petals" aria-hidden="true"><FallingPetals count={8} sizeScale={1.8} /></div>
-        <ZoomParallax images={zoomParallaxImages} />
+        <ScrollStack>
+          {bloomingProcessImages.map(({ src, alt, num, title, subtitle }) => (
+            <ScrollStackItem key={src}>
+              <div className="scroll-stack-card-text">
+                <span className="scroll-stack-card-num">{num}</span>
+                <h3 className="scroll-stack-card-title">{title}</h3>
+                <p className="scroll-stack-card-sub">{subtitle}</p>
+              </div>
+              <div className="scroll-stack-card-media">
+                <img src={src} alt={alt} />
+              </div>
+            </ScrollStackItem>
+          ))}
+        </ScrollStack>
       </section>
 
       <ResumeSchedule />
