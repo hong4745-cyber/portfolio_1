@@ -4,7 +4,20 @@
       "PowerShell(Start-Process \"http://localhost:5173/\")",
       "Bash(npm run *)",
       "Bash(Start-Process \"http://localhost:5173\")",
-      "PowerShell(Start-Process \"http://localhost:5173\")"
+      "PowerShell(Start-Process \"http://localhost:5173\")",
+      "Bash(git add *)",
+      "Bash(git commit -m ' *)",
+      "Bash(node *)",
+      "Bash(echo \"exit: $?\")",
+      "Bash(curl -s http://localhost:5173/src/App.jsx)",
+      "Bash(npx vercel *)",
+      "PowerShell(powershell -ExecutionPolicy Bypass -File \"C:\\\\Users\\\\user\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\D--portfolio\\\\19e28ac4-9ff2-40ea-81d1-8de2620079ad\\\\scratchpad\\\\resize-images.ps1\")",
+      "Bash(git checkout *)",
+      "PowerShell(powershell -ExecutionPolicy Bypass -File \"C:\\\\Users\\\\user\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\D--portfolio\\\\19e28ac4-9ff2-40ea-81d1-8de2620079ad\\\\scratchpad\\\\png-to-jpg.ps1\")",
+      "Bash(git rm *)",
+      "Bash(rm -f \"hemilygroup.png\" \"Mock-up/festival_night.png\" \"Mock-up/festival_night_1.png\" \"Mock-up/festival_night_2.png\" \"Mock-up/exhibition.png\" \"Mock-up/exhibition catalog_8.png\" \"Mock-up/2020.12_공주학아카이브 - 연구총서 제4집_1.png\" \"poster.png\" \"Blooming Process_1.png\" \"Blooming Process_2.png\" \"Blooming Process_3.png\" \"Blooming Process_4.png\" \"Blooming Process_6.png\")",
+      "Bash(curl *)",
+      "Bash(awk '{print $1\"KB\"}')"
     ]
   }
 }

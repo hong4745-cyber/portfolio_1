@@ -5,51 +5,64 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { HeroParticles } from '@/components/ui/hero-particles'
 import { ScrollIndicator } from '@/components/ui/scroll-indicator'
 import { TiltCard } from '@/components/ui/tilt-card'
-import { SplitHeroLine } from '@/components/ui/split-hero-line'
 import { Starfield } from '@/components/ui/starfield'
+import { SplitHeroLine } from '@/components/ui/split-hero-line'
 import { FallingPetals } from '@/components/ui/falling-petals'
 import { DemoOne } from '@/components/ui/demo'
 import ScrollStack, { ScrollStackItem } from '@/components/ui/scroll-stack'
 import { ResumeSchedule } from '@/components/ui/resume-schedule'
 import CircularGallery from '@/components/ui/CircularGallery'
+import { RevealImageList } from '@/components/ui/reveal-images'
 import { BentoCell, BentoGrid, ContainerScroll } from '@/components/ui/hero-gallery-scroll-animation'
 import CelestialBloomShader from '@/components/ui/celestial-bloom-shader'
 import { BlurIn } from '@/components/ui/blur-in'
 import BlurText from '@/components/ui/BlurText'
 import ExpandOnHover from '@/components/ui/ExpandOnHover'
 import { LogoMarquee } from '@/components/ui/LogoMarquee'
-import { Palette, Film, Code2, Server, Sparkles, Workflow as WorkflowIcon, X } from 'lucide-react'
-import projImg1 from '@/assets/images/hemilygroup.png'
+import { Palette, Film, Code2, Server, Sparkles, Workflow as WorkflowIcon, X, ChevronLeft, ChevronRight } from 'lucide-react'
+import projImg1 from '@/assets/images/hemilygroup.jpg'
 import projImg2 from '@/assets/images/poster_1.jpg'
-import projImg3 from '@/assets/images/Mock-up/festival_night.png'
-import mockup1 from '@/assets/images/Mock-up/festival_night.png'
-import mockup2 from '@/assets/images/Mock-up/festival_night_1.png'
-import mockup3 from '@/assets/images/Mock-up/festival_night_2.png'
-import mockup4 from '@/assets/images/Mock-up/exhibition.png'
-import mockup8 from '@/assets/images/Mock-up/exhibition catalog_8.png'
-import projectArchiveBook from '@/assets/images/Mock-up/2020.12_공주학아카이브 - 연구총서 제4집_1.png'
+import projImg3 from '@/assets/images/Mock-up/festival_night.jpg'
+import mockup1 from '@/assets/images/Mock-up/festival_night.jpg'
+import mockup2 from '@/assets/images/Mock-up/festival_night_1.jpg'
+import mockup3 from '@/assets/images/Mock-up/festival_night_2.jpg'
+import mockup4 from '@/assets/images/Mock-up/exhibition.jpg'
+import mockup8 from '@/assets/images/Mock-up/exhibition catalog_8.jpg'
+import projectArchiveBook from '@/assets/images/Mock-up/2020.12_공주학아카이브 - 연구총서 제4집_1.jpg'
 import galleryYogaMain from '@/assets/images/kimyoga_1.JPG'
 import galleryYoga from '@/assets/images/kimyoga_3.JPG'
 import galleryOnepage from '@/assets/images/onepage.png'
 import galleryHemily from '@/assets/images/hemilygroup_1.JPG'
-import projectPoster from '@/assets/images/poster.png'
+import projectPoster from '@/assets/images/poster.jpg'
 import projectOnepageSquare from '@/assets/images/onepage_2.png'
 import iconClaudeCode from '@/assets/images/claudecode-color.png'
-import bloomingProcess1 from '@/assets/images/Blooming Process_1.png'
-import bloomingProcess2 from '@/assets/images/Blooming Process_2.png'
-import bloomingProcess3 from '@/assets/images/Blooming Process_3.png'
-import bloomingProcess4 from '@/assets/images/Blooming Process_4.png'
-import bloomingProcess5 from '@/assets/images/Blooming Process_6.png'
+import bloomingProcess1 from '@/assets/images/Blooming Process_1.jpg'
+import bloomingProcess2 from '@/assets/images/Blooming Process_2.jpg'
+import bloomingProcess3 from '@/assets/images/Blooming Process_3.jpg'
+import bloomingProcess4 from '@/assets/images/Blooming Process_4.jpg'
+import bloomingProcess5 from '@/assets/images/Blooming Process_6.jpg'
 import './App.css'
 
 const SECTIONS = ['about', 'about_1', 'skills', 'projects_0', 'projects', 'epilogue']
 const HERO_VH = 700
+const HERO_VH_COMPACT = 420
+const HERO_COMPACT_BREAKPOINT = 1024
 
 const heroLines = [
   ['계속 배우고,', '계속 만들어왔습니다.'],
   ['디자인을 넘어,', '경험을 설계합니다.'],
   ['아직 완성은 아닙니다.', '하지만 계속 피어나는 중입니다.'],
 ]
+
+const heroManifestoLines = [
+  ['계속 배우고,', '계속 만들어왔습니다.'],
+  ['디자인을 넘어,', '경험을 설계합니다.'],
+  ['아직 완성은 아닙니다.', '하지만 계속 피어나는 중입니다.'],
+]
+
+// 데스크톱(1920)의 순차 등장/퇴장과 같은 방식 — 한 번에 하나씩만 보임
+const MANIFESTO_APPEARS = [0.04, 0.36, 0.62]
+const MANIFESTO_EXITS   = [0.28, 0.56, 0.82]
 
 // 각 줄의 등장/퇴장 진행도 임계값 — 겹치지 않는 순차 구간
 const HERO_APPEARS = [0.08, 0.28, 0.54]
@@ -217,11 +230,20 @@ function LazyIframe({ src, title, style, className }) {
 }
 
 function App() {
-  const [lineStates, setLineStates]   = useState(() => heroLines.map(() => 'idle'))
   const [selectedProject, setSelectedProject] = useState(null)
+  const [menuOpen, setMenuOpen] = useState(false)
+  const [isHeroCompact, setIsHeroCompact] = useState(
+    () => typeof window !== 'undefined' && window.innerWidth <= HERO_COMPACT_BREAKPOINT
+  )
+  const [lineStates, setLineStates] = useState(() => heroLines.map(() => 'idle'))
+  const [manifestoStates, setManifestoStates] = useState(() => heroManifestoLines.map(() => 'idle'))
   const lineStatesRef      = useRef(lineStates)
+  const manifestoStatesRef = useRef(manifestoStates)
   const heroLineRefs       = useRef([])
+  const manifestoLineRefs  = useRef([])
+  const isHeroCompactRef   = useRef(isHeroCompact)
   const heroOverlayRef     = useRef(null)
+  const heroContentRef     = useRef(null)
   const heroParticlesRef   = useRef(null)
   const scrollIndicatorRef = useRef(null)
 const splineRef          = useRef(null)
@@ -230,9 +252,25 @@ const splineRef          = useRef(null)
   const aboutSplineRef     = useRef(null)
   const aboutInnerRef      = useRef(null)
 
+  // 768px/375px 같은 반응형 구간에서만 3D Spline 대신 가벼운 셰이더 히어로를 쓴다 — 데스크톱(1920 등)은 기존 3D 유지
+  useEffect(() => {
+    const mq = window.matchMedia(`(max-width: ${HERO_COMPACT_BREAKPOINT}px)`)
+    const onChange = () => setIsHeroCompact(mq.matches)
+    onChange()
+    mq.addEventListener('change', onChange)
+    return () => mq.removeEventListener('change', onChange)
+  }, [])
+
+  useEffect(() => {
+    isHeroCompactRef.current = isHeroCompact
+  }, [isHeroCompact])
+
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger)
-    const heroEnd = () => (HERO_VH / 100 - 1) * window.innerHeight
+    const heroEnd = () => {
+      const vh = isHeroCompactRef.current ? HERO_VH_COMPACT : HERO_VH
+      return (vh / 100 - 1) * window.innerHeight
+    }
 
     // ── 히어로 스크롤 애니메이션 (기존 유지) ──────────────────────────
     const onScroll = () => {
@@ -247,19 +285,35 @@ const splineRef          = useRef(null)
       } else {
         if (sticky) { sticky.style.opacity = '1'; sticky.style.filter = 'none'; sticky.style.transform = 'none' }
       }
-      const activeLineIndex = HERO_APPEARS.findIndex((appear, i) =>
-        progress >= appear && progress < HERO_EXITS[i]
-      )
-      const nextStates = HERO_APPEARS.map((_, i) =>
-        i === activeLineIndex ? 'enter' : 'idle'
-      )
-      if (nextStates.some((s, i) => s !== lineStatesRef.current[i])) {
-        heroLineRefs.current.forEach((ref, i) => {
-          if (i !== activeLineIndex) ref?.hardHide()
-        })
+      if (isHeroCompactRef.current) {
+        const activeManifestoIndex = MANIFESTO_APPEARS.findIndex((appear, i) =>
+          progress >= appear && progress < MANIFESTO_EXITS[i]
+        )
+        const nextManifestoStates = MANIFESTO_APPEARS.map((_, i) =>
+          i === activeManifestoIndex ? 'enter' : 'idle'
+        )
+        if (nextManifestoStates.some((s, i) => s !== manifestoStatesRef.current[i])) {
+          manifestoLineRefs.current.forEach((ref, i) => {
+            if (i !== activeManifestoIndex) ref?.hardHide()
+          })
+          manifestoStatesRef.current = nextManifestoStates
+          setManifestoStates(nextManifestoStates)
+        }
+      } else {
+        const activeLineIndex = HERO_APPEARS.findIndex((appear, i) =>
+          progress >= appear && progress < HERO_EXITS[i]
+        )
+        const nextStates = HERO_APPEARS.map((_, i) =>
+          i === activeLineIndex ? 'enter' : 'idle'
+        )
+        if (nextStates.some((s, i) => s !== lineStatesRef.current[i])) {
+          heroLineRefs.current.forEach((ref, i) => {
+            if (i !== activeLineIndex) ref?.hardHide()
+          })
 
-        lineStatesRef.current = nextStates
-        setLineStates(nextStates)
+          lineStatesRef.current = nextStates
+          setLineStates(nextStates)
+        }
       }
     }
 
@@ -275,6 +329,14 @@ const splineRef          = useRef(null)
     window.addEventListener('mousemove', onMouseMove)
     // 마운트 즉시 한 번 실행해 초기 상태 반영
     onScroll()
+
+    // 히어로 텍스트 최초 진입 애니메이션 (스크롤과 무관하게 한 번만, 반응형 구간에서만 존재)
+    if (isHeroCompactRef.current) {
+      gsap.fromTo('.hero-content',
+        { opacity: 0, y: 36, filter: 'blur(10px)' },
+        { opacity: 1, y: 0, filter: 'blur(0px)', duration: 1.4, delay: 0.3, ease: 'power2.out' }
+      )
+    }
 
     const aboutNode = aboutSectionRef.current
     let aboutObserver
@@ -373,7 +435,7 @@ const splineRef          = useRef(null)
         0.5
       )
 
-    // Hero/About의 Spline 씬(외부 스크립트)이 초기 계산 이후 늦게 로드되면서 문서 높이가
+    // About의 Spline 씬(외부 스크립트)이 초기 계산 이후 늦게 로드되면서 문서 높이가
     // 바뀌면, 그 뒤에 있는 Journey 등의 pin 트리거 위치가 어긋나 스크롤을 되돌릴 때
     // 멈추는 버그가 생긴다 — 씬 자체의 load 이벤트에 맞춰 딱 한 번만 재계산한다.
     // (임의의 타이머로 하면 마침 스크롤/pin 애니메이션 중일 때 겹쳐서 오히려 멈출 수 있음)
@@ -459,11 +521,43 @@ const splineRef          = useRef(null)
     <>
       <div className="grain-overlay" aria-hidden="true" />
 
+      <header className="site-header">
+        <button
+          type="button"
+          className={`hamburger-btn ${menuOpen ? 'hamburger-btn--open' : ''}`}
+          onClick={() => setMenuOpen(v => !v)}
+          aria-label={menuOpen ? '메뉴 닫기' : '메뉴 열기'}
+          aria-expanded={menuOpen}
+        >
+          <span /><span /><span />
+        </button>
+      </header>
+
+      <nav className={`site-nav ${menuOpen ? 'site-nav--open' : ''}`} aria-hidden={!menuOpen}>
+        <ul className="site-nav-list">
+          <li><a href="#about" onClick={() => setMenuOpen(false)}>About</a></li>
+          <li><a href="#skills" onClick={() => setMenuOpen(false)}>Skills</a></li>
+          <li><a href="#projects" onClick={() => setMenuOpen(false)}>Projects</a></li>
+          <li><a href="#epilogue" onClick={() => setMenuOpen(false)}>Contact</a></li>
+        </ul>
+      </nav>
+
       {/* Hero */}
       <div className="hero-wrapper">
         <div className="spline-sticky" ref={splineStickyRef}>
+          {isHeroCompact && (
+            <div className="hero-bloom hero-bloom--secondary">
+              <CelestialBloomShader className="hero-bloom-canvas" />
+            </div>
+          )}
           <div className="hero-bg-fade">
-            <spline-viewer ref={splineRef} url="https://prod.spline.design/odJVGxy-8nJh1r21/scene.splinecode" />
+            {isHeroCompact ? (
+              <div ref={splineRef} className="hero-bloom">
+                <CelestialBloomShader className="hero-bloom-canvas" />
+              </div>
+            ) : (
+              <spline-viewer ref={splineRef} url="https://prod.spline.design/odJVGxy-8nJh1r21/scene.splinecode" />
+            )}
             <div className="hero-starfield" aria-hidden="true"><Starfield count={60} /></div>
             <div ref={heroParticlesRef} className="hero-particles">
               <HeroParticles />
@@ -471,16 +565,44 @@ const splineRef          = useRef(null)
             <div className="hero-bottom-blend" aria-hidden="true" />
           </div>
           <div ref={heroOverlayRef} className="hero-overlay">
-            {heroLines.map((lines, i) => (
-              <SplitHeroLine
-                key={i}
-                ref={el => (heroLineRefs.current[i] = el)}
-                lines={lines}
-                state={lineStates[i]}
-                side={i % 2 === 0 ? 'left' : 'right'}
-                className={i === 0 ? 'hero-line--first' : undefined}
-              />
-            ))}
+            {isHeroCompact ? (
+              <>
+                <span className="hero-kicker">PORTFOLIO 2026</span>
+                <div ref={heroContentRef} className="hero-content">
+                  <h1 className="hero-headline">
+                    <span className="hero-headline-line">Still</span>
+                    <span className="hero-headline-line">Blooming.</span>
+                  </h1>
+                  <p className="hero-desc hero-desc--mono">
+                    Growing through every project,<br />
+                    one step at a time.
+                  </p>
+                  <div className="hero-manifesto">
+                    {heroManifestoLines.map((lines, i) => (
+                      <SplitHeroLine
+                        key={i}
+                        ref={el => (manifestoLineRefs.current[i] = el)}
+                        lines={lines}
+                        state={manifestoStates[i]}
+                        side={i % 2 === 0 ? 'left' : 'right'}
+                        className="hero-manifesto-line"
+                      />
+                    ))}
+                  </div>
+                </div>
+              </>
+            ) : (
+              heroLines.map((lines, i) => (
+                <SplitHeroLine
+                  key={i}
+                  ref={el => (heroLineRefs.current[i] = el)}
+                  lines={lines}
+                  state={lineStates[i]}
+                  side={i % 2 === 0 ? 'left' : 'right'}
+                  className={i === 0 ? 'hero-line--first' : undefined}
+                />
+              ))
+            )}
           </div>
           <ScrollIndicator ref={scrollIndicatorRef} />
         </div>
@@ -596,17 +718,40 @@ const splineRef          = useRef(null)
         <div className="section-bg-petals" aria-hidden="true"><FallingPetals count={8} sizeScale={1.8} /></div>
         <div className="projects-content">
           <h2 className="projects-heading">PROJECTS</h2>
-          <div className="projects-gallery-scale">
-            <CircularGallery
-              items={galleryItems}
-              bend={3}
-              textColor="#ffffff"
-              borderRadius={0.05}
-              scrollSpeed={2}
-              scrollEase={0.02}
-              onItemClick={(index) => setSelectedProject(index)}
+          {isHeroCompact ? (
+            <RevealImageList
+              items={[
+                {
+                  text: 'Editorial',
+                  images: [
+                    { src: mockup1, alt: 'Editorial poster mockup 1' },
+                    { src: mockup2, alt: 'Editorial poster mockup 2' },
+                  ],
+                  onClick: () => setSelectedProject(3),
+                },
+                {
+                  text: 'Web Design',
+                  images: [
+                    { src: projImg1, alt: 'Web publishing project' },
+                    { src: galleryOnepage, alt: 'Web UI/UX project' },
+                  ],
+                  onClick: () => setSelectedProject(0),
+                },
+              ]}
             />
-          </div>
+          ) : (
+            <div className="projects-gallery-scale">
+              <CircularGallery
+                items={galleryItems}
+                bend={3}
+                textColor="#ffffff"
+                borderRadius={0.05}
+                scrollSpeed={2}
+                scrollEase={0.02}
+                onItemClick={(index) => setSelectedProject(index)}
+              />
+            </div>
+          )}
 
         {selectedProject !== null && (() => {
           const p = projectsData[selectedProject]
@@ -615,6 +760,20 @@ const splineRef          = useRef(null)
               <div className="project-modal" onClick={e => e.stopPropagation()}>
                 <button className="project-modal-close" onClick={() => setSelectedProject(null)} aria-label="닫기">
                   <X size={18} strokeWidth={2.25} />
+                </button>
+                <button
+                  className="project-modal-nav project-modal-nav--prev"
+                  onClick={() => setSelectedProject(i => (i - 1 + projectsData.length) % projectsData.length)}
+                  aria-label="이전 작업물"
+                >
+                  <ChevronLeft size={22} strokeWidth={2.25} />
+                </button>
+                <button
+                  className="project-modal-nav project-modal-nav--next"
+                  onClick={() => setSelectedProject(i => (i + 1) % projectsData.length)}
+                  aria-label="다음 작업물"
+                >
+                  <ChevronRight size={22} strokeWidth={2.25} />
                 </button>
                 <img className="project-modal-img" src={p.image} alt={p.title} />
                 <div className="project-modal-body">
