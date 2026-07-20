@@ -15,40 +15,65 @@ export default function ScrollStack({ children, className = '' }) {
     if (!count) return
 
     const segSize = 1 / count
+    let rawProgress = 0
+    let smoothProgress = 0
+    let rafId = null
 
-    const update = () => {
-      const rect = root.getBoundingClientRect()
-      const total = rect.height - window.innerHeight
-      const progress = total > 0 ? Math.min(Math.max(-rect.top / total, 0), 1) : 0
+    const smoothstep = t => t * t * (3 - 2 * t)
+    const ENTER_FRAC = 0.32
+    const EXIT_FRAC = 0.32
 
+    const render = progress => {
       cards.forEach((card, i) => {
         const segStart = i * segSize
-        const segEnd = segStart + segSize
-        const enterP = Math.min(Math.max((progress - segStart) / (segSize * 0.6), 0), 1)
-        const depth = Math.min(Math.max((progress - segEnd) / segSize, 0), count)
+        // 카드마다 자기 구간 안에서 진행도(local: 0~1)를 기준으로 등장→유지→퇴장을 매끄럽게 이어붙인다.
+        // 경계에서 값이 뚝 끊기지 않도록 각 구간 경계에서 y가 항상 같은 값으로 만나게 설계했다.
+        const local = (progress - segStart) / segSize
 
-        const enterY = (1 - enterP) * 70
-        const recedeY = depth * 16
-        const scale = 1 - depth * 0.055
-        const opacity = enterP * (1 - depth * 0.05)
-        const blur = depth * 1.1
-        const rotate = depth > 0 ? (i % 2 === 0 ? -1 : 1) * Math.min(depth, 3) * 0.8 : 0
+        let y
+        if (local <= 0) {
+          y = 100
+        } else if (local < ENTER_FRAC) {
+          y = 100 * (1 - smoothstep(local / ENTER_FRAC))
+        } else if (local < 1 - EXIT_FRAC) {
+          y = 0
+        } else if (local < 1) {
+          y = -100 * smoothstep((local - (1 - EXIT_FRAC)) / EXIT_FRAC)
+        } else {
+          y = -100
+        }
 
-        card.style.transform =
-          `translate3d(0, calc(${enterY}vh - ${recedeY}px), 0) scale(${scale}) rotate(${rotate}deg)`
-        card.style.opacity = String(Math.max(opacity, 0))
-        card.style.filter = blur > 0 ? `blur(${blur}px)` : 'none'
+        card.style.transform = `translate3d(0, ${y}vh, 0)`
+        card.style.filter = 'none'
         card.style.zIndex = String(i + 1)
       })
     }
 
-    window.addEventListener('scroll', update, { passive: true })
-    window.addEventListener('resize', update)
-    update()
+    const measure = () => {
+      const rect = root.getBoundingClientRect()
+      const total = rect.height - window.innerHeight
+      rawProgress = total > 0 ? Math.min(Math.max(-rect.top / total, 0), 1) : 0
+    }
+
+    const tick = () => {
+      smoothProgress += (rawProgress - smoothProgress) * 0.025
+      if (Math.abs(rawProgress - smoothProgress) < 0.0005) smoothProgress = rawProgress
+      render(smoothProgress)
+      rafId = requestAnimationFrame(tick)
+    }
+
+    measure()
+    smoothProgress = rawProgress
+    render(smoothProgress)
+    rafId = requestAnimationFrame(tick)
+
+    window.addEventListener('scroll', measure, { passive: true })
+    window.addEventListener('resize', measure)
 
     return () => {
-      window.removeEventListener('scroll', update)
-      window.removeEventListener('resize', update)
+      window.removeEventListener('scroll', measure)
+      window.removeEventListener('resize', measure)
+      if (rafId) cancelAnimationFrame(rafId)
     }
   }, [])
 

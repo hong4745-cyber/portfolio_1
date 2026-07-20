@@ -8,13 +8,29 @@ export function LogoMarquee({ items, direction = 1, speed = 60, className = '' }
   useEffect(() => {
     const track = trackRef.current
     if (!track) return
-    const width = track.scrollWidth / 2
-    const tween = gsap.fromTo(
-      track,
-      { x: direction > 0 ? 0 : -width },
-      { x: direction > 0 ? -width : 0, duration: width / speed, ease: 'none', repeat: -1 }
-    )
-    return () => tween.kill()
+
+    // 아이콘(iconify 비동기 로딩)이 늦게 그려지면 최초 측정한 scrollWidth가 실제보다 작아서
+    // 루프 지점이 어긋나 두 사본이 겹쳐 보인다 — 크기 변화를 감지해 매번 다시 계산한다.
+    let tween
+    const start = () => {
+      tween?.kill()
+      const width = track.scrollWidth / 2
+      if (!width) return
+      tween = gsap.fromTo(
+        track,
+        { x: direction > 0 ? 0 : -width },
+        { x: direction > 0 ? -width : 0, duration: width / speed, ease: 'none', repeat: -1 }
+      )
+    }
+
+    start()
+    const observer = new ResizeObserver(start)
+    observer.observe(track)
+
+    return () => {
+      observer.disconnect()
+      tween?.kill()
+    }
   }, [direction, speed])
 
   return (

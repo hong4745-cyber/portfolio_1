@@ -19,7 +19,7 @@ import { BlurIn } from '@/components/ui/blur-in'
 import BlurText from '@/components/ui/BlurText'
 import ExpandOnHover from '@/components/ui/ExpandOnHover'
 import { LogoMarquee } from '@/components/ui/LogoMarquee'
-import { Palette, Film, Code2, Server, Sparkles, Workflow as WorkflowIcon, X, ChevronLeft, ChevronRight } from 'lucide-react'
+import { Palette, Film, Code2, Server, Sparkles, Workflow as WorkflowIcon, X, ChevronLeft, ChevronRight, ArrowRight, ArrowUp } from 'lucide-react'
 import projImg1 from '@/assets/images/hemilygroup.jpg'
 import projImg2 from '@/assets/images/poster_1.jpg'
 import projImg3 from '@/assets/images/Mock-up/festival_night.jpg'
@@ -36,6 +36,7 @@ import galleryHemily from '@/assets/images/hemilygroup_1.JPG'
 import projectPoster from '@/assets/images/poster.jpg'
 import projectOnepageSquare from '@/assets/images/onepage_2.png'
 import iconClaudeCode from '@/assets/images/claudecode-color.png'
+import iconFirebase from '@/assets/images/firebase-color.png'
 import bloomingProcess1 from '@/assets/images/Blooming Process_1.jpg'
 import bloomingProcess2 from '@/assets/images/Blooming Process_2.jpg'
 import bloomingProcess3 from '@/assets/images/Blooming Process_3.jpg'
@@ -47,6 +48,7 @@ const SECTIONS = ['about', 'about_1', 'skills', 'projects_0', 'projects', 'epilo
 const HERO_VH = 700
 const HERO_VH_COMPACT = 420
 const HERO_COMPACT_BREAKPOINT = 1024
+const SKILLS_COMPACT_BREAKPOINT = 768
 
 const heroLines = [
   ['계속 배우고,', '계속 만들어왔습니다.'],
@@ -136,26 +138,29 @@ const skillsData = [
 const skillIcons = [Palette, Film, Code2, Server, Sparkles, WorkflowIcon]
 
 const skillLogos = [
-  { name: 'HTML5',         icon: 'logos:html-5',                    usage: '웹 퍼블리싱, 시멘틱 마크업',                    usedIn: ['01', '02', '03'] },
-  { name: 'CSS3',          icon: 'logos:css-3',                     usage: '반응형 레이아웃, 커스텀 애니메이션',              usedIn: ['01', '02', '03'] },
-  { name: 'JavaScript',    icon: 'logos:javascript',                usage: 'DOM 제어, 인터랙션 구현, API 연동',             usedIn: ['01', '02', '03'] },
-  { name: 'React',         icon: 'logos:react',                     usage: 'SPA 컴포넌트 설계 및 개발',                    usedIn: ['03', 'portfolio'] },
-  { name: 'TypeScript',    icon: 'logos:typescript-icon',           usage: '컴포넌트 타입 정의 및 안전한 코드 작성',          usedIn: ['portfolio'] },
-  { name: 'GitHub',        icon: 'logos:github-icon',  invert: true, usage: '버전 관리 및 GitHub Pages 배포',             usedIn: ['01', '02', '03'] },
-  { name: 'Figma',         icon: 'logos:figma',                     usage: 'UI 기획, 와이어프레임, 프로토타입 제작',          usedIn: ['02', 'portfolio'] },
-  { name: 'Firebase',      icon: 'logos:firebase',                  usage: 'Realtime Database, 호스팅, 인증',              usedIn: ['02', '03'] },
-  { name: 'Photoshop',     icon: 'logos:adobe-photoshop',           usage: '이미지 보정·합성, 포스터·브로슈어 시각 작업',     usedIn: ['04', '05', '06'] },
-  { name: 'Illustrator',   icon: 'logos:adobe-illustrator',         usage: '벡터 그래픽, 포스터·홍보물 일러스트 제작',        usedIn: ['04', '05', '06'] },
-  { name: 'Premiere Pro',  icon: 'logos:adobe-premiere',            usage: '컷 편집, 자막, 색보정, 출력',                   usedIn: ['edu-video'] },
-  { name: 'InDesign',      icon: 'logos:adobe-indesign',            usage: '브로슈어·리플렛·포스터·도록 편집 레이아웃 제작',   usedIn: ['04', '05', '06'] },
-  { name: 'ChatGPT',       icon: 'simple-icons:openai',  color: '#74AA9C', usage: '코드 보조 및 콘텐츠 기획',              usedIn: ['portfolio-gpt'] },
-  { name: 'GPT Codex',     icon: 'simple-icons:openai',  color: '#ffffff', usage: '코드 자동 완성 및 생성 보조',            usedIn: ['portfolio-codex'] },
-  { name: 'Claude',        icon: 'simple-icons:claude',  color: '#D97757', usage: 'AI 페어 프로그래밍, 설계 검토',          usedIn: ['portfolio-claude'] },
-  { name: 'Claude Code',   imgSrc: iconClaudeCode,       color: '#CC785C', usage: '포트폴리오 전반 개발 협업',              usedIn: ['03', 'portfolio'] },
-  { name: 'Gemini',        icon: 'simple-icons:googlegemini', color: '#8E75B2', usage: 'AI 이미지 생성, 광고 콘텐츠 기획', usedIn: ['edu-ai'] },
-  { name: 'Canva',         icon: 'simple-icons:canva',        color: '#00C4CC', usage: '소셜 콘텐츠·발표자료·간편 그래픽 제작', usedIn: [] },
-  { name: 'Flow',          icon: 'mdi:movie-play-outline',    color: '#4285F4', usage: 'Google AI 영상 생성 및 편집',            usedIn: [] },
+  { name: 'HTML5',         category: 'Frontend',     icon: 'simple-icons:html5', color: '#E34F26', usage: '웹 퍼블리싱, 시멘틱 마크업',                    usedIn: ['01', '02', '03'] },
+  { name: 'CSS3',          category: 'Frontend',     icon: 'simple-icons:css3', color: '#1572B6', usage: '반응형 레이아웃, 커스텀 애니메이션',              usedIn: ['01', '02', '03'] },
+  { name: 'JavaScript',    category: 'Frontend',     icon: 'logos:javascript',                usage: 'DOM 제어, 인터랙션 구현, API 연동',             usedIn: ['01', '02', '03'] },
+  { name: 'React',         category: 'Frontend',     icon: 'logos:react',                     usage: 'SPA 컴포넌트 설계 및 개발',                    usedIn: ['03', 'portfolio'] },
+  { name: 'TypeScript',    category: 'Frontend',     icon: 'logos:typescript-icon',           usage: '컴포넌트 타입 정의 및 안전한 코드 작성',          usedIn: ['portfolio'] },
+  { name: 'GitHub',        category: 'Frontend',     icon: 'logos:github-icon',  invert: true, usage: '버전 관리 및 GitHub Pages 배포',             usedIn: ['01', '02', '03'] },
+  { name: 'Firebase',      category: 'Frontend',     imgSrc: iconFirebase,          usage: 'Realtime Database, 호스팅, 인증',              usedIn: ['02', '03'] },
+  { name: 'Vercel',        category: 'Frontend',     icon: 'simple-icons:vercel', color: '#ffffff', usage: '프론트엔드 배포 및 호스팅',                     usedIn: [] },
+  { name: 'Figma',         category: 'Design Tools', icon: 'logos:figma',                     usage: 'UI 기획, 와이어프레임, 프로토타입 제작',          usedIn: ['02', 'portfolio'] },
+  { name: 'Photoshop',     category: 'Design Tools', icon: 'logos:adobe-photoshop',           usage: '이미지 보정·합성, 포스터·브로슈어 시각 작업',     usedIn: ['04', '05', '06'] },
+  { name: 'Illustrator',   category: 'Design Tools', icon: 'logos:adobe-illustrator',         usage: '벡터 그래픽, 포스터·홍보물 일러스트 제작',        usedIn: ['04', '05', '06'] },
+  { name: 'Premiere Pro',  category: 'Design Tools', icon: 'logos:adobe-premiere',            usage: '컷 편집, 자막, 색보정, 출력',                   usedIn: ['edu-video'] },
+  { name: 'InDesign',      category: 'Design Tools', icon: 'logos:adobe-indesign',            usage: '브로슈어·리플렛·포스터·도록 편집 레이아웃 제작',   usedIn: ['04', '05', '06'] },
+  { name: 'Canva',         category: 'Design Tools', icon: 'simple-icons:canva',        color: '#00C4CC', usage: '소셜 콘텐츠·발표자료·간편 그래픽 제작', usedIn: [] },
+  { name: 'ChatGPT',       category: 'AI Tools',     icon: 'simple-icons:openai',  color: '#74AA9C', usage: '코드 보조 및 콘텐츠 기획',              usedIn: ['portfolio-gpt'] },
+  { name: 'GPT Codex',     category: 'AI Tools',     icon: 'simple-icons:openai',  color: '#ffffff', usage: '코드 자동 완성 및 생성 보조',            usedIn: ['portfolio-codex'] },
+  { name: 'Claude',        category: 'AI Tools',     icon: 'simple-icons:claude',  color: '#D97757', usage: 'AI 페어 프로그래밍, 설계 검토',          usedIn: ['portfolio-claude'] },
+  { name: 'Claude Code',   category: 'AI Tools',     imgSrc: iconClaudeCode,       color: '#CC785C', usage: '포트폴리오 전반 개발 협업',              usedIn: ['03', 'portfolio'] },
+  { name: 'Gemini',        category: 'AI Tools',     icon: 'simple-icons:googlegemini', color: '#8E75B2', usage: 'AI 이미지 생성, 광고 콘텐츠 기획', usedIn: ['edu-ai'] },
+  { name: 'Flow',          category: 'AI Tools',     icon: 'mdi:movie-play-outline',    color: '#4285F4', usage: 'Google AI 영상 생성 및 편집',            usedIn: [] },
 ]
+
+const SKILL_CATEGORY_ORDER = ['Frontend', 'Design Tools', 'AI Tools']
 
 const galleryItems = projectsData.map(p => ({ image: p.image, text: p.title }))
 
@@ -232,8 +237,12 @@ function LazyIframe({ src, title, style, className }) {
 function App() {
   const [selectedProject, setSelectedProject] = useState(null)
   const [menuOpen, setMenuOpen] = useState(false)
+  const [openSkill, setOpenSkill] = useState(null)
   const [isHeroCompact, setIsHeroCompact] = useState(
     () => typeof window !== 'undefined' && window.innerWidth <= HERO_COMPACT_BREAKPOINT
+  )
+  const [isSkillsCompact, setIsSkillsCompact] = useState(
+    () => typeof window !== 'undefined' && window.innerWidth <= SKILLS_COMPACT_BREAKPOINT
   )
   const [lineStates, setLineStates] = useState(() => heroLines.map(() => 'idle'))
   const [manifestoStates, setManifestoStates] = useState(() => heroManifestoLines.map(() => 'idle'))
@@ -256,6 +265,15 @@ const splineRef          = useRef(null)
   useEffect(() => {
     const mq = window.matchMedia(`(max-width: ${HERO_COMPACT_BREAKPOINT}px)`)
     const onChange = () => setIsHeroCompact(mq.matches)
+    onChange()
+    mq.addEventListener('change', onChange)
+    return () => mq.removeEventListener('change', onChange)
+  }, [])
+
+  // 768px 이하에서는 스킬 로고를 마퀴 대신 카테고리별 고정 그리드로 보여준다 — 좁은 화면에서 탭하기 쉽도록
+  useEffect(() => {
+    const mq = window.matchMedia(`(max-width: ${SKILLS_COMPACT_BREAKPOINT}px)`)
+    const onChange = () => setIsSkillsCompact(mq.matches)
     onChange()
     mq.addEventListener('change', onChange)
     return () => mq.removeEventListener('change', onChange)
@@ -355,38 +373,40 @@ const splineRef          = useRef(null)
     }
 
     // ── GSAP ScrollTrigger — 연속 씬 ───────────────────────────────────
-    // Skills — 로고마키 스크롤 scale 액션
-    gsap.timeline({
-      scrollTrigger: {
-        trigger: '#skills',
-        start: 'top bottom',
-        end: 'center center',
-        scrub: 0.9,
-      },
-    })
-      .fromTo('.skills-velocity-wrap',
-        {
-          scale: 0.08,
-          y: 42,
-          opacity: 0,
-          filter: 'blur(10px)',
-          transformOrigin: '50% 50%',
+    // Skills — 로고마키 스크롤 scale 액션 (태블릿 768px/모바일 375px 등 반응형에서는 사용하지 않음)
+    if (window.innerWidth > SKILLS_COMPACT_BREAKPOINT) {
+      gsap.timeline({
+        scrollTrigger: {
+          trigger: '#skills',
+          start: 'top bottom',
+          end: 'center center',
+          scrub: 0.9,
         },
-        {
-          scale: 1.28,
-          y: -8,
-          opacity: 1,
-          filter: 'blur(0px)',
-          ease: 'expo.out',
-          duration: 0.72,
-        }
-      )
-      .to('.skills-velocity-wrap', {
-        scale: 1,
-        y: 0,
-        ease: 'power2.out',
-        duration: 0.28,
       })
+        .fromTo('.skills-velocity-wrap',
+          {
+            scale: 0.08,
+            y: 42,
+            opacity: 0,
+            filter: 'blur(10px)',
+            transformOrigin: '50% 50%',
+          },
+          {
+            scale: 1.28,
+            y: -8,
+            opacity: 1,
+            filter: 'blur(0px)',
+            ease: 'expo.out',
+            duration: 0.72,
+          }
+        )
+        .to('.skills-velocity-wrap', {
+          scale: 1,
+          y: 0,
+          ease: 'power2.out',
+          duration: 0.28,
+        })
+    }
 
     // Projects — CircularGallery만 진입 scale 애니메이션
     gsap.fromTo('.projects-gallery-scale',
@@ -474,29 +494,31 @@ const splineRef          = useRef(null)
     .filter(Boolean)
     .filter(item => item.title !== 'Portfolio')
 
-  const skillsMarqueeRow = skillLogos.map(s => {
+  const renderSkillLogo = (s, { compact = false } = {}) => {
     const uses = getSkillUses(s)
+    const iconSize = compact ? 26 : 40
 
     return (
       <span
         key={s.name}
-        className={`skills-logo-item ${s.name === 'Firebase' ? 'skills-logo-item--firebase' : ''}`}
+        className={`skills-logo-item ${openSkill === s.name ? 'skills-logo-item--open' : ''}`}
         tabIndex={0}
         aria-label={`${s.name} 상세설명`}
+        onClick={() => setOpenSkill(prev => (prev === s.name ? null : s.name))}
       >
         {s.imgSrc ? (
           <img
             src={s.imgSrc}
             alt={s.name}
-            width={40}
-            height={40}
+            width={iconSize}
+            height={iconSize}
             style={{ flexShrink: 0, objectFit: 'contain' }}
           />
         ) : (
           <Icon
             icon={s.icon}
-            width={40}
-            height={40}
+            width={iconSize}
+            height={iconSize}
             style={{ flexShrink: 0, color: s.color || 'inherit', filter: s.invert ? 'invert(1)' : undefined }}
           />
         )}
@@ -515,7 +537,14 @@ const splineRef          = useRef(null)
         </span>
       </span>
     )
-  })
+  }
+
+  const skillsMarqueeRow = skillLogos.map(renderSkillLogo)
+
+  const skillsByCategory = SKILL_CATEGORY_ORDER.map(name => ({
+    name,
+    items: skillLogos.filter(s => s.category === name),
+  }))
 
   return (
     <>
@@ -535,12 +564,30 @@ const splineRef          = useRef(null)
 
       <nav className={`site-nav ${menuOpen ? 'site-nav--open' : ''}`} aria-hidden={!menuOpen}>
         <ul className="site-nav-list">
-          <li><a href="#about" onClick={() => setMenuOpen(false)}>About</a></li>
-          <li><a href="#skills" onClick={() => setMenuOpen(false)}>Skills</a></li>
-          <li><a href="#projects" onClick={() => setMenuOpen(false)}>Projects</a></li>
-          <li><a href="#epilogue" onClick={() => setMenuOpen(false)}>Contact</a></li>
+          {[
+            { label: 'About', href: '#about' },
+            { label: 'Skills', href: '#skills' },
+            { label: 'Projects', href: '#projects' },
+            { label: 'Contact', href: '#epilogue' },
+          ].map(item => (
+            <li className="site-nav-item" key={item.href}>
+              <ArrowRight strokeWidth={3} className="site-nav-arrow" aria-hidden="true" />
+              <a href={item.href} onClick={() => setMenuOpen(false)}>{item.label}</a>
+            </li>
+          ))}
         </ul>
       </nav>
+
+      {!menuOpen && (
+        <button
+          type="button"
+          className="go-top-btn"
+          onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+          aria-label="맨 위로"
+        >
+          <ArrowUp size={20} strokeWidth={2.5} />
+        </button>
+      )}
 
       {/* Hero */}
       <div className="hero-wrapper">
@@ -672,10 +719,23 @@ const splineRef          = useRef(null)
         <div className="section-bg-stars"  aria-hidden="true"><Starfield count={80} sizeScale={1.6} /></div>
         <div className="section-bg-scrim"  aria-hidden="true" />
         <div className="section-bg-petals" aria-hidden="true"><FallingPetals count={8} sizeScale={1.8} /></div>
-        <div className="skills-velocity-wrap">
-          <LogoMarquee items={skillsMarqueeRow} direction={1} speed={50} />
-          <LogoMarquee items={skillsMarqueeRow} direction={-1} speed={50} />
-        </div>
+        {isSkillsCompact ? (
+          <div className="skills-static">
+            {skillsByCategory.map(group => (
+              <div className="skills-static-group" key={group.name}>
+                <h3 className="skills-static-title">{group.name}</h3>
+                <div className="skills-static-grid">
+                  {group.items.map(s => renderSkillLogo(s, { compact: true }))}
+                </div>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <div className="skills-velocity-wrap">
+            <LogoMarquee items={skillsMarqueeRow} direction={1} speed={50} />
+            <LogoMarquee items={skillsMarqueeRow} direction={-1} speed={50} />
+          </div>
+        )}
 
       </section>
 
@@ -722,20 +782,20 @@ const splineRef          = useRef(null)
             <RevealImageList
               items={[
                 {
-                  text: 'Editorial',
-                  images: [
-                    { src: mockup1, alt: 'Editorial poster mockup 1' },
-                    { src: mockup2, alt: 'Editorial poster mockup 2' },
-                  ],
-                  onClick: () => setSelectedProject(3),
-                },
-                {
                   text: 'Web Design',
                   images: [
                     { src: projImg1, alt: 'Web publishing project' },
                     { src: galleryOnepage, alt: 'Web UI/UX project' },
                   ],
                   onClick: () => setSelectedProject(0),
+                },
+                {
+                  text: 'Editorial',
+                  images: [
+                    { src: mockup1, alt: 'Editorial poster mockup 1' },
+                    { src: mockup2, alt: 'Editorial poster mockup 2' },
+                  ],
+                  onClick: () => setSelectedProject(3),
                 },
               ]}
             />
@@ -757,23 +817,16 @@ const splineRef          = useRef(null)
           const p = projectsData[selectedProject]
           return (
             <div className="project-modal-backdrop" onClick={() => setSelectedProject(null)}>
+              <button
+                className="project-modal-nav project-modal-nav--prev"
+                onClick={e => { e.stopPropagation(); setSelectedProject(i => (i - 1 + projectsData.length) % projectsData.length) }}
+                aria-label="이전 작업물"
+              >
+                <ChevronLeft size={34} strokeWidth={2.25} />
+              </button>
               <div className="project-modal" onClick={e => e.stopPropagation()}>
                 <button className="project-modal-close" onClick={() => setSelectedProject(null)} aria-label="닫기">
                   <X size={18} strokeWidth={2.25} />
-                </button>
-                <button
-                  className="project-modal-nav project-modal-nav--prev"
-                  onClick={() => setSelectedProject(i => (i - 1 + projectsData.length) % projectsData.length)}
-                  aria-label="이전 작업물"
-                >
-                  <ChevronLeft size={22} strokeWidth={2.25} />
-                </button>
-                <button
-                  className="project-modal-nav project-modal-nav--next"
-                  onClick={() => setSelectedProject(i => (i + 1) % projectsData.length)}
-                  aria-label="다음 작업물"
-                >
-                  <ChevronRight size={22} strokeWidth={2.25} />
                 </button>
                 <img className="project-modal-img" src={p.image} alt={p.title} />
                 <div className="project-modal-body">
@@ -801,6 +854,13 @@ const splineRef          = useRef(null)
                   )}
                 </div>
               </div>
+              <button
+                className="project-modal-nav project-modal-nav--next"
+                onClick={e => { e.stopPropagation(); setSelectedProject(i => (i + 1) % projectsData.length) }}
+                aria-label="다음 작업물"
+              >
+                <ChevronRight size={34} strokeWidth={2.25} />
+              </button>
             </div>
           )
         })()}
