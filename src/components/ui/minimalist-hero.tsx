@@ -3,18 +3,25 @@ import { motion } from 'framer-motion';
 import type { LucideIcon } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
+interface SocialLinkItem {
+  icon: LucideIcon;
+  href?: string;
+  onClick?: () => void;
+}
+
 interface MinimalistHeroProps {
   logoText: string;
   navLinks: { label: string; href: string }[];
   navText?: string;
   mainText: string;
+  mainTextMobile?: string;
   imageSrc: string;
   imageAlt: string;
   overlayText: {
     part1: string;
     part2: string;
   };
-  socialLinks: { icon: LucideIcon; href: string }[];
+  socialLinks: SocialLinkItem[];
   locationText: string;
   className?: string;
 }
@@ -28,16 +35,21 @@ const NavLink = ({ href, children }: { href: string; children: React.ReactNode }
   </a>
 );
 
-const SocialIcon = ({ href, icon: Icon }: { href: string; icon: LucideIcon }) => (
-  <a
-    href={href}
-    target="_blank"
-    rel="noopener noreferrer"
-    className="text-foreground/60 transition-all duration-200 hover:text-foreground hover:scale-125"
-  >
-    <Icon className="h-5 w-5" />
-  </a>
-);
+const SocialIcon = ({ href, onClick, icon: Icon }: SocialLinkItem) => {
+  const cls = "text-foreground/60 transition-all duration-200 hover:text-foreground hover:scale-125";
+  if (onClick) {
+    return (
+      <button onClick={onClick} className={cls}>
+        <Icon className="h-8 w-8" />
+      </button>
+    );
+  }
+  return (
+    <a href={href} target="_blank" rel="noopener noreferrer" className={cls}>
+      <Icon className="h-8 w-8" />
+    </a>
+  );
+};
 
 const JourneyTitle = ({ part1, part2 }: { part1: string; part2: string }) => {
   const renderLine = (text: string, lineIndex: number) => (
@@ -68,7 +80,7 @@ const JourneyTitle = ({ part1, part2 }: { part1: string; part2: string }) => {
   );
 
   return (
-    <h1 className="text-[112px] font-extrabold leading-none text-foreground md:text-[144px] lg:text-[130px]">
+    <h1 className="text-[101px] font-extrabold leading-none text-foreground md:text-[130px] lg:text-[117px]">
       {renderLine(part1, 0)}
       {renderLine(part2, 1)}
     </h1>
@@ -80,6 +92,7 @@ export const MinimalistHero = ({
   navLinks,
   navText,
   mainText,
+  mainTextMobile,
   imageSrc,
   imageAlt,
   overlayText,
@@ -90,7 +103,7 @@ export const MinimalistHero = ({
   return (
     <div
       className={cn(
-        'relative flex h-screen w-full flex-col items-center justify-between overflow-hidden bg-background p-0 pb-10 font-sans lg:pb-0',
+        'relative flex h-auto w-full flex-col items-center justify-start gap-6 overflow-visible bg-background p-0 pb-10 font-sans lg:h-screen lg:justify-between lg:gap-0 lg:pb-0',
         className
       )}
     >
@@ -123,12 +136,23 @@ export const MinimalistHero = ({
           </div>
           <div className="mt-4 flex items-center space-x-4 justify-center lg:justify-start">
             {socialLinks.map((link, index) => (
-              <SocialIcon key={index} href={link.href} icon={link.icon} />
+              <SocialIcon key={index} href={link.href} onClick={link.onClick} icon={link.icon} />
             ))}
           </div>
-          <p className="mt-10 text-lg font-light leading-relaxed tracking-[0.02em] text-foreground/80 md:text-xl whitespace-pre-line">
-            {mainText}
-          </p>
+          {mainTextMobile ? (
+            <>
+              <p className="mt-10 text-lg font-light leading-loose tracking-[0.02em] text-foreground/80 md:text-xl whitespace-pre-line sm:hidden">
+                {mainTextMobile}
+              </p>
+              <p className="mt-10 text-lg font-light leading-loose tracking-[0.02em] text-foreground/80 md:text-xl whitespace-pre-line hidden sm:block">
+                {mainText}
+              </p>
+            </>
+          ) : (
+            <p className="mt-10 text-lg font-light leading-loose tracking-[0.02em] text-foreground/80 md:text-xl whitespace-pre-line">
+              {mainText}
+            </p>
+          )}
         </motion.div>
 
         <div className="relative order-2 flex h-full items-center justify-center lg:order-2 lg:ml-8">

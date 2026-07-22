@@ -51,8 +51,8 @@ const resumeSections = [
         details: [
           '관공서 홍보 패널 디자인 및 편집 제작',
           '브로슈어, 리플렛, 포스터 등 인쇄물 편집디자인 및 출력 데이터 제작',
-          '프랜차이즈 브랜드 브랜딩 디자인 보조 및 디자인 시안 제작',
-          '다양한 편집디자인 실무 및 디자인 수정, 운영 업무 수행',
+          '프랜차이즈 브랜드 브랜딩 디자인 보조 및\n디자인 시안 제작',
+          '다양한 편집디자인 실무 및 디자인 수정,\n운영 업무 수행',
         ],
       },
       {
@@ -75,9 +75,9 @@ const resumeSections = [
         location: '대전',
         details: [
           '[AI Worker] 취업을 위한 AI 바이브코딩 웹비즈니스 구축 및 마케팅 실전 과정',
-          '실습 프로젝트: 요가필라테스 학원 홈페이지 리뉴얼',
-          '실습 프로젝트: 기업 홈페이지 클론코딩',
-          'AI 도구를 활용해 기획부터 웹 제작, 마케팅 콘텐츠까지 구축',
+          { label: '웹 개발', items: ['HTML · CSS · JavaScript', '반응형 웹 · UI/UX', '바이브코딩 웹사이트 제작'] },
+          { label: 'AI 활용', items: ['ChatGPT 기획·자료조사', 'AI 자동화 · 이미지 생성', '프롬프트 엔지니어링'] },
+          { label: '마케팅', items: ['시장조사 · 경쟁사 분석', '타깃 설정 · 브랜드 기획', 'SNS 브랜딩 · 채널 운영', '콘텐츠 기획 · 홍보물 제작'] },
         ],
       },
       {
@@ -87,7 +87,7 @@ const resumeSections = [
         details: [
           '생성형 AI를 활용한 15초 광고 만들기 과정',
           '실습 프로젝트: 화장품 광고 영상 제작',
-          '콘셉트 기획부터 이미지 생성, 영상 편집까지 전 과정 수행',
+          '콘셉트 기획부터 이미지 생성, 영상 편집까지\n전 과정 수행',
         ],
       },
       {
@@ -95,10 +95,8 @@ const resumeSections = [
         period: '2026.03 - 2026.04',
         location: '대전',
         details: [
-          '영상편집 과정: Premiere Pro, After Effects',
-          '실습 프로젝트: 15초 요가 호흡법 숏폼 콘텐츠 제작',
-          '실습 프로젝트: 3분 여행 영상 편집',
-          '기획부터 편집, 자막, 출력까지 전 과정 수행',
+          '[영상편집] 최신 밈을 이용한 유튜브 쇼츠, 릴스 제작',
+          '인스타그램 콘텐츠 제작, 홍보 이미지 제작',
         ],
       },
     ],
@@ -175,9 +173,18 @@ export function ResumeSchedule() {
                   {item.details?.length > 0 && (
                     <div className="resume-schedule-panel resume-schedule-panel--open">
                       <ul>
-                        {item.details.map(detail => (
-                          <li key={detail}>{detail}</li>
-                        ))}
+                        {item.details.map((detail, di) =>
+                          typeof detail === 'string' ? (
+                            <li key={di}>{detail}</li>
+                          ) : (
+                            <li key={di} className="resume-schedule-detail-group">
+                              <span className="resume-schedule-detail-label">{detail.label}</span>
+                              <ul className="resume-schedule-detail-subitems">
+                                {detail.items.map((sub, si) => <li key={si}>{sub}</li>)}
+                              </ul>
+                            </li>
+                          )
+                        )}
                       </ul>
                     </div>
                   )}

@@ -380,8 +380,26 @@ class App {
   }
   onMouseMove(e) {
     const rect = this.container.getBoundingClientRect()
-    this.mouse = { x: e.clientX - rect.left, y: e.clientY - rect.top }
-    this.container.style.cursor = this.mouse ? 'pointer' : 'grab'
+    const mouseX = e.clientX - rect.left
+    const mouseY = e.clientY - rect.top
+    this.mouse = { x: mouseX, y: mouseY }
+
+    let isOverCard = false
+    if (this.medias) {
+      const scaleX = this.screen.width / this.viewport.width
+      const scaleY = this.screen.height / this.viewport.height
+      for (const m of this.medias) {
+        const cx = m.plane.position.x * scaleX + this.screen.width / 2
+        const cy = this.screen.height / 2 - m.plane.position.y * scaleY
+        const hw = (m.plane.scale.x * scaleX) / 2
+        const hh = (m.plane.scale.y * scaleY) / 2
+        if (Math.abs(cx - mouseX) < hw && Math.abs(cy - mouseY) < hh) {
+          isOverCard = true
+          break
+        }
+      }
+    }
+    this.container.style.cursor = isOverCard ? 'pointer' : 'default'
   }
   onMouseLeave() { this.mouse = { x: -9999, y: -9999 } }
   onWheel(e) {

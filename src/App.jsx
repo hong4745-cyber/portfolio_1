@@ -63,8 +63,8 @@ const heroManifestoLines = [
 ]
 
 // 데스크톱(1920)의 순차 등장/퇴장과 같은 방식 — 한 번에 하나씩만 보임
-const MANIFESTO_APPEARS = [0.04, 0.36, 0.62]
-const MANIFESTO_EXITS   = [0.28, 0.56, 0.82]
+const MANIFESTO_APPEARS = [0.22, 0.44, 0.66]
+const MANIFESTO_EXITS   = [0.42, 0.64, 0.88]
 
 // 각 줄의 등장/퇴장 진행도 임계값 — 겹치지 않는 순차 구간
 const HERO_APPEARS = [0.08, 0.28, 0.54]
@@ -188,11 +188,11 @@ const projects0Images = [
 ]
 
 const bloomingProcessImages = [
-  { src: bloomingProcess1, alt: 'Blooming Process 1', num: '01', title: 'Root', subtitle: '디자인의 기본을 쌓다.' },
-  { src: bloomingProcess2, alt: 'Blooming Process 2', num: '02', title: 'Expand', subtitle: '사용자의 경험을 설계하다.' },
-  { src: bloomingProcess3, alt: 'Blooming Process 3', num: '03', title: 'Build', subtitle: '디자인을 직접 구현하다.' },
-  { src: bloomingProcess4, alt: 'Blooming Process 4', num: '04', title: 'Connect', subtitle: '디자인과 개발을 연결하다.' },
-  { src: bloomingProcess5, alt: 'Blooming Process 5', num: '05', title: 'Bloom', subtitle: '배움을 프로젝트로 완성하다.' },
+  { src: bloomingProcess1, alt: 'Blooming Process 1', num: '01', title: 'Root', subtitle: '디자인의 기본을\n쌓다.' },
+  { src: bloomingProcess2, alt: 'Blooming Process 2', num: '02', title: 'Expand', subtitle: '사용자의 경험을\n설계하다.' },
+  { src: bloomingProcess3, alt: 'Blooming Process 3', num: '03', title: 'Build', subtitle: '디자인을 직접\n구현하다.' },
+  { src: bloomingProcess4, alt: 'Blooming Process 4', num: '04', title: 'Connect', subtitle: '디자인과 개발을\n연결한다.' },
+  { src: bloomingProcess5, alt: 'Blooming Process 5', num: '05', title: 'Bloom', subtitle: '배움을 프로젝트로\n완성한다.' },
 ]
 
 function LazyIframe({ src, title, style, className }) {
@@ -253,6 +253,7 @@ function App() {
   const isHeroCompactRef   = useRef(isHeroCompact)
   const heroOverlayRef     = useRef(null)
   const heroContentRef     = useRef(null)
+  const heroTitleRef       = useRef(null)
   const heroParticlesRef   = useRef(null)
   const scrollIndicatorRef = useRef(null)
 const splineRef          = useRef(null)
@@ -260,6 +261,7 @@ const splineRef          = useRef(null)
   const aboutSectionRef    = useRef(null)
   const aboutSplineRef     = useRef(null)
   const aboutInnerRef      = useRef(null)
+  const skillHideTimer     = useRef(null)
 
   // 768px/375px 같은 반응형 구간에서만 3D Spline 대신 가벼운 셰이더 히어로를 쓴다 — 데스크톱(1920 등)은 기존 3D 유지
   useEffect(() => {
@@ -283,6 +285,7 @@ const splineRef          = useRef(null)
     isHeroCompactRef.current = isHeroCompact
   }, [isHeroCompact])
 
+
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger)
     const heroEnd = () => {
@@ -304,6 +307,17 @@ const splineRef          = useRef(null)
         if (sticky) { sticky.style.opacity = '1'; sticky.style.filter = 'none'; sticky.style.transform = 'none' }
       }
       if (isHeroCompactRef.current) {
+        // STILL BLOOMING + sub text: 첫 마니페스토 등장 구간(0.04~0.28)에 맞춰 위로 올라가며 사라짐
+        if (heroTitleRef.current) {
+          const TITLE_EXIT_START = 0.04
+          const TITLE_EXIT_END = 0.28
+          const t = Math.min(Math.max((progress - TITLE_EXIT_START) / (TITLE_EXIT_END - TITLE_EXIT_START), 0), 1)
+          const smooth = t * t * (3 - 2 * t)
+          heroTitleRef.current.style.transform = `translateY(${-48 * smooth}vh)`
+          heroTitleRef.current.style.opacity = String(1 - smooth)
+          heroTitleRef.current.style.filter = smooth > 0.05 ? `blur(${(smooth * 8).toFixed(1)}px)` : 'none'
+        }
+
         const activeManifestoIndex = MANIFESTO_APPEARS.findIndex((appear, i) =>
           progress >= appear && progress < MANIFESTO_EXITS[i]
         )
@@ -362,9 +376,12 @@ const splineRef          = useRef(null)
       if ('IntersectionObserver' in window) {
         aboutObserver = new IntersectionObserver(
           ([entry]) => {
-            aboutNode.classList.toggle('about-visible', entry.isIntersecting)
+            if (entry.isIntersecting) {
+              aboutNode.classList.add('about-visible')
+              aboutObserver.disconnect()
+            }
           },
-          { threshold: 0.28 },
+          { threshold: 0 },
         )
         aboutObserver.observe(aboutNode)
       } else {
@@ -501,9 +518,11 @@ const splineRef          = useRef(null)
     return (
       <span
         key={s.name}
-        className={`skills-logo-item ${openSkill === s.name ? 'skills-logo-item--open' : ''}`}
+        className="skills-logo-item"
         tabIndex={0}
         aria-label={`${s.name} 상세설명`}
+        onMouseEnter={() => { clearTimeout(skillHideTimer.current); setOpenSkill(s.name) }}
+        onMouseLeave={() => { skillHideTimer.current = setTimeout(() => setOpenSkill(null), 180) }}
         onClick={() => setOpenSkill(prev => (prev === s.name ? null : s.name))}
       >
         {s.imgSrc ? (
@@ -523,18 +542,6 @@ const splineRef          = useRef(null)
           />
         )}
         <span className="skills-logo-name">{s.name}</span>
-        <span className="skills-logo-tooltip" role="tooltip">
-          <strong>{s.name}</strong>
-          {s.usage && <span className="skills-logo-tooltip-usage">{s.usage}</span>}
-          {uses.length > 0 && (
-            <span className="skills-logo-tooltip-projects">
-              <span className="skills-logo-tooltip-label">사용된 프로젝트</span>
-              <span className="skills-logo-tooltip-list">
-                {[...new Set(uses.map(item => item.title))].join(', ')}
-              </span>
-            </span>
-          )}
-        </span>
       </span>
     )
   }
@@ -571,7 +578,6 @@ const splineRef          = useRef(null)
             { label: 'Contact', href: '#epilogue' },
           ].map(item => (
             <li className="site-nav-item" key={item.href}>
-              <ArrowRight strokeWidth={3} className="site-nav-arrow" aria-hidden="true" />
               <a href={item.href} onClick={() => setMenuOpen(false)}>{item.label}</a>
             </li>
           ))}
@@ -616,26 +622,32 @@ const splineRef          = useRef(null)
               <>
                 <span className="hero-kicker">PORTFOLIO 2026</span>
                 <div ref={heroContentRef} className="hero-content">
-                  <h1 className="hero-headline">
-                    <span className="hero-headline-line">Still</span>
-                    <span className="hero-headline-line">Blooming.</span>
-                  </h1>
-                  <p className="hero-desc hero-desc--mono">
-                    Growing through every project,<br />
-                    one step at a time.
-                  </p>
-                  <div className="hero-manifesto">
-                    {heroManifestoLines.map((lines, i) => (
-                      <SplitHeroLine
-                        key={i}
-                        ref={el => (manifestoLineRefs.current[i] = el)}
-                        lines={lines}
-                        state={manifestoStates[i]}
-                        side={i % 2 === 0 ? 'left' : 'right'}
-                        className="hero-manifesto-line"
-                      />
-                    ))}
+                  <div ref={heroTitleRef} className="hero-title-group">
+                    <h1 className="hero-headline">
+                      <span className="hero-headline-line">Still</span>
+                      <span className="hero-headline-line">Blooming.</span>
+                    </h1>
+                    <p className="hero-desc hero-desc--mono hero-sub-inline">
+                      Growing through every project,<br />
+                      one step at a time.
+                    </p>
                   </div>
+                </div>
+                <p className="hero-desc hero-desc--mono hero-desc--bottom">
+                  Growing through every project,<br />
+                  one step at a time.
+                </p>
+                <div className="hero-manifesto">
+                  {heroManifestoLines.map((lines, i) => (
+                    <SplitHeroLine
+                      key={i}
+                      ref={el => (manifestoLineRefs.current[i] = el)}
+                      lines={lines}
+                      state={manifestoStates[i]}
+                      side="down"
+                      className="hero-manifesto-line"
+                    />
+                  ))}
                 </div>
               </>
             ) : (
@@ -672,7 +684,7 @@ const splineRef          = useRef(null)
             <p className="about-bio">
               편집디자인에서 시작해 웹으로 영역을 넓혔습니다.<br />
               지금은 UI/UX와 프론트엔드를 배우며,<br />
-              더 나은 사용자 경험을 만들기 위해 노력하고 있습니다.
+              더 나은 사용자 경험을 만들기 위해<br className="br-mobile-only" /> 노력하고 있습니다.
             </p>
             <p className="about-bio">
               새로운 기술을 배우는 것을 즐기며,<br />
@@ -683,7 +695,6 @@ const splineRef          = useRef(null)
         </div>
         <div className="section-bottom-fade" aria-hidden="true" />
       </section>
-
       {/* About_1 */}
       <section id="about_1" className="section section--about-1">
         <DemoOne />
@@ -744,7 +755,7 @@ const splineRef          = useRef(null)
         <ContainerScroll className="relative z-10 h-[350vh] bg-transparent text-white">
           <div className="sticky left-0 top-0 z-0 h-screen w-full">
             <CelestialBloomShader className="projects-0-bloom" />
-            <BentoGrid className="h-full w-full p-4">
+            <BentoGrid className="h-full w-full p-1 gap-1">
               {projects0Images.map((image) => (
                 <BentoCell
                   key={image.src}
@@ -837,19 +848,19 @@ const splineRef          = useRef(null)
                   </div>
                   {p.url && (
                     <div className="project-modal-actions">
-                      <a href={p.url} target="_blank" rel="noopener" className="project-modal-link">
+                      {p.planUrl && (
+                        <a href={p.planUrl} target="_blank" rel="noopener" className="project-modal-link project-modal-link--filled">
+                          Project Plan →
+                        </a>
+                      )}
+                      {p.designUrl && (
+                        <a href={p.designUrl} target="_blank" rel="noopener" className="project-modal-link project-modal-link--outline">
+                          Design →
+                        </a>
+                      )}
+                      <a href={p.url} target="_blank" rel="noopener" className={`project-modal-link ${p.planUrl || p.designUrl ? 'project-modal-link--outline' : 'project-modal-link--filled'}`}>
                         View Project →
                       </a>
-                      {p.planUrl && p.designUrl && (
-                        <>
-                          <a href={p.planUrl} target="_blank" rel="noopener" className="project-modal-link">
-                            Project Plan →
-                          </a>
-                          <a href={p.designUrl} target="_blank" rel="noopener" className="project-modal-link">
-                            Design →
-                          </a>
-                        </>
-                      )}
                     </div>
                   )}
                 </div>
@@ -911,6 +922,32 @@ const splineRef          = useRef(null)
           </div>
         </div>
       </section>
+
+      {openSkill && (() => {
+        const s = skillLogos.find(l => l.name === openSkill)
+        if (!s) return null
+        const uses = getSkillUses(s)
+        return (
+          <div className="skill-modal-backdrop" onClick={() => setOpenSkill(null)}>
+            <div
+              className="skill-modal"
+              onClick={e => e.stopPropagation()}
+              onMouseEnter={() => clearTimeout(skillHideTimer.current)}
+              onMouseLeave={() => { skillHideTimer.current = setTimeout(() => setOpenSkill(null), 180) }}
+            >
+              <div className="skill-modal-header">
+                {s.imgSrc ? (
+                  <img src={s.imgSrc} alt={s.name} width={32} height={32} style={{ objectFit: 'contain', flexShrink: 0 }} />
+                ) : (
+                  <Icon icon={s.icon} width={32} height={32} style={{ color: s.color || 'inherit', filter: s.invert ? 'invert(1)' : undefined, flexShrink: 0 }} />
+                )}
+                <strong className="skill-modal-name">{s.name}</strong>
+              </div>
+              {s.usage && <p className="skill-modal-usage">{s.usage}</p>}
+            </div>
+          </div>
+        )
+      })()}
     </>
   )
 }
