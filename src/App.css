@@ -2178,12 +2178,13 @@ spline-viewer {
 .reveal-list {
   position: absolute;
   top: 0;
-  left: 12%;
+  left: 50%;
+  transform: translateX(-50%);
   z-index: 2;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  align-items: flex-start;
+  align-items: center;
   gap: 6.5rem;
   width: max-content;
   max-width: 88vw;
@@ -2193,18 +2194,26 @@ spline-viewer {
 
 @media (max-width: 768px) {
   .reveal-list {
-    padding-top: 15.5rem;
+    padding-top: 14rem;
     gap: 3.8rem;
   }
 }
 
 .reveal-list-label {
+  position: relative;
+  top: 2rem;
   margin: 0 0 0.75rem;
   font-size: 0.8rem;
   font-weight: 800;
   text-transform: uppercase;
   letter-spacing: 0.14em;
   color: rgba(244, 240, 231, 0.5);
+  animation: reveal-hint-bounce 1.6s ease-in-out infinite;
+}
+
+@keyframes reveal-hint-bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(8px); }
 }
 
 .reveal-item {

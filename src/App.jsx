@@ -1,4 +1,5 @@
 ﻿import { useEffect, useRef, useState } from 'react'
+import { createPortal } from 'react-dom'
 import { Icon } from '@iconify/react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
@@ -795,6 +796,7 @@ const splineRef          = useRef(null)
           <h2 className="projects-heading">PROJECTS</h2>
           {isHeroCompact ? (
             <RevealImageList
+              label="↓ 클릭해주세요"
               items={[
                 {
                   text: 'Web Design',
@@ -827,61 +829,61 @@ const splineRef          = useRef(null)
               />
             </div>
           )}
-
-        {selectedProject !== null && (() => {
-          const p = projectsData[selectedProject]
-          return (
-            <div className="project-modal-backdrop" onClick={() => setSelectedProject(null)}>
-              <button
-                className="project-modal-nav project-modal-nav--prev"
-                onClick={e => { e.stopPropagation(); setSelectedProject(i => (i - 1 + projectsData.length) % projectsData.length) }}
-                aria-label="이전 작업물"
-              >
-                <ChevronLeft size={34} strokeWidth={2.25} />
-              </button>
-              <div className="project-modal" onClick={e => e.stopPropagation()}>
-                <button className="project-modal-close" onClick={() => setSelectedProject(null)} aria-label="닫기">
-                  <X size={18} strokeWidth={2.25} />
-                </button>
-                <img className="project-modal-img" src={p.image} alt={p.title} />
-                <div className="project-modal-body">
-                  <h2 className="project-modal-title">{p.title}</h2>
-                  <p className="project-modal-desc" style={{ whiteSpace: 'pre-line' }}>{p.desc}</p>
-                  <div className="project-modal-meta">
-                    {p.tags.map(tag => <span key={tag} className="project-modal-tag">{tag}</span>)}
-                  </div>
-                  {p.url && (
-                    <div className="project-modal-actions">
-                      {p.planUrl && (
-                        <a href={p.planUrl} target="_blank" rel="noopener" className="project-modal-link project-modal-link--filled">
-                          Project Plan →
-                        </a>
-                      )}
-                      {p.designUrl && (
-                        <a href={p.designUrl} target="_blank" rel="noopener" className="project-modal-link project-modal-link--outline">
-                          Design →
-                        </a>
-                      )}
-                      <a href={p.url} target="_blank" rel="noopener" className={`project-modal-link ${p.planUrl || p.designUrl ? 'project-modal-link--outline' : 'project-modal-link--filled'}`}>
-                        View Project →
-                      </a>
-                    </div>
-                  )}
-                </div>
-              </div>
-              <button
-                className="project-modal-nav project-modal-nav--next"
-                onClick={e => { e.stopPropagation(); setSelectedProject(i => (i + 1) % projectsData.length) }}
-                aria-label="다음 작업물"
-              >
-                <ChevronRight size={34} strokeWidth={2.25} />
-              </button>
-            </div>
-          )
-        })()}
         </div>
         <div className="section-bottom-fade" aria-hidden="true" />
       </section>
+
+      {selectedProject !== null && createPortal((() => {
+        const p = projectsData[selectedProject]
+        return (
+          <div className="project-modal-backdrop" onClick={() => setSelectedProject(null)}>
+            <button
+              className="project-modal-nav project-modal-nav--prev"
+              onClick={e => { e.stopPropagation(); setSelectedProject(i => (i - 1 + projectsData.length) % projectsData.length) }}
+              aria-label="이전 작업물"
+            >
+              <ChevronLeft size={34} strokeWidth={2.25} />
+            </button>
+            <div className="project-modal" onClick={e => e.stopPropagation()}>
+              <button className="project-modal-close" onClick={() => setSelectedProject(null)} aria-label="닫기">
+                <X size={18} strokeWidth={2.25} />
+              </button>
+              <img className="project-modal-img" src={p.image} alt={p.title} />
+              <div className="project-modal-body">
+                <h2 className="project-modal-title">{p.title}</h2>
+                <p className="project-modal-desc" style={{ whiteSpace: 'pre-line' }}>{p.desc}</p>
+                <div className="project-modal-meta">
+                  {p.tags.map(tag => <span key={tag} className="project-modal-tag">{tag}</span>)}
+                </div>
+                {p.url && (
+                  <div className="project-modal-actions">
+                    {p.planUrl && (
+                      <a href={p.planUrl} target="_blank" rel="noopener" className="project-modal-link project-modal-link--filled">
+                        Project Plan →
+                      </a>
+                    )}
+                    {p.designUrl && (
+                      <a href={p.designUrl} target="_blank" rel="noopener" className="project-modal-link project-modal-link--outline">
+                        Design →
+                      </a>
+                    )}
+                    <a href={p.url} target="_blank" rel="noopener" className={`project-modal-link ${p.planUrl || p.designUrl ? 'project-modal-link--outline' : 'project-modal-link--filled'}`}>
+                      View Project →
+                    </a>
+                  </div>
+                )}
+              </div>
+            </div>
+            <button
+              className="project-modal-nav project-modal-nav--next"
+              onClick={e => { e.stopPropagation(); setSelectedProject(i => (i + 1) % projectsData.length) }}
+              aria-label="다음 작업물"
+            >
+              <ChevronRight size={34} strokeWidth={2.25} />
+            </button>
+          </div>
+        )
+      })(), document.body)}
 
       <section id="epilogue" className="section section--epilogue">
         <div className="section-top-blend" aria-hidden="true" />

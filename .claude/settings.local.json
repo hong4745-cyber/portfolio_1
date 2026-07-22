@@ -46,7 +46,11 @@
       "Bash(awk -F: '$1<2905')",
       "Bash(awk -F: '$1<3050')",
       "Bash(awk -F: '$1<3191')",
-      "Bash(awk -F: '$1<3314')"
+      "Bash(awk -F: '$1<3314')",
+      "Bash(npx vite *)",
+      "Bash(rm -f /tmp/vite-dev.log)",
+      "Bash(disown)",
+      "Bash(echo \"restarted with pid $!\")"
     ]
   }
 }
