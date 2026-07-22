@@ -196,45 +196,6 @@ const bloomingProcessImages = [
   { src: bloomingProcess5, alt: 'Blooming Process 5', num: '05', title: 'Bloom', subtitle: '배움을 프로젝트로\n완성한다.' },
 ]
 
-function LazyIframe({ src, title, style, className }) {
-  const frameRef = useRef(null)
-  const [shouldLoad, setShouldLoad] = useState(false)
-
-  useEffect(() => {
-    const node = frameRef.current
-    if (!node) return
-
-    if (!('IntersectionObserver' in window)) {
-      setShouldLoad(true)
-      return
-    }
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) setShouldLoad(true)
-      },
-      { rootMargin: '650px 0px' },
-    )
-
-    observer.observe(node)
-    return () => observer.disconnect()
-  }, [])
-
-  return (
-    <div ref={frameRef} className={className} style={style}>
-      {shouldLoad && (
-        <iframe
-          src={src}
-          frameBorder="0"
-          allowFullScreen
-          title={title}
-          style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', border: 'none' }}
-        />
-      )}
-    </div>
-  )
-}
-
 function App() {
   const [selectedProject, setSelectedProject] = useState(null)
   const [menuOpen, setMenuOpen] = useState(false)
@@ -301,7 +262,13 @@ const splineRef          = useRef(null)
       scrollIndicatorRef.current?.classList.toggle('scroll-indicator--hidden', window.scrollY > 40)
       goTopRef.current?.classList.toggle('go-top-btn--visible', window.scrollY > (aboutSectionRef.current?.offsetTop ?? window.innerHeight))
       const progress = Math.min(window.scrollY / heroEnd(), 1)
-      if (splineRef.current) splineRef.current.style.transform = `scale(${1 + progress * 0.18})`
+      // 모바일(compact)에서는 히어로 전체 스크롤 구간(420vh)이 너무 길어서
+      // 손가락 스와이프 한두 번으로는 progress가 거의 안 움직여 꽃이 반응 없어 보임 —
+      // 꽃 스케일 반응만 화면 높이 이내로 훨씬 빨리 포화되도록 별도 계산
+      const bloomProgress = isHeroCompactRef.current
+        ? Math.min(window.scrollY / (window.innerHeight * 0.9), 1)
+        : progress
+      if (splineRef.current) splineRef.current.style.transform = `scale(${1 + bloomProgress * 0.18})`
       const FADE_START = 0.88
       const sticky = splineStickyRef.current
       if (progress >= FADE_START) {
@@ -460,21 +427,21 @@ const splineRef          = useRef(null)
     })
 
     // Epilogue
-    gsap.timeline({
-      scrollTrigger: {
-        trigger: '#epilogue',
-        start: 'top top',
-        end: '+=180%',
-        pin: true,
-        anticipatePin: 1,
-        scrub: 1.8,
-      },
-    })
-      .fromTo('.epilogue-desc',
-        { opacity: 0, y: 52, filter: 'blur(10px)' },
-        { opacity: 1, y: 0, filter: 'blur(0px)', duration: 1.6, ease: 'power2.out' },
-        0.5
-      )
+    // 원래는 pin+scrub였는데, GSAP의 pin이 걸리면 그 구간 동안 엘리먼트가
+    // 화면상 위치 그대로 고정돼버려서 Spline의 "Enter View" 스크롤 트리거(꽃이
+    // 실제 스크롤 위치 변화를 보고 반응)가 전혀 움직임을 감지하지 못해 꽃이 안 폈다 —
+    // pin 없이 섹션이 자연스럽게 지나가도록 하고, 텍스트는 화면에 들어올 때 한 번만 페이드인
+    gsap.fromTo('.epilogue-desc',
+      { opacity: 0, y: 52, filter: 'blur(10px)' },
+      {
+        opacity: 1, y: 0, filter: 'blur(0px)', duration: 1.6, ease: 'power2.out',
+        scrollTrigger: {
+          trigger: '#epilogue',
+          start: 'top 70%',
+          toggleActions: 'play none none none',
+        },
+      }
+    )
 
     // About의 Spline 씬(외부 스크립트)이 초기 계산 이후 늦게 로드되면서 문서 높이가
     // 바뀌면, 그 뒤에 있는 Journey 등의 pin 트리거 위치가 어긋나 스크롤을 되돌릴 때
@@ -887,11 +854,7 @@ const splineRef          = useRef(null)
 
       <section id="epilogue" className="section section--epilogue">
         <div className="section-top-blend" aria-hidden="true" />
-        <LazyIframe
-          src="https://my.spline.design/scrollflower-23e41v80nJdwQts1xJCbVJNs/"
-          style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', border: 'none' }}
-          title="Epilogue"
-        />
+        <spline-viewer className="epilogue-spline" url="https://prod.spline.design/KjPCCuliIjR2FcSB/scene.splinecode" />
         <div className="epilogue-copy" aria-label="Epilogue message">
           <BlurIn
             word="아직 피어나는 중입니다."

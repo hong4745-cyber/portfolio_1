@@ -2194,7 +2194,7 @@ spline-viewer {
 
 @media (max-width: 768px) {
   .reveal-list {
-    padding-top: 14rem;
+    padding-top: 12rem;
     gap: 3.8rem;
   }
 }
@@ -2512,6 +2512,15 @@ spline-viewer {
   background: #05070D;
   padding: 0;
   overflow: hidden;
+}
+
+.epilogue-spline {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
 }
 
 .epilogue-copy {
@@ -3295,7 +3304,7 @@ spline-viewer {
     display: grid;
     grid-template-columns: 1fr;
     gap: 2.2rem;
-    padding: 9rem 1.25rem 1rem;
+    padding: 9rem 1.25rem 2.5rem;
   }
 
   .epilogue-footer-stack {

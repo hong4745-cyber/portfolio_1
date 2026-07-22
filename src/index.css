@@ -39,7 +39,7 @@ html {
   letter-spacing: 0.18px;
   color-scheme: light dark;
   color: var(--text);
-  background: var(--bg);
+  background: #0D1227;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;

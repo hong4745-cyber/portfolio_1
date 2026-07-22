@@ -50,7 +50,11 @@
       "Bash(npx vite *)",
       "Bash(rm -f /tmp/vite-dev.log)",
       "Bash(disown)",
-      "Bash(echo \"restarted with pid $!\")"
+      "Bash(echo \"restarted with pid $!\")",
+      "Bash(grep -n \"^html\\\\|^body\\\\|html,\\\\|body {\" \"D:/portfolio/src/index.css\" \"D:/portfolio/src/App.css\")",
+      "Bash(npm ls *)",
+      "Bash(python3 -c \"import qrcode\")",
+      "Bash(grep *)"
     ]
   }
 }
