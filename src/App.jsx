@@ -237,6 +237,7 @@ function LazyIframe({ src, title, style, className }) {
 function App() {
   const [selectedProject, setSelectedProject] = useState(null)
   const [menuOpen, setMenuOpen] = useState(false)
+  const [emailCopied, setEmailCopied] = useState(false)
   const [openSkill, setOpenSkill] = useState(null)
   const [isHeroCompact, setIsHeroCompact] = useState(
     () => typeof window !== 'undefined' && window.innerWidth <= HERO_COMPACT_BREAKPOINT
@@ -262,6 +263,7 @@ const splineRef          = useRef(null)
   const aboutSplineRef     = useRef(null)
   const aboutInnerRef      = useRef(null)
   const skillHideTimer     = useRef(null)
+  const goTopRef           = useRef(null)
 
   // 768px/375px 같은 반응형 구간에서만 3D Spline 대신 가벼운 셰이더 히어로를 쓴다 — 데스크톱(1920 등)은 기존 3D 유지
   useEffect(() => {
@@ -296,6 +298,7 @@ const splineRef          = useRef(null)
     // ── 히어로 스크롤 애니메이션 (기존 유지) ──────────────────────────
     const onScroll = () => {
       scrollIndicatorRef.current?.classList.toggle('scroll-indicator--hidden', window.scrollY > 40)
+      goTopRef.current?.classList.toggle('go-top-btn--visible', window.scrollY > (aboutSectionRef.current?.offsetTop ?? window.innerHeight))
       const progress = Math.min(window.scrollY / heroEnd(), 1)
       if (splineRef.current) splineRef.current.style.transform = `scale(${1 + progress * 0.18})`
       const FADE_START = 0.88
@@ -587,6 +590,7 @@ const splineRef          = useRef(null)
       {!menuOpen && (
         <button
           type="button"
+          ref={goTopRef}
           className="go-top-btn"
           onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
           aria-label="맨 위로"
@@ -894,7 +898,7 @@ const splineRef          = useRef(null)
           />
           <p className="epilogue-desc">
             여기까지 제 여정을 함께해 주셔서 감사합니다.<br />
-            더 나은 사용자 경험을 만들기 위한 도전은 계속됩니다.
+            더 나은 사용자 경험을 만들기 위한<br className="br-mobile-only" /> 도전은 계속됩니다.
           </p>
         </div>
         <div className="epilogue-footer">
@@ -906,14 +910,29 @@ const splineRef          = useRef(null)
             <p className="epilogue-footer-label">Built with</p>
             <ul>
               <li>React</li>
-              <li>GSAP · ScrollTrigger</li>
-              <li>Three.js · Spline</li>
-              <li>CSS3 · Canvas API</li>
+              <li>GSAP</li>
+              <li>ScrollTrigger</li>
+              <li className="footer-stack-break" aria-hidden="true" />
+              <li>Three.js</li>
+              <li>Spline</li>
+              <li>CSS3</li>
+              <li>Canvas API</li>
             </ul>
           </div>
           <div className="epilogue-footer-contact">
             <p className="epilogue-footer-label">Contact</p>
-            <a href="mailto:hong4745@gmail.com">hong4745@gmail.com</a>
+            <a href="tel:01094054745" className="epilogue-footer-phone">010. 9405. 4745</a>
+            <button
+              type="button"
+              className="epilogue-footer-email"
+              onClick={() => {
+                navigator.clipboard.writeText('hong4745@gmail.com')
+                setEmailCopied(true)
+                setTimeout(() => setEmailCopied(false), 1500)
+              }}
+            >
+              {emailCopied ? '복사되었습니다.' : 'hong4745@gmail.com'}
+            </button>
             <a href="https://www.instagram.com/still___digging" target="_blank" rel="noopener noreferrer" className="epilogue-footer-insta">
               <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ position: 'relative', top: '1px' }}><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
               @still___digging
