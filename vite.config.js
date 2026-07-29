@@ -13,6 +13,7 @@ export default defineConfig({
     include: ['motion/react'],
   },
   server: {
+    host: true,
     watch: {
       usePolling: true,
     },
