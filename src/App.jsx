@@ -50,6 +50,7 @@ const HERO_VH = 700
 const HERO_VH_COMPACT = 420
 const HERO_COMPACT_BREAKPOINT = 1024
 const SKILLS_COMPACT_BREAKPOINT = 768
+const MOBILE_BREAKPOINT = 767
 
 const heroLines = [
   ['계속 배우고,', '계속 만들어왔습니다.'],
@@ -199,6 +200,9 @@ const bloomingProcessImages = [
 function App() {
   const [selectedProject, setSelectedProject] = useState(null)
   const [projectFilter, setProjectFilter] = useState(null)
+  const [isMobile, setIsMobile] = useState(
+    () => typeof window !== 'undefined' && window.innerWidth <= MOBILE_BREAKPOINT
+  )
   const [menuOpen, setMenuOpen] = useState(false)
   const [emailCopied, setEmailCopied] = useState(false)
   const [openSkill, setOpenSkill] = useState(null)
@@ -241,6 +245,14 @@ const splineRef          = useRef(null)
   useEffect(() => {
     const mq = window.matchMedia(`(max-width: ${SKILLS_COMPACT_BREAKPOINT}px)`)
     const onChange = () => setIsSkillsCompact(mq.matches)
+    onChange()
+    mq.addEventListener('change', onChange)
+    return () => mq.removeEventListener('change', onChange)
+  }, [])
+
+  useEffect(() => {
+    const mq = window.matchMedia(`(max-width: ${MOBILE_BREAKPOINT}px)`)
+    const onChange = () => setIsMobile(mq.matches)
     onChange()
     mq.addEventListener('change', onChange)
     return () => mq.removeEventListener('change', onChange)
@@ -762,7 +774,7 @@ const splineRef          = useRef(null)
         <div className="section-bg-petals" aria-hidden="true"><FallingPetals count={8} sizeScale={1.8} /></div>
         <div className="projects-content">
           <h2 className="projects-heading">PROJECTS</h2>
-          {isHeroCompact ? (
+          {isMobile ? (
             <RevealImageList
               label="↓ 클릭해주세요"
               items={[
@@ -860,7 +872,7 @@ const splineRef          = useRef(null)
 
       <section id="epilogue" className="section section--epilogue">
         <div className="section-top-blend" aria-hidden="true" />
-        {isHeroCompact ? (
+        {isMobile ? (
           <>
             <CelestialBloomShader className="epilogue-bloom" />
             <CelestialBloomShader className="epilogue-bloom epilogue-bloom--secondary" />
