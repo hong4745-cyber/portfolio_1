@@ -854,7 +854,10 @@ const splineRef          = useRef(null)
 
       <section id="epilogue" className="section section--epilogue">
         <div className="section-top-blend" aria-hidden="true" />
-        <spline-viewer className="epilogue-spline" url="https://prod.spline.design/KjPCCuliIjR2FcSB/scene.splinecode" />
+        {isHeroCompact
+          ? <CelestialBloomShader className="epilogue-bloom" />
+          : <spline-viewer className="epilogue-spline" url="https://prod.spline.design/KjPCCuliIjR2FcSB/scene.splinecode" />
+        }
         <div className="epilogue-copy" aria-label="Epilogue message">
           <BlurIn
             word="아직 피어나는 중입니다."
