@@ -3106,6 +3106,40 @@ spline-viewer {
   .skills-velocity-wrap {
     gap: clamp(2.8rem, 6vw, 4.5rem);
   }
+
+  /* hero-desc--bottom 숨기고 title-group 안 sub-inline 표시 → title-group과 함께 움직임 */
+  .hero-desc--bottom {
+    display: none;
+  }
+
+  .hero-sub-inline {
+    display: block;
+    font-size: clamp(0.95rem, 2vw, 1.1rem);
+    line-height: 1.6;
+  }
+
+  /* manifesto를 화면 중앙에 절대 배치 — hero-kicker(top: 2.4rem) 와 겹치지 않도록 */
+  .hero-manifesto {
+    position: absolute;
+    left: 5vw;
+    right: 5vw;
+    top: 50%;
+    transform: translateY(-50%);
+    bottom: auto;
+    margin-top: 0;
+    padding-top: 0;
+    max-width: none;
+    gap: 0.5rem;
+  }
+
+  .hero-line.hero-manifesto-line {
+    font-size: clamp(1.5rem, 3.5vw, 2.2rem);
+    line-height: 1.4;
+  }
+
+  .hero-kicker {
+    z-index: 5;
+  }
 }
 
 @media (max-width: 767px) {

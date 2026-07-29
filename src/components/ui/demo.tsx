@@ -39,7 +39,7 @@ const DemoOne = () => {
         logoText="BAEK JIEUN"
         navLinks={[]}
         navText="DESIGN · UI/UX · FRONTEND"
-        mainText={"Visual design에서 출발해 UI/UX와\n프론트엔드로 작업 영역을 넓혀가고 있습니다."}
+        mainText={"Visual design에서 출발해 UI/UX와\n프론트엔드로 작업 영역을 넓혀가고\n있습니다."}
         mainTextMobile={"Visual design에서 출발해 UI/UX와\n프론트엔드로 작업 영역을\n넓혀가고 있습니다."}
         imageSrc={portrait}
         imageAlt="Baek Jieun portrait"

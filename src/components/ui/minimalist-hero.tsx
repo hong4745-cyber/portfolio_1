@@ -80,7 +80,7 @@ const JourneyTitle = ({ part1, part2 }: { part1: string; part2: string }) => {
   );
 
   return (
-    <h1 className="text-[101px] font-extrabold leading-none text-foreground md:text-[130px] lg:text-[117px]">
+    <h1 className="text-[101px] font-extrabold leading-none text-foreground md:text-[130px] lg:text-[clamp(72px,9vw,117px)]">
       {renderLine(part1, 0)}
       {renderLine(part2, 1)}
     </h1>
@@ -125,14 +125,14 @@ export const MinimalistHero = ({
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: false, amount: 0.45 }}
           transition={{ duration: 0.95, ease: [0.16, 1, 0.3, 1] }}
-          className="z-20 order-3 mt-6 flex flex-col text-center lg:order-1 lg:mt-0 lg:text-left"
+          className="z-20 order-3 mt-6 flex flex-col text-center lg:order-1 lg:mt-0 lg:text-left lg:pl-16 lg:justify-center lg:h-full"
         >
           <div className="flex flex-col gap-0">
             {navText && (
-              <span className="text-xs font-medium tracking-widest text-foreground/50">{navText}</span>
+              <span className="text-xs font-medium tracking-widest text-foreground/50 lg:text-[clamp(0.6rem,0.8vw,0.75rem)]">{navText}</span>
             )}
-            <span className="text-3xl font-bold tracking-wider">{logoText}</span>
-            <span className="text-sm font-medium leading-loose text-foreground/60">{locationText}</span>
+            <span className="text-3xl font-bold tracking-wider lg:text-[clamp(1.25rem,2.2vw,1.875rem)]">{logoText}</span>
+            <span className="text-sm font-medium leading-loose text-foreground/60 lg:text-[clamp(0.7rem,1vw,0.875rem)]">{locationText}</span>
           </div>
           <div className="mt-4 flex items-center space-x-4 justify-center lg:justify-start">
             {socialLinks.map((link, index) => (
@@ -141,10 +141,10 @@ export const MinimalistHero = ({
           </div>
           {mainTextMobile ? (
             <>
-              <p className="mt-10 text-lg font-light leading-loose tracking-[0.02em] text-foreground/80 md:text-xl whitespace-pre-line sm:hidden">
+              <p className="mt-10 text-lg font-light leading-loose tracking-[0.02em] text-foreground/80 md:text-xl lg:text-[clamp(0.9rem,1.3vw,1.25rem)] whitespace-pre-line sm:hidden">
                 {mainTextMobile}
               </p>
-              <p className="mt-10 text-lg font-light leading-loose tracking-[0.02em] text-foreground/80 md:text-xl whitespace-pre-line hidden sm:block">
+              <p className="mt-10 text-lg font-light tracking-[0.02em] text-foreground/80 md:text-xl lg:text-[clamp(0.9rem,1.3vw,1.25rem)] whitespace-pre-line hidden sm:block" style={{ lineHeight: '1.7' }}>
                 {mainText}
               </p>
             </>
@@ -160,7 +160,7 @@ export const MinimalistHero = ({
             initial={{ scale: 0.8, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1], delay: 0.2 }}
-            className="relative z-0 h-[300px] w-[300px] flex-shrink-0 overflow-hidden bg-yellow-400/90 md:h-[400px] md:w-[400px] lg:h-[500px] lg:w-[500px]"
+            className="relative z-0 h-[300px] w-[300px] flex-shrink-0 overflow-hidden bg-yellow-400/90 md:h-[400px] md:w-[400px] lg:h-[clamp(320px,32vw,500px)] lg:w-[clamp(320px,32vw,500px)]"
             style={{ borderRadius: '50%' }}
           >
             <div className="absolute left-0 top-1/2 z-10 flex w-full -translate-y-1/2 justify-center">
