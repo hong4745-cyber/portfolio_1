@@ -7,14 +7,33 @@
     <title>portfolio</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&family=Noto+Serif+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
     <style>
       @import url('https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap');
       @import url(https://db.onlinewebfonts.com/c/b43266ecd4e0c853a88cfd52bc3a6c86?family=NEOPIXEL);
     </style>
+    <script>
+      // Hero의 Spline 씬에 내장된 사운드 액션을 재생 전에 무음 처리한다.
+      // spline-viewer에는 음소거 API가 없어 Web Audio 컨텍스트 단에서 막는다.
+      (function () {
+        const silence = (Ctor) => {
+          if (!Ctor) return Ctor
+          return new Proxy(Ctor, {
+            construct(target, args) {
+              const ctx = new target(...args)
+              ctx.suspend?.()
+              ctx.resume = () => Promise.resolve()
+              return ctx
+            },
+          })
+        }
+        window.AudioContext = silence(window.AudioContext)
+        window.webkitAudioContext = silence(window.webkitAudioContext)
+      })()
+    </script>
     <script type="module" src="https://unpkg.com/@splinetool/viewer@1.12.98/build/spline-viewer.js"></script>
-    <script type="module" crossorigin src="/assets/index-BAYDjAWc.js"></script>
-    <link rel="stylesheet" crossorigin href="/assets/index-DUYxEA1l.css">
+    <script type="module" crossorigin src="/assets/index-CP1FvPRo.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/index-BqW72fSg.css">
   </head>
   <body>
     <div id="root"></div>
