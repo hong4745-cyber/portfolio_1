@@ -2509,9 +2509,10 @@ spline-viewer {
 }
 
 .section--epilogue {
-  background: #05070D;
+  background: #0B103D;
   padding: 0;
   overflow: hidden;
+  position: relative;
 }
 
 .epilogue-spline {
@@ -2525,11 +2526,21 @@ spline-viewer {
 
 .epilogue-bloom {
   position: absolute;
-  inset: 0;
+  top: 20%;
+  left: 110%;
+  transform: translate(-50%, -50%);
   z-index: 0;
-  width: 100%;
-  height: 100%;
+  width: 300vw;
+  height: 300vw;
   pointer-events: none;
+}
+
+.epilogue-bloom--secondary {
+  top: -5%;
+  left: 135%;
+  width: 180vw;
+  height: 180vw;
+  z-index: 11;
 }
 
 .epilogue-bloom canvas {
@@ -2541,7 +2552,7 @@ spline-viewer {
 .epilogue-copy {
   position: absolute;
   inset: 0;
-  z-index: 8;
+  z-index: 15;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -2582,7 +2593,7 @@ spline-viewer {
   bottom: 0;
   left: 0;
   right: 0;
-  z-index: 10;
+  z-index: 15;
   display: flex;
   align-items: flex-end;
   justify-content: space-between;
@@ -3319,7 +3330,7 @@ spline-viewer {
     display: grid;
     grid-template-columns: 1fr;
     gap: 2.2rem;
-    padding: 9rem 1.25rem 2.5rem;
+    padding: 4rem 1.25rem 2.5rem;
   }
 
   .epilogue-footer-stack {

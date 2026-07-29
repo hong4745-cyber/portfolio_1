@@ -854,10 +854,16 @@ const splineRef          = useRef(null)
 
       <section id="epilogue" className="section section--epilogue">
         <div className="section-top-blend" aria-hidden="true" />
-        {isHeroCompact
-          ? <CelestialBloomShader className="epilogue-bloom" />
-          : <spline-viewer className="epilogue-spline" url="https://prod.spline.design/KjPCCuliIjR2FcSB/scene.splinecode" />
-        }
+        {isHeroCompact ? (
+          <>
+            <CelestialBloomShader className="epilogue-bloom" />
+            <CelestialBloomShader className="epilogue-bloom epilogue-bloom--secondary" />
+            <div className="section-bg-stars" aria-hidden="true"><Starfield count={60} sizeScale={1.4} /></div>
+            <div className="section-bg-petals" aria-hidden="true"><FallingPetals count={12} sizeScale={2.0} /></div>
+          </>
+        ) : (
+          <spline-viewer className="epilogue-spline" url="https://prod.spline.design/KjPCCuliIjR2FcSB/scene.splinecode" />
+        )}
         <div className="epilogue-copy" aria-label="Epilogue message">
           <BlurIn
             word="아직 피어나는 중입니다."
