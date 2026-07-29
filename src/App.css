@@ -2526,7 +2526,7 @@ spline-viewer {
 
 .epilogue-bloom {
   position: absolute;
-  top: 20%;
+  top: 30%;
   left: 110%;
   transform: translate(-50%, -50%);
   z-index: 0;
@@ -2536,7 +2536,7 @@ spline-viewer {
 }
 
 .epilogue-bloom--secondary {
-  top: -5%;
+  top: 5%;
   left: 135%;
   width: 180vw;
   height: 180vw;

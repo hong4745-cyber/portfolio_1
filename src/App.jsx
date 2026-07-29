@@ -198,6 +198,7 @@ const bloomingProcessImages = [
 
 function App() {
   const [selectedProject, setSelectedProject] = useState(null)
+  const [projectFilter, setProjectFilter] = useState(null)
   const [menuOpen, setMenuOpen] = useState(false)
   const [emailCopied, setEmailCopied] = useState(false)
   const [openSkill, setOpenSkill] = useState(null)
@@ -771,7 +772,7 @@ const splineRef          = useRef(null)
                     { src: projImg1, alt: 'Web publishing project' },
                     { src: galleryOnepage, alt: 'Web UI/UX project' },
                   ],
-                  onClick: () => setSelectedProject(0),
+                  onClick: () => { setProjectFilter([0, 1, 2]); setSelectedProject(0) },
                 },
                 {
                   text: 'Editorial',
@@ -779,7 +780,7 @@ const splineRef          = useRef(null)
                     { src: mockup1, alt: 'Editorial poster mockup 1' },
                     { src: mockup2, alt: 'Editorial poster mockup 2' },
                   ],
-                  onClick: () => setSelectedProject(3),
+                  onClick: () => { setProjectFilter([3, 4, 5]); setSelectedProject(3) },
                 },
               ]}
             />
@@ -802,17 +803,22 @@ const splineRef          = useRef(null)
 
       {selectedProject !== null && createPortal((() => {
         const p = projectsData[selectedProject]
+        const navIndices = projectFilter ?? projectsData.map((_, i) => i)
+        const pos = navIndices.indexOf(selectedProject)
+        const prevIdx = navIndices[(pos - 1 + navIndices.length) % navIndices.length]
+        const nextIdx = navIndices[(pos + 1) % navIndices.length]
+        const closeModal = () => { setSelectedProject(null); setProjectFilter(null) }
         return (
-          <div className="project-modal-backdrop" onClick={() => setSelectedProject(null)}>
+          <div className="project-modal-backdrop" onClick={closeModal}>
             <button
               className="project-modal-nav project-modal-nav--prev"
-              onClick={e => { e.stopPropagation(); setSelectedProject(i => (i - 1 + projectsData.length) % projectsData.length) }}
+              onClick={e => { e.stopPropagation(); setSelectedProject(prevIdx) }}
               aria-label="이전 작업물"
             >
               <ChevronLeft size={34} strokeWidth={2.25} />
             </button>
             <div className="project-modal" onClick={e => e.stopPropagation()}>
-              <button className="project-modal-close" onClick={() => setSelectedProject(null)} aria-label="닫기">
+              <button className="project-modal-close" onClick={closeModal} aria-label="닫기">
                 <X size={18} strokeWidth={2.25} />
               </button>
               <img className="project-modal-img" src={p.image} alt={p.title} />
@@ -843,7 +849,7 @@ const splineRef          = useRef(null)
             </div>
             <button
               className="project-modal-nav project-modal-nav--next"
-              onClick={e => { e.stopPropagation(); setSelectedProject(i => (i + 1) % projectsData.length) }}
+              onClick={e => { e.stopPropagation(); setSelectedProject(nextIdx) }}
               aria-label="다음 작업물"
             >
               <ChevronRight size={34} strokeWidth={2.25} />
