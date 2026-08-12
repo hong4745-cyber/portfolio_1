@@ -1681,14 +1681,14 @@ spline-viewer {
   background: linear-gradient(to bottom, transparent 0%, #0D1227 100%);
 }
 
-.section--skills {
+section.section--skills {
   height: auto;
-  min-height: 100vh;
+  min-height: auto;
   background: #0B103D;
   align-items: flex-start;
   justify-content: flex-start;
   padding-top: clamp(8rem, 14vw, 14rem);
-  padding-bottom: clamp(7rem, 13vw, 13rem);
+  padding-bottom: 312px;
   isolation: isolate;
   overflow: visible;
   z-index: 5;

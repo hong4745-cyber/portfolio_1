@@ -10,11 +10,11 @@ import { Starfield } from '@/components/ui/starfield'
 import { SplitHeroLine } from '@/components/ui/split-hero-line'
 import { FallingPetals } from '@/components/ui/falling-petals'
 import { DemoOne } from '@/components/ui/demo'
-import ScrollStack, { ScrollStackItem } from '@/components/ui/scroll-stack'
+import FlowArt, { FlowSection } from '@/components/ui/story-scroll'
 import { ResumeSchedule } from '@/components/ui/resume-schedule'
 import CircularGallery from '@/components/ui/CircularGallery'
 import { RevealImageList } from '@/components/ui/reveal-images'
-import { BentoCell, BentoGrid, ContainerScroll } from '@/components/ui/hero-gallery-scroll-animation'
+import { StickyScrollGallery } from '@/components/ui/sticky-scroll'
 import CelestialBloomShader from '@/components/ui/celestial-bloom-shader'
 import { BlurIn } from '@/components/ui/blur-in'
 import BlurText from '@/components/ui/BlurText'
@@ -166,27 +166,26 @@ const SKILL_CATEGORY_ORDER = ['Frontend', 'Design Tools', 'AI Tools']
 
 const galleryItems = projectsData.map(p => ({ image: p.image, text: p.title }))
 
-const projects0Images = [
-  {
-    src: galleryYogaMain,
-    alt: 'Kim Yoga main visual',
-  },
-  {
-    src: projectArchiveBook,
-    alt: 'Gongju Studies Archive research book',
-  },
-  {
-    src: projectPoster,
-    alt: 'Poster design',
-  },
-  {
-    src: galleryHemily,
-    alt: 'Hemilygroup project',
-  },
-  {
-    src: projectOnepageSquare,
-    alt: 'Onepage project',
-  },
+const projectsGalleryLeft = [
+  { src: projImg1, alt: 'Hemilygroup web publishing project' },
+  { src: projImg2, alt: 'Poster design' },
+  { src: mockup2, alt: 'Gongju Night Festival poster mockup' },
+  { src: mockup3, alt: 'Gongju Night Festival poster mockup' },
+  { src: mockup4, alt: 'Exhibition promotional design' },
+]
+
+const projectsGalleryCenter = [
+  { src: mockup8, alt: 'Exhibition catalog design' },
+  { src: projectArchiveBook, alt: 'Gongju Studies Archive research book' },
+  { src: galleryYogaMain, alt: 'Kim Yoga main visual' },
+]
+
+const projectsGalleryRight = [
+  { src: galleryYoga, alt: 'Kim Yoga UI/UX renewal project' },
+  { src: galleryOnepage, alt: 'Onepage UI/UX design project' },
+  { src: galleryHemily, alt: 'Hemilygroup project' },
+  { src: projectPoster, alt: 'Poster design' },
+  { src: projectOnepageSquare, alt: 'Onepage project' },
 ]
 
 const bloomingProcessImages = [
@@ -686,24 +685,30 @@ const splineRef          = useRef(null)
       </section>
 
       <section id="scroll-stack" className="section--scroll-stack">
-        <div className="section-bg-tint" aria-hidden="true" />
-        <div className="section-bg-stars" aria-hidden="true"><Starfield count={80} sizeScale={1.6} /></div>
-        <div className="section-bg-scrim" aria-hidden="true" />
-        <div className="section-bg-petals" aria-hidden="true"><FallingPetals count={8} sizeScale={1.8} /></div>
-        <ScrollStack>
+        <FlowArt aria-label="Blooming Process">
           {bloomingProcessImages.map(({ src, alt, num, title, subtitle }) => (
-            <ScrollStackItem key={src}>
-              <div className="scroll-stack-card-text">
-                <span className="scroll-stack-card-num">{num}</span>
-                <h3 className="scroll-stack-card-title">{title}</h3>
-                <p className="scroll-stack-card-sub">{subtitle}</p>
-              </div>
-              <div className="scroll-stack-card-media">
-                <img src={src} alt={alt} />
-              </div>
-            </ScrollStackItem>
+            <FlowSection
+              key={src}
+              aria-label={`${num} — ${title}`}
+              style={{
+                backgroundImage: `linear-gradient(180deg, rgba(11,16,61,0.3), rgba(11,16,61,0.88)), url(${src})`,
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+                color: '#fff',
+              }}
+            >
+              <p className="text-xs font-bold uppercase tracking-[0.2em]">{num} — Blooming Process</p>
+              <hr className="my-[2vw] border-none border-t border-white/30" />
+              <h2 className="text-white text-[clamp(3.5rem,12vw,14rem)] font-bold leading-[0.85] uppercase tracking-tight">
+                {title}
+              </h2>
+              <hr className="my-[2vw] border-none border-t border-white/30" />
+              <p className="mt-auto max-w-[50ch] whitespace-pre-line text-[clamp(1rem,2.5vw,2rem)] font-normal leading-relaxed">
+                {subtitle}
+              </p>
+            </FlowSection>
           ))}
-        </ScrollStack>
+        </FlowArt>
       </section>
 
       <ResumeSchedule />
@@ -735,33 +740,15 @@ const splineRef          = useRef(null)
 
       </section>
 
-      {/* Projects_0 — Scroll gallery hero */}
+      {/* Projects_0 — Sticky scroll gallery */}
       <section id="projects_0" className="section--projects_0">
-        <ContainerScroll className="relative z-10 h-[350vh] bg-transparent text-white">
-          <div className="sticky left-0 top-0 z-0 h-screen w-full">
-            <CelestialBloomShader className="projects-0-bloom" />
-            <BentoGrid className="h-full w-full p-1 gap-1">
-              {projects0Images.map((image) => (
-                <BentoCell
-                  key={image.src}
-                  className="overflow-hidden rounded-xl shadow-2xl shadow-black/30"
-                >
-                  <img
-                    className="size-full object-cover object-center"
-                    src={image.src}
-                    alt={image.alt}
-                  />
-                </BentoCell>
-              ))}
-            </BentoGrid>
-
-            <div className="pointer-events-none absolute inset-0 z-10 flex items-center justify-center text-center">
-              <h1 className="projects-0-work-title">
-              WORK
-              </h1>
-            </div>
-          </div>
-        </ContainerScroll>
+        <CelestialBloomShader className="projects-0-bloom" />
+        <StickyScrollGallery
+          heading={null}
+          leftImages={projectsGalleryLeft}
+          stickyImages={projectsGalleryCenter}
+          rightImages={projectsGalleryRight}
+        />
       </section>
 
       {/* Projects — CircularGallery + 팝업 */}
