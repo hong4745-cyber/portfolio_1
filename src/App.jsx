@@ -22,19 +22,23 @@ import ExpandOnHover from '@/components/ui/ExpandOnHover'
 import { LogoMarquee } from '@/components/ui/LogoMarquee'
 import { Palette, Film, Code2, Server, Sparkles, Workflow as WorkflowIcon, X, ChevronLeft, ChevronRight, ArrowRight, ArrowUp } from 'lucide-react'
 import projImg1 from '@/assets/images/hemilygroup.jpg'
-import projImg2 from '@/assets/images/poster_1.jpg'
+import projImg2 from '@/assets/images/Mock-up/자이언티 & 원슈타인 썸머 콘서트 포스터_1.png'
 import projImg3 from '@/assets/images/Mock-up/festival_night.jpg'
-import mockup1 from '@/assets/images/Mock-up/festival_night.jpg'
-import mockup2 from '@/assets/images/Mock-up/festival_night_1.jpg'
-import mockup3 from '@/assets/images/Mock-up/festival_night_2.jpg'
-import mockup4 from '@/assets/images/Mock-up/exhibition.jpg'
-import mockup8 from '@/assets/images/Mock-up/exhibition catalog_8.jpg'
-import projectArchiveBook from '@/assets/images/Mock-up/2020.12_공주학아카이브 - 연구총서 제4집_1.jpg'
+import stickyBookcoversImage from '@/assets/images/Mock-up/BOOKCOVERS.png'
+import stickyCatalogImage from '@/assets/images/Mock-up/2019충남생활문화축제_포스터_3.png'
+import mockup4 from '@/assets/images/Mock-up/PK_번식돈_사양관리_매뉴얼_목업.png'
+import stickyDigitalHeritageImage from '@/assets/images/Mock-up/충남 문화유산의 국외 반출과 현재 포스터_1.png'
+import projectBookcoversImage from '@/assets/images/Mock-up/BOOKCOVERS.png'
+import projectEditorialImage from '@/assets/images/Mock-up/festival_night.jpg'
+import projectCatalogImage from '@/assets/images/Mock-up/석택리_홍성의_마한을_기억하다_도록.png'
+import projectDigitalHeritageImage from '@/assets/images/Mock-up/공주의_대중문화와_극장_홍보물_통합_목업.png'
+import projectArchiveBook from '@/assets/images/Mock-up/공주학연구총서4_mokup_5.png'
 import galleryYogaMain from '@/assets/images/kimyoga_1.JPG'
 import galleryYoga from '@/assets/images/kimyoga_3.JPG'
+import galleryMemorialPoster from '@/assets/images/Mock-up/윤여헌 교수 기증기록물 전시 및 추모 좌담회 포스터_3.png'
 import galleryOnepage from '@/assets/images/onepage.png'
-import galleryHemily from '@/assets/images/hemilygroup_1.JPG'
-import projectPoster from '@/assets/images/poster.jpg'
+import galleryHemily from '@/assets/images/Mock-up/34726923_desk_calendar_mockup_side.png'
+import projectPoster from '@/assets/images/Mock-up/세종시립민속박물관 10주년 기획 포스터_3.png'
 import projectOnepageSquare from '@/assets/images/onepage_2.png'
 import iconClaudeCode from '@/assets/images/claudecode-color.png'
 import iconFirebase from '@/assets/images/firebase-color.png'
@@ -103,26 +107,36 @@ const projectsData = [
   },
   {
     num: '04',
-    title: 'Editorial Design',
-    desc: "전통문화 행사 '공주 야행'의 포스터, 리플렛 등\n홍보물 전반을 디자인한 프로젝트입니다.",
-    tags: ['InDesign', 'Photoshop', 'Illustrator'],
-    image: mockup1,
-    url: null,
+    title: 'UI/UX Web Design',
+    desc: 'BOOKCOVERS는 책을 발견하고 취향을 연결하는 경험을 설계한\nReact 기반 도서 큐레이션 플랫폼 프로젝트입니다.',
+    tags: ['React', 'Firebase', 'GSAP', 'Motion', 'Vite'],
+    image: projectBookcoversImage,
+    url: 'https://bookverse-app-olive.vercel.app',
+    designUrl: 'https://www.figma.com/design/RNd7tHvZWY31ZQ4YJFjFo6/%EC%9D%B8%ED%84%B0%EB%A0%89%ED%8B%B0%EB%B8%8C-%EC%9B%B9%ED%8E%98%EC%9D%B4%EC%A7%80_Bookcovers?node-id=0-1&t=frJYW3tYy3z9czXm-1',
   },
   {
     num: '05',
     title: 'Editorial Design',
     desc: "전통문화 행사 '공주 야행'의 포스터, 리플렛 등\n홍보물 전반을 디자인한 프로젝트입니다.",
     tags: ['InDesign', 'Photoshop', 'Illustrator'],
-    image: mockup2,
+    image: projectEditorialImage,
     url: null,
   },
   {
     num: '06',
     title: 'Exhibition Catalog Design',
-    desc: '박물관 기획전 도록의 표지와 내지를 디자인하고,\n정보 전달과 가독성을 고려한 편집 레이아웃을 제작한 프로젝트입니다.',
+    desc: "특별전 '석택리, 홍성의 마한을 기억하다'의\n표지와 내지 편집 레이아웃을 디자인한 도록 프로젝트입니다.",
     tags: ['InDesign', 'Photoshop', 'Illustrator'],
-    image: mockup8,
+    image: projectCatalogImage,
+    url: null,
+  },
+  {
+    num: '07',
+    title: 'Exhibition Promotion Design',
+    desc: "옛 공주읍사무소의 재현 공간과 기록 자료를 바탕으로 포스터 등 전시 홍보물 전반을 제작했습니다.\n공주학연구원 개원 10주년 기획전시 '공주의 대중문화와 극장'을 통해 지역 극장의 문화적 역할을 시각화했습니다.",
+    tags: ['InDesign', 'Photoshop', 'Illustrator'],
+    image: projectDigitalHeritageImage,
+    modalImageAspect: '3 / 2',
     url: null,
   },
 ]
@@ -145,9 +159,13 @@ const skillLogos = [
   { name: 'JavaScript',    category: 'Frontend',     icon: 'logos:javascript',                usage: 'DOM 제어, 인터랙션 구현, API 연동',             usedIn: ['01', '02', '03'] },
   { name: 'React',         category: 'Frontend',     icon: 'logos:react',                     usage: 'SPA 컴포넌트 설계 및 개발',                    usedIn: ['03', 'portfolio'] },
   { name: 'TypeScript',    category: 'Frontend',     icon: 'logos:typescript-icon',           usage: '컴포넌트 타입 정의 및 안전한 코드 작성',          usedIn: ['portfolio'] },
+  { name: 'Vite',          category: 'Frontend',     icon: 'logos:vitejs',                    usage: '개발 서버 및 프로덕션 번들 빌드',                 usedIn: ['03', 'portfolio'] },
+  { name: 'GSAP',          category: 'Frontend',     icon: 'simple-icons:gsap', color: '#88CE02', usage: 'ScrollTrigger 기반 스크롤 인터랙션과 모션 구현', usedIn: ['03', 'portfolio'] },
+  { name: 'Motion',        category: 'Frontend',     icon: 'simple-icons:framer', color: '#ffffff', usage: 'React 컴포넌트 애니메이션과 모션 상태 제어',      usedIn: ['03', 'portfolio'] },
   { name: 'GitHub',        category: 'Frontend',     icon: 'logos:github-icon',  invert: true, usage: '버전 관리 및 GitHub Pages 배포',             usedIn: ['01', '02', '03'] },
-  { name: 'Firebase',      category: 'Frontend',     imgSrc: iconFirebase,          usage: 'Realtime Database, 호스팅, 인증',              usedIn: ['02', '03'] },
-  { name: 'Vercel',        category: 'Frontend',     icon: 'simple-icons:vercel', color: '#ffffff', usage: '프론트엔드 배포 및 호스팅',                     usedIn: [] },
+  { name: 'Firebase',      category: 'Frontend',     imgSrc: iconFirebase,          usage: 'Authentication 및 Cloud Firestore 데이터 관리', usedIn: ['02', '03'] },
+  { name: 'Naver Maps API', category: 'Frontend',    icon: 'mdi:map-marker-path', color: '#03C75A', usage: '지도 표시 및 위치 기반 콘텐츠 구현',          usedIn: ['03'] },
+  { name: 'Vercel',        category: 'Frontend',     icon: 'simple-icons:vercel', color: '#ffffff', usage: '프론트엔드 배포 및 호스팅',                     usedIn: ['03', 'portfolio'] },
   { name: 'Figma',         category: 'Design Tools', icon: 'logos:figma',                     usage: 'UI 기획, 와이어프레임, 프로토타입 제작',          usedIn: ['02', 'portfolio'] },
   { name: 'Photoshop',     category: 'Design Tools', icon: 'logos:adobe-photoshop',           usage: '이미지 보정·합성, 포스터·브로슈어 시각 작업',     usedIn: ['04', '05', '06'] },
   { name: 'Illustrator',   category: 'Design Tools', icon: 'logos:adobe-illustrator',         usage: '벡터 그래픽, 포스터·홍보물 일러스트 제작',        usedIn: ['04', '05', '06'] },
@@ -168,22 +186,22 @@ const galleryItems = projectsData.map(p => ({ image: p.image, text: p.title }))
 
 const projectsGalleryLeft = [
   { src: projImg1, alt: 'Hemilygroup web publishing project' },
-  { src: projImg2, alt: 'Poster design' },
-  { src: mockup2, alt: 'Gongju Night Festival poster mockup' },
-  { src: mockup3, alt: 'Gongju Night Festival poster mockup' },
-  { src: mockup4, alt: 'Exhibition promotional design' },
+  { src: projImg2, alt: 'Zion.T & Wonstein summer concert poster mockup' },
+  { src: stickyBookcoversImage, alt: 'BOOKCOVERS web project main screen' },
+  { src: stickyCatalogImage, alt: '2019 Chungnam Living Culture Festival poster design', offsetX: '-10px' },
+  { src: mockup4, alt: 'PK breeding sow management manual design' },
 ]
 
 const projectsGalleryCenter = [
-  { src: mockup8, alt: 'Exhibition catalog design' },
+  { src: stickyDigitalHeritageImage, alt: 'Chungnam cultural heritage exhibition poster design' },
   { src: projectArchiveBook, alt: 'Gongju Studies Archive research book' },
-  { src: galleryYogaMain, alt: 'Kim Yoga main visual' },
+  { src: galleryHemily, alt: 'Seocheon County 2026 desk calendar mockup', objectPosition: 'center 42%' },
 ]
 
 const projectsGalleryRight = [
-  { src: galleryYoga, alt: 'Kim Yoga UI/UX renewal project' },
+  { src: galleryYogaMain, alt: 'Kim Yoga main visual' },
   { src: galleryOnepage, alt: 'Onepage UI/UX design project' },
-  { src: galleryHemily, alt: 'Hemilygroup project' },
+  { src: galleryMemorialPoster, alt: 'Professor Yoon Yeo-heon memorial exhibition poster mockup' },
   { src: projectPoster, alt: 'Poster design' },
   { src: projectOnepageSquare, alt: 'Onepage project' },
 ]
@@ -272,7 +290,11 @@ const splineRef          = useRef(null)
     // ── 히어로 스크롤 애니메이션 (기존 유지) ──────────────────────────
     const onScroll = () => {
       scrollIndicatorRef.current?.classList.toggle('scroll-indicator--hidden', window.scrollY > 40)
-      goTopRef.current?.classList.toggle('go-top-btn--visible', window.scrollY > (aboutSectionRef.current?.offsetTop ?? window.innerHeight))
+      const aboutTop = aboutSectionRef.current?.getBoundingClientRect().top
+      goTopRef.current?.classList.toggle(
+        'go-top-btn--visible',
+        typeof aboutTop === 'number' && aboutTop < window.innerHeight,
+      )
       const progress = Math.min(window.scrollY / heroEnd(), 1)
       // 모바일(compact)에서는 히어로 전체 스크롤 구간(420vh)이 너무 길어서
       // 손가락 스와이프 한두 번으로는 progress가 거의 안 움직여 꽃이 반응 없어 보임 —
@@ -525,6 +547,22 @@ const splineRef          = useRef(null)
           />
         )}
         <span className="skills-logo-name">{s.name}</span>
+        {openSkill === s.name && (
+          <span
+            className="skills-logo-tooltip"
+            onMouseEnter={() => clearTimeout(skillHideTimer.current)}
+            onMouseLeave={() => { skillHideTimer.current = setTimeout(() => setOpenSkill(null), 180) }}
+          >
+            <strong>{s.name}</strong>
+            {s.usage && <span className="skills-logo-tooltip-usage">{s.usage}</span>}
+            {uses.length > 0 && (
+              <span className="skills-logo-tooltip-projects">
+                <span className="skills-logo-tooltip-label">Used in</span>
+                <span className="skills-logo-tooltip-list">{uses.map(item => item.title).join(' · ')}</span>
+              </span>
+            )}
+          </span>
+        )}
       </span>
     )
   }
@@ -699,7 +737,7 @@ const splineRef          = useRef(null)
             >
               <p className="text-xs font-bold uppercase tracking-[0.2em]">{num} — Blooming Process</p>
               <hr className="my-[2vw] border-none border-t border-white/30" />
-              <h2 className="text-white text-[clamp(3.5rem,12vw,14rem)] font-bold leading-[0.85] uppercase tracking-tight">
+              <h2 className="-translate-y-[clamp(1rem,3vw,3rem)] text-white text-[clamp(2.5rem,8.7vw,10.15rem)] font-bold leading-[0.85] uppercase tracking-tight">
                 {title}
               </h2>
               <hr className="my-[2vw] border-none border-t border-white/30" />
@@ -769,17 +807,17 @@ const splineRef          = useRef(null)
                   text: 'Web Design',
                   images: [
                     { src: projImg1, alt: 'Web publishing project' },
-                    { src: galleryOnepage, alt: 'Web UI/UX project' },
+                    { src: projectBookcoversImage, alt: 'BOOKCOVERS web project' },
                   ],
-                  onClick: () => { setProjectFilter([0, 1, 2]); setSelectedProject(0) },
+                  onClick: () => { setProjectFilter([0, 1, 2, 3]); setSelectedProject(0) },
                 },
                 {
                   text: 'Editorial',
                   images: [
-                    { src: mockup1, alt: 'Editorial poster mockup 1' },
-                    { src: mockup2, alt: 'Editorial poster mockup 2' },
+                    { src: projectEditorialImage, alt: 'Editorial poster mockup 1' },
+                    { src: projectCatalogImage, alt: 'Seoktaek-ri Mahan special exhibition catalog design' },
                   ],
-                  onClick: () => { setProjectFilter([3, 4, 5]); setSelectedProject(3) },
+                  onClick: () => { setProjectFilter([4, 5, 6]); setSelectedProject(4) },
                 },
               ]}
             />
@@ -820,7 +858,12 @@ const splineRef          = useRef(null)
               <button className="project-modal-close" onClick={closeModal} aria-label="닫기">
                 <X size={18} strokeWidth={2.25} />
               </button>
-              <img className="project-modal-img" src={p.image} alt={p.title} />
+              <img
+                className="project-modal-img"
+                src={p.image}
+                alt={p.title}
+                style={p.modalImageAspect ? { aspectRatio: p.modalImageAspect } : undefined}
+              />
               <div className="project-modal-body">
                 <h2 className="project-modal-title">{p.title}</h2>
                 <p className="project-modal-desc" style={{ whiteSpace: 'pre-line' }}>{p.desc}</p>
@@ -921,31 +964,6 @@ const splineRef          = useRef(null)
         </div>
       </section>
 
-      {openSkill && (() => {
-        const s = skillLogos.find(l => l.name === openSkill)
-        if (!s) return null
-        const uses = getSkillUses(s)
-        return (
-          <div className="skill-modal-backdrop" onClick={() => setOpenSkill(null)}>
-            <div
-              className="skill-modal"
-              onClick={e => e.stopPropagation()}
-              onMouseEnter={() => clearTimeout(skillHideTimer.current)}
-              onMouseLeave={() => { skillHideTimer.current = setTimeout(() => setOpenSkill(null), 180) }}
-            >
-              <div className="skill-modal-header">
-                {s.imgSrc ? (
-                  <img src={s.imgSrc} alt={s.name} width={32} height={32} style={{ objectFit: 'contain', flexShrink: 0 }} />
-                ) : (
-                  <Icon icon={s.icon} width={32} height={32} style={{ color: s.color || 'inherit', filter: s.invert ? 'invert(1)' : undefined, flexShrink: 0 }} />
-                )}
-                <strong className="skill-modal-name">{s.name}</strong>
-              </div>
-              {s.usage && <p className="skill-modal-usage">{s.usage}</p>}
-            </div>
-          </div>
-        )
-      })()}
     </>
   )
 }

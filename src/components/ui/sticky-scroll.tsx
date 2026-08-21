@@ -3,6 +3,8 @@ import React from 'react'
 export interface StickyGalleryImage {
   src: string
   alt: string
+  objectPosition?: React.CSSProperties['objectPosition']
+  offsetX?: React.CSSProperties['translate']
 }
 
 interface StickyScrollGalleryProps {
@@ -24,24 +26,24 @@ export function StickyScrollGallery({ heading, leftImages, stickyImages, rightIm
       <div className="grid grid-cols-1 md:grid-cols-12 gap-2 px-2 pb-2">
         <div className="grid gap-2 md:col-span-4">
           {leftImages.map((img) => (
-            <figure className="w-full" key={img.src}>
-              <img src={img.src} alt={img.alt} className="w-full h-96 object-cover rounded-md align-bottom" />
+            <figure className="w-full" key={img.src} style={{ translate: img.offsetX }}>
+              <img src={img.src} alt={img.alt} style={{ objectPosition: img.objectPosition }} className="w-full h-96 object-cover rounded-md align-bottom" />
             </figure>
           ))}
         </div>
 
         <div className="static md:sticky md:top-0 w-full md:h-screen md:col-span-4 gap-2 grid md:grid-rows-3">
           {stickyImages.map((img) => (
-            <figure className="w-full h-96 md:h-full" key={img.src}>
-              <img src={img.src} alt={img.alt} className="w-full h-full object-cover rounded-md align-bottom" />
+            <figure className="w-full h-96 md:h-full" key={img.src} style={{ translate: img.offsetX }}>
+              <img src={img.src} alt={img.alt} style={{ objectPosition: img.objectPosition }} className="w-full h-full object-cover rounded-md align-bottom" />
             </figure>
           ))}
         </div>
 
         <div className="grid gap-2 md:col-span-4">
           {rightImages.map((img) => (
-            <figure className="w-full" key={img.src}>
-              <img src={img.src} alt={img.alt} className="w-full h-96 object-cover rounded-md align-bottom" />
+            <figure className="w-full" key={img.src} style={{ translate: img.offsetX }}>
+              <img src={img.src} alt={img.alt} style={{ objectPosition: img.objectPosition }} className="w-full h-96 object-cover rounded-md align-bottom" />
             </figure>
           ))}
         </div>

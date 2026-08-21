@@ -52,25 +52,19 @@
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   cursor: pointer;
-  transition: background 0.2s ease, border-color 0.2s ease;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease, background 0.2s ease, border-color 0.2s ease;
+}
+
+.go-top-btn--visible {
+  opacity: 1;
+  pointer-events: auto;
 }
 
 .go-top-btn:hover {
   background: rgba(127, 41, 218, 0.35);
   border-color: rgba(255, 255, 255, 0.3);
-}
-
-@media (max-width: 1024px) {
-  .go-top-btn {
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.25s ease, background 0.2s ease, border-color 0.2s ease;
-  }
-
-  .go-top-btn--visible {
-    opacity: 1;
-    pointer-events: auto;
-  }
 }
 
 .hamburger-btn span {
@@ -1690,7 +1684,7 @@ section.section--skills {
   padding-top: clamp(8rem, 14vw, 14rem);
   padding-bottom: 312px;
   isolation: isolate;
-  overflow: visible;
+  overflow: hidden;
   z-index: 5;
 }
 
@@ -2324,9 +2318,9 @@ section.section--skills {
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   display: flex;
-  align-items: flex-end;
+  align-items: center;
   justify-content: center;
-  padding: 0 1rem clamp(4rem, 11vh, 8rem);
+  padding: 1rem;
   animation: backdrop-in 0.25s ease both;
   cursor: pointer;
 }
@@ -2341,6 +2335,7 @@ section.section--skills {
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 20px;
   width: min(760px, 92vw);
+  height: min(700px, 92vh);
   max-height: 92vh;
   overflow-y: auto;
   position: relative;
@@ -3463,4 +3458,3 @@ spline-viewer {
     color: rgba(255, 255, 255, 0.28);
   }
 }
-
