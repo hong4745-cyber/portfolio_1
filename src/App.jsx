@@ -79,39 +79,43 @@ const HERO_EXITS   = [0.24, 0.48, 0.80]
 const projectsData = [
   {
     num: '01',
-    title: 'Web Publishing',
+    title: 'hemilygroup_ Clone Project',
     desc: '실제 기업 홈페이지를 분석하여\n반응형 퍼블리싱과 인터랙션을 구현한 프로젝트입니다.',
     tags: ['WEB', 'HTML5', 'CSS3', 'JAVASCRIPT'],
     image: projImg1,
     url: 'https://hong4745-cyber.github.io/hemilygroup/',
+    githubUrl: 'https://github.com/hong4745-cyber/hemilygroup',
   },
   {
     num: '02',
-    title: 'UI/UX Web Renewal',
+    title: 'Kim’s yoga Pilates_ website redesign',
     desc: '기존 요가·필라테스 홈페이지를\n사용자 중심의 반응형 웹으로 리뉴얼한 프로젝트입니다.',
     tags: ['Figma', 'HTML5', 'CSS3', 'JavaScript', 'Firebase'],
     image: galleryYoga,
     url: 'https://hong4745-cyber.github.io/kimyoga/',
+    githubUrl: 'https://github.com/hong4745-cyber/kimyoga',
     planUrl: 'https://www.figma.com/design/EudRn9g7JHQEF84xqjTqEP/%ED%99%88%ED%8E%98%EC%9D%B4%EC%A7%80-%EB%A6%AC%EB%89%B4%EC%96%BC?node-id=553-77&t=EKgT5TVB6ojHSfvY-1',
     designUrl: 'https://www.figma.com/design/EudRn9g7JHQEF84xqjTqEP/%ED%99%88%ED%8E%98%EC%9D%B4%EC%A7%80-%EB%A6%AC%EB%89%B4%EC%96%BC?node-id=314-1942&t=EKgT5TVB6ojHSfvY-1',
   },
   {
     num: '03',
-    title: 'UI/UX Web Design',
+    title: 'Bowers & Wilkins_ One-page website',
     desc: '프리미엄 오디오 브랜드를 모티브로 제작한\nReact 기반 커머스 웹사이트 프로젝트입니다.',
     tags: ['React', 'Firebase', 'GSAP', 'Polar.sh'],
     image: galleryOnepage,
     url: 'https://onepage-khaki.vercel.app',
+    githubUrl: 'https://github.com/hong4745-cyber/onepage',
     planUrl: 'https://www.figma.com/design/6iPpbhdNdxPyyJlw12D01Q/%EC%9D%BC%EC%B2%B4%ED%98%95-%ED%8E%98%EC%9D%B4%EC%A7%80-%EB%B0%B1%EC%A7%80%EC%9D%80?node-id=206-1017&t=jqUWdvsvtDzZcWvW-1',
     designUrl: 'https://www.figma.com/design/6iPpbhdNdxPyyJlw12D01Q/%EC%9D%BC%EC%B2%B4%ED%98%95-%ED%8E%98%EC%9D%B4%EC%A7%80-%EB%B0%B1%EC%A7%80%EC%9D%80?node-id=0-1&t=jqUWdvsvtDzZcWvW-1',
   },
   {
     num: '04',
-    title: 'UI/UX Web Design',
+    title: 'BOOKCOVERS_ Bookstore Brand Website',
     desc: 'BOOKCOVERS는 책을 발견하고 취향을 연결하는 경험을 설계한\nReact 기반 도서 큐레이션 플랫폼 프로젝트입니다.',
     tags: ['React', 'Firebase', 'GSAP', 'Motion', 'Vite'],
     image: projectBookcoversImage,
     url: 'https://bookverse-app-olive.vercel.app',
+    githubUrl: 'https://github.com/hong4745-cyber/Bookverse',
     designUrl: 'https://www.figma.com/design/RNd7tHvZWY31ZQ4YJFjFo6/%EC%9D%B8%ED%84%B0%EB%A0%89%ED%8B%B0%EB%B8%8C-%EC%9B%B9%ED%8E%98%EC%9D%B4%EC%A7%80_Bookcovers?node-id=0-1&t=frJYW3tYy3z9czXm-1',
   },
   {
@@ -144,7 +148,7 @@ const projectsData = [
 
 const skillsData = [
   { num: '01', title: 'Design',      tags: ['Figma', 'Illustrator', 'Photoshop', 'InDesign'],              accent: '#7F29DA' },
-  { num: '02', title: 'Motion',      tags: ['Premiere', 'GSAP', 'CSS Animation'],                          accent: '#f472b6' },
+  { num: '02', title: 'Motion',      tags: ['GSAP', 'CSS Animation'],                                      accent: '#f472b6' },
   { num: '03', title: 'Frontend',    tags: ['HTML5', 'CSS3', 'JavaScript', 'React', 'TypeScript'],         accent: '#34d399' },
   { num: '04', title: 'Backend',     tags: ['Firebase', 'REST API', 'GitHub'],                            accent: '#fb923c' },
   { num: '05', title: 'AI Tools',    tags: ['ChatGPT', 'Claude', 'Claude Code', 'Gemini'],                 accent: '#818cf8' },
@@ -159,7 +163,6 @@ const skillLogos = [
   { name: 'JavaScript',    category: 'Frontend',     icon: 'logos:javascript',                usage: 'DOM 제어, 인터랙션 구현, API 연동',             usedIn: ['01', '02', '03'] },
   { name: 'React',         category: 'Frontend',     icon: 'logos:react',                     usage: 'SPA 컴포넌트 설계 및 개발',                    usedIn: ['03', 'portfolio'] },
   { name: 'TypeScript',    category: 'Frontend',     icon: 'logos:typescript-icon',           usage: '컴포넌트 타입 정의 및 안전한 코드 작성',          usedIn: ['portfolio'] },
-  { name: 'Vite',          category: 'Frontend',     icon: 'logos:vitejs',                    usage: '개발 서버 및 프로덕션 번들 빌드',                 usedIn: ['03', 'portfolio'] },
   { name: 'GSAP',          category: 'Frontend',     icon: 'simple-icons:gsap', color: '#88CE02', usage: 'ScrollTrigger 기반 스크롤 인터랙션과 모션 구현', usedIn: ['03', 'portfolio'] },
   { name: 'Motion',        category: 'Frontend',     icon: 'simple-icons:framer', color: '#ffffff', usage: 'React 컴포넌트 애니메이션과 모션 상태 제어',      usedIn: ['03', 'portfolio'] },
   { name: 'GitHub',        category: 'Frontend',     icon: 'logos:github-icon',  invert: true, usage: '버전 관리 및 GitHub Pages 배포',             usedIn: ['01', '02', '03'] },
@@ -169,7 +172,6 @@ const skillLogos = [
   { name: 'Figma',         category: 'Design Tools', icon: 'logos:figma',                     usage: 'UI 기획, 와이어프레임, 프로토타입 제작',          usedIn: ['02', 'portfolio'] },
   { name: 'Photoshop',     category: 'Design Tools', icon: 'logos:adobe-photoshop',           usage: '이미지 보정·합성, 포스터·브로슈어 시각 작업',     usedIn: ['04', '05', '06'] },
   { name: 'Illustrator',   category: 'Design Tools', icon: 'logos:adobe-illustrator',         usage: '벡터 그래픽, 포스터·홍보물 일러스트 제작',        usedIn: ['04', '05', '06'] },
-  { name: 'Premiere Pro',  category: 'Design Tools', icon: 'logos:adobe-premiere',            usage: '컷 편집, 자막, 색보정, 출력',                   usedIn: ['edu-video'] },
   { name: 'InDesign',      category: 'Design Tools', icon: 'logos:adobe-indesign',            usage: '브로슈어·리플렛·포스터·도록 편집 레이아웃 제작',   usedIn: ['04', '05', '06'] },
   { name: 'Canva',         category: 'Design Tools', icon: 'simple-icons:canva',        color: '#00C4CC', usage: '소셜 콘텐츠·발표자료·간편 그래픽 제작', usedIn: [] },
   { name: 'ChatGPT',       category: 'AI Tools',     icon: 'simple-icons:openai',  color: '#74AA9C', usage: '코드 보조 및 콘텐츠 기획',              usedIn: ['portfolio-gpt'] },
@@ -177,7 +179,6 @@ const skillLogos = [
   { name: 'Claude',        category: 'AI Tools',     icon: 'simple-icons:claude',  color: '#D97757', usage: 'AI 페어 프로그래밍, 설계 검토',          usedIn: ['portfolio-claude'] },
   { name: 'Claude Code',   category: 'AI Tools',     imgSrc: iconClaudeCode,       color: '#CC785C', usage: '포트폴리오 전반 개발 협업',              usedIn: ['03', 'portfolio'] },
   { name: 'Gemini',        category: 'AI Tools',     icon: 'simple-icons:googlegemini', color: '#8E75B2', usage: 'AI 이미지 생성, 광고 콘텐츠 기획', usedIn: ['edu-ai'] },
-  { name: 'Flow',          category: 'AI Tools',     icon: 'mdi:movie-play-outline',    color: '#4285F4', usage: 'Google AI 영상 생성 및 편집',            usedIn: [] },
 ]
 
 const SKILL_CATEGORY_ORDER = ['Frontend', 'Design Tools', 'AI Tools']
@@ -735,13 +736,13 @@ const splineRef          = useRef(null)
                 color: '#fff',
               }}
             >
-              <p className="text-xs font-bold uppercase tracking-[0.2em]">{num} — Blooming Process</p>
-              <hr className="my-[2vw] border-none border-t border-white/30" />
-              <h2 className="-translate-y-[clamp(1rem,3vw,3rem)] text-white text-[clamp(2.5rem,8.7vw,10.15rem)] font-bold leading-[0.85] uppercase tracking-tight">
+              <p className="flow-process-label text-xs font-bold uppercase tracking-[0.2em]">{num} — Blooming Process</p>
+              <hr className="flow-process-rule flow-process-rule--top my-[2vw] border-none border-t border-white/30" />
+              <h2 className="flow-process-title -translate-y-[clamp(1rem,3vw,3rem)] text-white text-[clamp(2.5rem,8.7vw,10.15rem)] font-bold leading-[0.85] uppercase tracking-tight">
                 {title}
               </h2>
-              <hr className="my-[2vw] border-none border-t border-white/30" />
-              <p className="mt-auto max-w-[50ch] whitespace-pre-line text-[clamp(1rem,2.5vw,2rem)] font-normal leading-relaxed">
+              <hr className="flow-process-rule flow-process-rule--bottom my-[2vw] border-none border-t border-white/30" />
+              <p className="flow-process-subtitle mt-auto max-w-[50ch] whitespace-pre-line text-[clamp(1rem,2.5vw,2rem)] font-normal leading-relaxed">
                 {subtitle}
               </p>
             </FlowSection>
@@ -880,6 +881,11 @@ const splineRef          = useRef(null)
                     {p.designUrl && (
                       <a href={p.designUrl} target="_blank" rel="noopener" className="project-modal-link project-modal-link--outline">
                         Design →
+                      </a>
+                    )}
+                    {p.githubUrl && (
+                      <a href={p.githubUrl} target="_blank" rel="noopener" className="project-modal-link project-modal-link--outline">
+                        GitHub →
                       </a>
                     )}
                     <a href={p.url} target="_blank" rel="noopener" className={`project-modal-link ${p.planUrl || p.designUrl ? 'project-modal-link--outline' : 'project-modal-link--filled'}`}>

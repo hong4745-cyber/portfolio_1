@@ -535,6 +535,45 @@ spline-viewer {
   isolation: isolate;
 }
 
+@media (max-width: 480px) {
+  .section--scroll-stack .flow-art-container {
+    justify-content: flex-start;
+    gap: 0;
+    padding: 5rem 1.25rem 2rem;
+  }
+
+  .section--scroll-stack .flow-process-title {
+    order: 2;
+    transform: none;
+    margin-top: 1rem;
+    font-size: clamp(3rem, 16vw, 4.75rem);
+    line-height: 0.9;
+  }
+
+  .section--scroll-stack .flow-process-rule--top {
+    display: none;
+  }
+
+  .section--scroll-stack .flow-process-rule--bottom {
+    order: 3;
+    width: 100%;
+    margin: 1.25rem 0 1rem;
+  }
+
+  .section--scroll-stack .flow-process-label {
+    order: 1;
+    font-size: clamp(0.875rem, 3.5vw, 1.125rem);
+    line-height: 1.4;
+  }
+
+  .section--scroll-stack .flow-process-subtitle {
+    order: 4;
+    margin-top: 0.75rem;
+    font-size: clamp(1.35rem, 5.5vw, 1.75rem);
+    line-height: 1.4;
+  }
+}
+
 .scroll-stack-root {
   position: relative;
   height: 500vh;
@@ -2436,7 +2475,7 @@ section.section--skills {
 }
 
 .project-modal-title {
-  font-size: clamp(1.5rem, 3vw, 2rem);
+  font-size: 28.8px;
   font-weight: 700;
   letter-spacing: -0.03em;
   color: #fff;
