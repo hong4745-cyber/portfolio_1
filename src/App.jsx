@@ -183,7 +183,10 @@ const skillLogos = [
 
 const SKILL_CATEGORY_ORDER = ['Frontend', 'Design Tools', 'AI Tools']
 
-const galleryItems = projectsData.map(p => ({ image: p.image, text: p.title }))
+const galleryItems = projectsData.map((p, index) => ({
+  image: p.image,
+  text: index < 4 ? 'WEB DESIGN' : 'Editorial Design',
+}))
 
 const projectsGalleryLeft = [
   { src: projImg1, alt: 'Hemilygroup web publishing project' },
