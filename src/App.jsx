@@ -185,7 +185,7 @@ const SKILL_CATEGORY_ORDER = ['Frontend', 'Design Tools', 'AI Tools']
 
 const galleryItems = projectsData.map((p, index) => ({
   image: p.image,
-  text: index < 4 ? 'WEB DESIGN' : 'Editorial Design',
+  text: index < 4 ? 'UI/UX WEB DESIGN' : 'Editorial Design',
 }))
 
 const projectsGalleryLeft = [
@@ -877,7 +877,7 @@ const splineRef          = useRef(null)
                 {p.url && (
                   <div className="project-modal-actions">
                     {p.planUrl && (
-                      <a href={p.planUrl} target="_blank" rel="noopener" className="project-modal-link project-modal-link--filled">
+                      <a href={p.planUrl} target="_blank" rel="noopener" className="project-modal-link project-modal-link--outline">
                         Project Plan →
                       </a>
                     )}
@@ -891,7 +891,7 @@ const splineRef          = useRef(null)
                         GitHub →
                       </a>
                     )}
-                    <a href={p.url} target="_blank" rel="noopener" className={`project-modal-link ${p.planUrl || p.designUrl ? 'project-modal-link--outline' : 'project-modal-link--filled'}`}>
+                    <a href={p.url} target="_blank" rel="noopener" className="project-modal-link project-modal-link--filled">
                       View Project →
                     </a>
                   </div>

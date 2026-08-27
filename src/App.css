@@ -2513,12 +2513,12 @@ section.section--skills {
 
 .project-modal-link--filled {
   color: #fff;
-  background: #7F29DA;
-  border: 1px solid #7F29DA;
+  background: #9349e8;
+  border: 1px solid #9349e8;
 }
 .project-modal-link--filled:hover {
-  background: #9349e8;
-  border-color: #9349e8;
+  background: #a05ceb;
+  border-color: #a05ceb;
   gap: 0.6rem;
   transform: translateY(-2px);
   box-shadow: 0 10px 26px rgba(127, 41, 218, 0.4);
@@ -2530,8 +2530,8 @@ section.section--skills {
   border: 1px solid rgba(255, 255, 255, 0.45);
 }
 .project-modal-link--outline:hover {
-  background: #9349e8;
-  border-color: #9349e8;
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.7);
   gap: 0.6rem;
   transform: translateY(-2px);
   box-shadow: 0 10px 26px rgba(127, 41, 218, 0.4);
